@@ -4,7 +4,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -21,6 +20,7 @@ public class WindowGame extends BasicGame {
     @Override
     public void init(GameContainer container) throws SlickException {
         this.container = container;
+        container.setVSync(true);
         carre = new Rectangle(200, 100, 100, 100);
         carreCouleur = new Color(255, 0, 0);
     }
@@ -36,6 +36,22 @@ public class WindowGame extends BasicGame {
 
     @Override
     public void update(GameContainer container, int delta) throws SlickException {
+    	Input input = container.getInput();
+    	int speed = 200;
+    	float distance = speed * ((float)delta/1000);
+    	
+        if (input.isKeyDown(Input.KEY_LEFT)) {
+            carre.setX(carre.getX() - distance);
+        }
+        if (input.isKeyDown(Input.KEY_RIGHT)) {
+        	carre.setX(carre.getX() + distance);
+        }
+        if (input.isKeyDown(Input.KEY_UP)) {
+        	carre.setY(carre.getY() - distance);
+        }
+        if (input.isKeyDown(Input.KEY_DOWN)) {
+        	carre.setY(carre.getY() + distance);
+        }
     }
     
     @Override
