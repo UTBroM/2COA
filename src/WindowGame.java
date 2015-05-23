@@ -23,6 +23,7 @@ public class WindowGame extends BasicGame {
     private boolean appear=false;
     private Animation[] animations = new Animation[1];
     private Music wowSound;
+    boolean notplaying=true;
 
 	public WindowGame() {
         super("2048");
@@ -84,9 +85,13 @@ public class WindowGame extends BasicGame {
         	carres.get(0).setY(carres.get(0).getY() + distance);
         }
         
-        if (false) { //Remplacer par n'importe quel évenement déclanchant l'animation
+        if (carres.get(0).getX() > 500 && notplaying) { //Remplacer par n'importe quel évenement déclanchant l'animation
         	this.appear = true;
 	        this.wowSound.play();
+	        notplaying=false;
+        }
+        if(!this.wowSound.playing()){
+        	notplaying=true;
         }
     }
     
