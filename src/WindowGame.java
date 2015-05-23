@@ -23,7 +23,11 @@ public class WindowGame extends BasicGame {
     public void init(GameContainer container) throws SlickException {
         this.container = container;
         container.setVSync(true); //Synchronise les frames sur le rafraichissement l'écran
-        carres.add(new Rectangle(200, 100, 100, 100));
+        for(int x=80;x<301;x+=110){
+        	for(int y=80;y<301;y+=110){
+        		carres.add(new Rectangle(x, y, 100, 100));
+        	}
+        }
         carreCouleur = new Color(255, 0, 0);
     }
 
@@ -31,7 +35,9 @@ public class WindowGame extends BasicGame {
     	Color background = new Color(255, 128, 0);
     	g.setBackground(background);
     	g.setColor(carreCouleur);
-    	g.fill(carres.get(0));
+    	for(int i=0;i<carres.size();i++){
+    		g.fill(carres.get(i));
+    	}
     	g.setColor(Color.white);
     	g.drawString("2048", carres.get(0).getCenterX()-20, carres.get(0).getCenterY()-10);
     }
