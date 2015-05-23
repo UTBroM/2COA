@@ -1,3 +1,4 @@
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -5,6 +6,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;
@@ -14,6 +16,12 @@ public class WindowGame extends BasicGame {
     
     private ArrayList<Rectangle> carres = new ArrayList<Rectangle>(9);
     private Color carreCouleur;
+    
+    //Animation Eddy "WOW"
+    private float x = 300, y = 300;
+    private int direction = 0;
+    private boolean moving = false;
+    private Animation[] animations = new Animation[1];
 
 	public WindowGame() {
         super("2048");
@@ -29,6 +37,9 @@ public class WindowGame extends BasicGame {
         	}
         }
         carreCouleur = new Color(255, 0, 0);
+        SpriteSheet spriteSheet = new SpriteSheet("sprites/eddy_wow.png", 250, 250);
+        Animation animation = new Animation();
+        this.animations[0] = loadAnimation(spriteSheet, 0, 36, 0);
     }
 
     public void render(GameContainer container, Graphics g) throws SlickException {
@@ -40,6 +51,7 @@ public class WindowGame extends BasicGame {
     	}
     	g.setColor(Color.white);
     	g.drawString("2048", carres.get(0).getCenterX()-20, carres.get(0).getCenterY()-10);
+    	g.drawAnimation(this.animations[0], 200, 200);
     }
 
     @Override
@@ -71,5 +83,13 @@ public class WindowGame extends BasicGame {
     
     public static void main(String[] args) throws SlickException {
         new AppGameContainer(new WindowGame(), 640, 480, false).start();
+    }
+    
+    private Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
+        Animation animation = new Animation();
+        for (int x = startX; x < endX; x++) {
+            animation.addFrame(spriteSheet.getSprite(x, y), 100);
+        }
+        return animation;
     }
 }
