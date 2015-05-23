@@ -19,7 +19,7 @@ public class WindowGame extends BasicGame {
     private Color carreCouleur;
     
     //Animation Eddy "WOW"
-    private float x = 300, y = 300;
+    private float x = 0, y = 400;
     private boolean appear=false;
     private Animation[] animations = new Animation[1];
     private Music wowSound;
@@ -58,10 +58,14 @@ public class WindowGame extends BasicGame {
     	
     	if(this.appear && this.animations[0].getFrame()<35){
     		g.drawAnimation(this.animations[0], this.x, this.y);
+    		this.y-=2;
+    		this.x+=2;
     	}
     	else{
     		this.animations[0].restart();
     		this.appear = false;
+    		this.y=400;
+    		this.x=0;
     	}
     	
     }
