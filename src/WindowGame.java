@@ -14,7 +14,7 @@ public class WindowGame extends BasicGame {
     private Color carreCouleur;
 
 	public WindowGame() {
-        super("Lesson 1 :: WindowGame");
+        super("2048");
     }
 
     @Override
