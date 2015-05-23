@@ -55,12 +55,14 @@ public class WindowGame extends BasicGame {
     	g.setColor(Color.white);
     	g.drawString("2048", carres.get(0).getCenterX()-20, carres.get(0).getCenterY()-10);
     	
-    	if(this.appear){
+    	if(this.appear && this.animations[0].getFrame()<35){
     		g.drawAnimation(this.animations[0], this.x, this.y);
     	}
     	else{
     		this.animations[0].restart();
+    		this.appear = false;
     	}
+    	
     }
 
     @Override
