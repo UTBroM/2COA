@@ -20,7 +20,7 @@ public class WindowGame extends BasicGame {
     @Override
     public void init(GameContainer container) throws SlickException {
         this.container = container;
-        container.setVSync(true);
+        container.setVSync(true); //Synchronise les frames sur le rafraichissement l'écran
         carre = new Rectangle(200, 100, 100, 100);
         carreCouleur = new Color(255, 0, 0);
     }
