@@ -7,10 +7,12 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
+import java.util.ArrayList;
+
 public class WindowGame extends BasicGame {
     private GameContainer container;
     
-    private Rectangle carre;
+    private ArrayList<Rectangle> carres;
     private Color carreCouleur;
 
 	public WindowGame() {
@@ -21,7 +23,7 @@ public class WindowGame extends BasicGame {
     public void init(GameContainer container) throws SlickException {
         this.container = container;
         container.setVSync(true); //Synchronise les frames sur le rafraichissement l'écran
-        carre = new Rectangle(200, 100, 100, 100);
+        carres.add(new Rectangle(200, 100, 100, 100));
         carreCouleur = new Color(255, 0, 0);
     }
 
@@ -29,9 +31,9 @@ public class WindowGame extends BasicGame {
     	Color background = new Color(255, 128, 0);
     	g.setBackground(background);
     	g.setColor(carreCouleur);
-    	g.fill(carre);
+    	g.fill(carres.get(0));
     	g.setColor(Color.white);
-    	g.drawString("2048", carre.getCenterX()-20, carre.getCenterY()-10);
+    	g.drawString("2048", carres.get(0).getCenterX()-20, carres.get(0).getCenterY()-10);
     }
 
     @Override
@@ -41,16 +43,16 @@ public class WindowGame extends BasicGame {
     	float distance = speed * ((float)delta/1000);
     	
         if (input.isKeyDown(Input.KEY_LEFT)) {
-            carre.setX(carre.getX() - distance);
+        	carres.get(0).setX(carres.get(0).getX() - distance);
         }
         if (input.isKeyDown(Input.KEY_RIGHT)) {
-        	carre.setX(carre.getX() + distance);
+        	carres.get(0).setX(carres.get(0).getX() + distance);
         }
         if (input.isKeyDown(Input.KEY_UP)) {
-        	carre.setY(carre.getY() - distance);
+        	carres.get(0).setY(carres.get(0).getY() - distance);
         }
         if (input.isKeyDown(Input.KEY_DOWN)) {
-        	carre.setY(carre.getY() + distance);
+        	carres.get(0).setY(carres.get(0).getY() + distance);
         }
     }
     
