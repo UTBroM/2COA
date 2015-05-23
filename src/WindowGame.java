@@ -84,7 +84,7 @@ public class WindowGame extends BasicGame {
         	carres.get(0).setY(carres.get(0).getY() + distance);
         }
         
-        if (input.isKeyDown(Input.KEY_SPACE)) {
+        if (input.isKeyDown(Input.KEY_SPACE)) { //Remplacer par n'importe quel évenement déclanchant l'animation
         	this.appear = true;
 	        this.wowSound.play();
         }
