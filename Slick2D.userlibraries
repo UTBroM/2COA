@@ -4,5 +4,7 @@
         <archive path="/2COA/lib/jinput.jar"/>
         <archive path="/2COA/lib/lwjgl.jar"/>
         <archive path="/2COA/lib/slick.jar"/>
+        <archive path="/2COA/lib/jogg-0.0.7.jar"/>
+        <archive path="/2COA/lib/jorbis-0.0.15.jar"/>
     </library>
 </eclipse-userlibraries>
