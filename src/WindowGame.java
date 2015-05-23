@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class WindowGame extends BasicGame {
     private GameContainer container;
     
-    private ArrayList<Rectangle> carres;
+    private ArrayList<Rectangle> carres = new ArrayList<Rectangle>(9);
     private Color carreCouleur;
 
 	public WindowGame() {
