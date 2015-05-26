@@ -58,8 +58,8 @@ public class WindowGame extends BasicGame {
     	
     	if(this.appear && this.animations[0].getFrame()<35){
     		g.drawAnimation(this.animations[0], this.x, this.y);
-    		this.y-=2;
-    		this.x+=2;
+    		this.y-=0.00001*container.getFPS();
+    		this.x+=0.00001*container.getFPS();
     	}
     	else{
     		this.animations[0].restart();
@@ -90,6 +90,7 @@ public class WindowGame extends BasicGame {
         }
         
         if (carres.get(0).getX() > 500 && notplaying) { //Remplacer par n'importe quel évenement déclanchant l'animation
+        	System.out.println(carres.get(0).getX());
         	this.appear = true;
 	        this.wowSound.play();
 	        notplaying=false;
