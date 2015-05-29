@@ -1,7 +1,6 @@
 package gamepack;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class TileList {
 	private List<Tile> tList;
@@ -15,9 +14,18 @@ public class TileList {
 	{
 		tList.add(new Tile(x,y,value));
 	}
-	
-	public void remove(int x, int y)
+	public void add(int x, int y)
 	{
-		
+		tList.add(new Tile(x,y));
+	}
+	
+	public void remove(int i)
+	{
+		tList.remove(i);
+	}
+	
+	public int getSize()
+	{
+		return this.tList.size();
 	}
 }
