@@ -51,6 +51,8 @@ public class WindowGame extends BasicGame {
 		WindowGame wGame = new WindowGame();
 		appgc = new AppGameContainer(wGame);
 		appgc.setDisplayMode(wGame.getWindowSizeX(), wGame.getWindowSizeY(), false);
-		appgc.start();
+		appgc.setShowFPS(false);
+		appgc.setVSync(true);
+		appgc.start();		
 	}
 }
