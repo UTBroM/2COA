@@ -27,10 +27,20 @@ public class Tile {
 	{
 		return this.rectangle;
 	}
+	
 	public void move(float x, float y)
 	{
 		this.rectangle.setX(this.rectangle.getX()+x);
 		this.rectangle.setY(this.rectangle.getY()+y);
+	}
+	
+	public float getCenterX()
+	{
+		return this.rectangle.getCenterX();
+	}
+	public float getCenterY()
+	{
+		return this.rectangle.getCenterY();
 	}
 	
 }
