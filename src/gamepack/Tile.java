@@ -9,7 +9,7 @@ public class Tile {
 	
 	public Tile(int x, int y)
 	{
-		this(x,y,2);
+		this(x,y,2); //changer  le 2 en random value entre 2 ou 4 ou bombe
 	}
 	
 	public Tile(int x, int y, int value)
