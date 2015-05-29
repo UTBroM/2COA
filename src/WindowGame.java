@@ -23,23 +23,19 @@ public class WindowGame extends BasicGame {
 	{
 		return windowSizeX;
 	}
-
 	public int getWindowSizeY() 
 	{
 		return windowSizeY;
 	}
 
-
-
 	@Override
 	public void init(GameContainer container) throws SlickException 
 	{
 		this.container = container;
-		rc = new Rectangle(60, 60, 140, 140);
-		board = new TileList(4, container.getHeight(), container.getWidth());
+		// A modifier board = new TileList(4, container.getHeight(), container.getWidth());
 		// container.setTargetFrameRate(60);
 	}
-
+	
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		g.draw(rc);
 		for (Tile[] tab : board.getTileList()) {
