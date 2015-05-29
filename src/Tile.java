@@ -8,7 +8,7 @@ public class Tile {
 	
 	public Tile(Rectangle rc)
 	{
-		this.value = 1;
+		this.value = -1;
 		this.rectangle = rc;
 	}
 	
@@ -20,8 +20,8 @@ public class Tile {
 	
 	public boolean combine(Tile other)
 	{
-		if(other != null)// tile.combine(null) initialise la valeure de tile  à 2 si la case n'était pas encore crée
-			other.value = 1;
+		if(other != null)// tile.combine(null) initialise la valeure de tile  ï¿½ 2 si la case n'ï¿½tait pas encore crï¿½e
+			other.value = -1;
 		return (this.value*=2) == 2048;
 	}
 	
@@ -37,6 +37,6 @@ public class Tile {
 	
 	public boolean isEmpty()
 	{
-		return this.value == 1;
+		return this.value == -1;
 	}
 }
