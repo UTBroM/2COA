@@ -10,12 +10,12 @@ public class WindowGame extends BasicGame {
 	private GameContainer container;
 	private Rectangle rc;
 	private int state; // 0 = attente d'input
-						// 1 = en cours de déplacement (pas d'imput possible)
+						// 1 = en cours de dï¿½placement (pas d'imput possible)
 	private Direction direction;
 	private TileList board;
 
 	public WindowGame() {
-		super("Lesson 1 :: WindowGame");
+		super("2C0A");
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class WindowGame extends BasicGame {
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// if (state == 0) {
-		// Attends une entrée utilisateur
+		// Attends une entrï¿½e utilisateur
 		int deltaTime = 1000;
 		int delaDist = (int) (1000 * board.getDistanceTile() / ((float) (gc.getFPS() * deltaTime)));
 		if (gc.getInput().isKeyDown(Input.KEY_RIGHT)) {
@@ -72,16 +72,16 @@ public class WindowGame extends BasicGame {
 			rc.setY(rc.getY() + delaDist);//
 		}
 		
-		if(board.move(direction))//Si le déplacement est valide
+		if(board.move(direction))//Si le dï¿½placement est valide
 		{
 			board.addTile();
 		}
 		
 		/*
-		 * } if (state == 1) { // Redéfinit les bonnes coordonnées pour chaque
-		 * point //if(!board.move(direction))//Déplacement terminé state = 0; }
+		 * } if (state == 1) { // Redï¿½finit les bonnes coordonnï¿½es pour chaque
+		 * point //if(!board.move(direction))//Dï¿½placement terminï¿½ state = 0; }
 		 */
-		// Gérer lorsque l'on a appuyé sur une touche et que le jeu déplace les
+		// Gï¿½rer lorsque l'on a appuyï¿½ sur une touche et que le jeu dï¿½place les
 		// tuiles
 	}
 
