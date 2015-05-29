@@ -47,7 +47,10 @@ public class WindowGame extends BasicGame {
 
 	public static void main(String[] args) throws SlickException 
 	{
-		WindowGame wGame = new WindowGame() ;
-		new AppGameContainer(wGame, wGame.getWindowSizeX(), wGame.getWindowSizeY(), false).start();
+		AppGameContainer appgc;
+		WindowGame wGame = new WindowGame();
+		appgc = new AppGameContainer(wGame);
+		appgc.setDisplayMode(wGame.getWindowSizeX(), wGame.getWindowSizeY(), false);
+		appgc.start();
 	}
 }
