@@ -19,6 +19,8 @@ public class WindowGame extends BasicGame {
 		super("2C0A");
 	}
 	
+	private Tile yolo;
+	
 	public int getWindowSizeX() 
 	{
 		return windowSizeX;
@@ -34,16 +36,23 @@ public class WindowGame extends BasicGame {
 		this.container = container;
 		// A modifier board = new TileList(4, container.getHeight(), container.getWidth());
 		// container.setTargetFrameRate(60);
+		yolo = new Tile(40,50);
 	}
 	
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		
+		displayTile(yolo,g);
+	}
+	
+	private void displayTile(Tile tile, Graphics g)
+	{
+		g.draw(tile.getRectangle());
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		
 	}
+	
 
 	public static void main(String[] args) throws SlickException 
 	{
