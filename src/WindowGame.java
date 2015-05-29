@@ -1,122 +1,98 @@
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 
-import java.util.ArrayList;
-
 public class WindowGame extends BasicGame {
-    private GameContainer container;
-    
-    private ArrayList<Rectangle> carres = new ArrayList<Rectangle>(9);
-    private Color carreCouleur;
-    
-    //Animation Eddy "WOW"
-    private float x = 0, y = 400;
-    private boolean appear=false;
-    private Animation[] animations = new Animation[1];
-    private Music wowSound;
-    boolean notplaying=true;
+	private GameContainer container;
+	private Rectangle rc;
+	private int state; // 0 = attente d'input
+						// 1 = en cours de déplacement (pas d'imput possible)
+	private Direction direction;
+	private TileList board;
 
 	public WindowGame() {
-        super("2048");
-    }
+		super("Lesson 1 :: WindowGame");
+	}
 
-    @Override
-    public void init(GameContainer container) throws SlickException {
-        this.container = container;
-        container.setVSync(true); //Synchronise les frames sur le rafraichissement l'Ã©cran
-        for(int x=80;x<301;x+=110){
-        	for(int y=80;y<301;y+=110){
-        		carres.add(new Rectangle(x, y, 100, 100));
-        	}
-        }
-        carreCouleur = new Color(255, 0, 0);
-        
-        SpriteSheet spriteSheet = new SpriteSheet("sprites/eddy_wow.png", 250, 250);
-        this.animations[0] = loadAnimation(spriteSheet, 0, 36, 0);
-        this.wowSound = new Music("sound/Wally.ogg");
-        
-    }
+	@Override
+	public void init(GameContainer container) throws SlickException {
+		this.container = container;
+		rc = new Rectangle(60, 60, 140, 140);
+		board = new TileList(4, container.getHeight(), container.getWidth());
+		// container.setTargetFrameRate(60);
+	}
 
-    public void render(GameContainer container, Graphics g) throws SlickException {
-    	Color background = new Color(255, 128, 0);
-    	g.setBackground(background);
-    	g.setColor(carreCouleur);
-    	for(int i=0;i<carres.size();i++){
-    		g.fill(carres.get(i));
-    	}
-    	g.setColor(Color.white);
-    	g.drawString("2048", carres.get(0).getCenterX()-20, carres.get(0).getCenterY()-10);
-    	
-    	if(this.appear && this.animations[0].getFrame()<35){
-    		g.drawAnimation(this.animations[0], this.x, this.y);
-    		this.y-=0.00001*container.getFPS();
-    		this.x+=0.00001*container.getFPS();
-    	}
-    	else{
-    		this.animations[0].restart();
-    		this.appear = false;
-    		this.y=400;
-    		this.x=0;
-    	}
-    	
-    }
+	public void render(GameContainer container, Graphics g) throws SlickException {
+		g.draw(rc);
+		for (Tile[] tab : board.getTileList()) {
+			for (Tile tile : tab) {
+				g.draw(tile.getRectangle());
+				if (tile.getValue() != 1)
+					g.drawString(Integer.toString(tile.getValue()), tile.getRectangle().getCenterX() - 5, tile.getRectangle().getCenterY() - 5);
+			}
+		}
+	}
 
-    @Override
-    public void update(GameContainer container, int delta) throws SlickException {
-    	Input input = container.getInput();
-    	int speed = 200;
-    	float distance = speed * ((float)delta/1000);
-    	
-        if (input.isKeyDown(Input.KEY_LEFT)) {
-        	carres.get(0).setX(carres.get(0).getX() - distance);
-        }
-        if (input.isKeyDown(Input.KEY_RIGHT)) {
-        	carres.get(0).setX(carres.get(0).getX() + distance);
-        }
-        if (input.isKeyDown(Input.KEY_UP)) {
-        	carres.get(0).setY(carres.get(0).getY() - distance);
-        }
-        if (input.isKeyDown(Input.KEY_DOWN)) {
-        	carres.get(0).setY(carres.get(0).getY() + distance);
-        }
-        
-        if (carres.get(0).getX() > 500 && notplaying) { //Remplacer par n'importe quel Ã©venement dÃ©clanchant l'animation
-        	System.out.println(carres.get(0).getX());
-        	this.appear = true;
-	        this.wowSound.play();
-	        notplaying=false;
-        }
-        if(!this.wowSound.playing()){
-        	notplaying=true;
-        }
-    }
-    
-    @Override
-    public void keyReleased(int key, char c) {
-        if (Input.KEY_ESCAPE == key) {
-            container.exit();
-        }
-    }
-    
-    public static void main(String[] args) throws SlickException {
-        new AppGameContainer(new WindowGame(), 640, 480, false).start();
-    }
-    
-    private Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
-        Animation animation = new Animation();
-        for (int x = startX; x < endX; x++) {
-            animation.addFrame(spriteSheet.getSprite(x, y), 100);
-        }
-        return animation;
-    }
+	@Override
+	public void update(GameContainer gc, int delta) throws SlickException {
+		// if (state == 0) {
+		// Attends une entrée utilisateur
+		int deltaTime = 1000;
+		int delaDist = (int) (1000 * board.getDistanceTile() / ((float) (gc.getFPS() * deltaTime)));
+		if (gc.getInput().isKeyDown(Input.KEY_RIGHT)) {
+			System.out.println("KEY_RIGHT");
+			// board.getTileList()[0][0].getRectangle().setX(board.getTileList()[0][0].getRectangle().getX()
+			// + delaDist);//
+			state = 1;
+			direction = Direction.Right;
+			rc.setX(rc.getX() + delaDist);//
+		}
+		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
+			// board.getTileList()[0][0].getRectangle().setX(board.getTileList()[0][0].getRectangle().getX()
+			// - delaDist);//
+			System.out.println("KEY_LEFT");
+			state = 1;
+			direction = Direction.Left;
+			rc.setX(rc.getX() - delaDist);//
+		}
+		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
+			System.out.println("KEY_UP");
+			state = 1;
+			direction = Direction.Up;
+			rc.setY(rc.getY() - delaDist);//
+		}
+		if (gc.getInput().isKeyDown(Input.KEY_DOWN)) {
+			System.out.println("KEY_DOWN");
+			state = 1;
+			direction = Direction.Down;
+			rc.setY(rc.getY() + delaDist);//
+		}
+		
+		if(board.move(direction))//Si le déplacement est valide
+		{
+			board.addTile();
+		}
+		
+		/*
+		 * } if (state == 1) { // Redéfinit les bonnes coordonnées pour chaque
+		 * point //if(!board.move(direction))//Déplacement terminé state = 0; }
+		 */
+		// Gérer lorsque l'on a appuyé sur une touche et que le jeu déplace les
+		// tuiles
+	}
 
+	@Override
+	public void keyReleased(int key, char c) {
+		if (Input.KEY_ESCAPE == key) {
+			container.exit();
+		}
+	}
+
+	public static void main(String[] args) throws SlickException {
+		new AppGameContainer(new WindowGame(), 800, 800, false).start();
+	}
 }
