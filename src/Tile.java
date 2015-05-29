@@ -6,16 +6,16 @@ public class Tile {
 	private Rectangle rectangle;
 	//private int special;
 	
-	public Tile(Rectangle rc)
+	public Tile(int x, int y)
 	{
-		this.value = -1;
-		this.rectangle = rc;
+		this(x,y,2);
 	}
 	
-	public Tile(int value, Rectangle rc)
+	public Tile(int x, int y, int value)
 	{
+		this.rectangle = new Rectangle(x, y, 140, 140); 
+		//vérifier si la value est un multiple de 2
 		this.value = value;
-		this.rectangle = rc;
 	}
 	
 	public boolean combine(Tile other)
