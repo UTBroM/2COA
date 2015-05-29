@@ -17,14 +17,7 @@ public class Tile {
 		//vérifier si la value est un multiple de 2
 		this.value = value;
 	}
-	
-	public boolean combine(Tile other)
-	{
-		if(other != null)// tile.combine(null) initialise la valeure de tile  � 2 si la case n'�tait pas encore cr�e
-			other.value = -1;
-		return (this.value*=2) == 2048;
-	}
-	
+		
 	public int getValue()
 	{
 		return this.value;
@@ -34,9 +27,10 @@ public class Tile {
 	{
 		return this.rectangle;
 	}
-	
-	public boolean isEmpty()
+	public void move(float x, float y)
 	{
-		return this.value == -1;
+		this.rectangle.setX(this.rectangle.getX()+x);
+		this.rectangle.setY(this.rectangle.getY()+y);
 	}
+	
 }
