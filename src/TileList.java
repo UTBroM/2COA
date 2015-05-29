@@ -22,7 +22,7 @@ public class TileList {
 		tileList = new Tile[size][size];
 		positionList = new Point[size][size];
 		this.windowSizeX = windowSizeX;
-		this.windowSizeY = windowSizeX;// X Pour avoir un carré en faite
+		this.windowSizeY = windowSizeX;// X Pour avoir un carrÃ© en faite
 		this.rectangleSize = 140;
 		initPosList();
 		initTileList();
@@ -54,14 +54,14 @@ public class TileList {
 		}
 	}
 
-	public boolean move(Direction direction) { // Gérer les déplacement dans une
+	public boolean move(Direction direction) { // GÃ©rer les dÃ©placement dans une
 												// directions
 		if (direction == Direction.Left) {
 			// Bouge toutes les tuiles vers la gauche
-			// Les tuiles bougés sont fusionnées avec leur destination si
-			// nécessaire
-			// Les tuiles fusionnées sont suprimées
-			// De nouvelles tuiles sont créés aux endroits ou il n'y en a plus
+			// Les tuiles bougÃ©s sont fusionnÃ©es avec leur destination si
+			// nÃ©cessaire
+			// Les tuiles fusionnÃ©es sont suprimÃ©es
+			// De nouvelles tuiles sont crÃ©Ã©s aux endroits ou il n'y en a plus
 		} else if (direction == Direction.Right) {
 			// Bouge toutes les tuiles vers la droite
 		} else if (direction == Direction.Down) {
@@ -73,15 +73,15 @@ public class TileList {
 	}
 
 	public boolean isMove(int direction, int x, int y) {// Regarder si une tuile
-														// doit être bougée ou
+														// doit Ãªtre bougee ou
 														// pas
 		if (direction == -1)// Gauche
 		{
-			if (y == 0)// Si la tuile est collé au coté gauche ...
+			if (y == 0)// Si la tuile est collï¿½ au cotï¿½ gauche ...
 				return false;
-			else if (tileList[x][y - 1].getValue() == 0)// Si il n'y a rien à
+			else if (tileList[x][y - 1].getValue() == 0)// Si il n'y a rien ï¿½
 														// gauche de la tuile
-														// sélectionnée
+														// sï¿½lectionnï¿½e
 				return true;
 		} else if (direction == 1)// Droite
 		{
