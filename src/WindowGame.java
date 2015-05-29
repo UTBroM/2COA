@@ -37,69 +37,12 @@ public class WindowGame extends BasicGame {
 	}
 	
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		g.draw(rc);
-		for (Tile[] tab : board.getTileList()) {
-			for (Tile tile : tab) {
-				g.draw(tile.getRectangle());
-				if (tile.getValue() != 1)
-					g.drawString(Integer.toString(tile.getValue()), tile.getRectangle().getCenterX() - 5, tile.getRectangle().getCenterY() - 5);
-			}
-		}
+		
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-		// if (state == 0) {
-		// Attends une entr�e utilisateur
-		int deltaTime = 1000;
-		int delaDist = (int) (1000 * board.getDistanceTile() / ((float) (gc.getFPS() * deltaTime)));
-		if (gc.getInput().isKeyDown(Input.KEY_RIGHT)) {
-			System.out.println("KEY_RIGHT");
-			// board.getTileList()[0][0].getRectangle().setX(board.getTileList()[0][0].getRectangle().getX()
-			// + delaDist);//
-			state = 1;
-			direction = Direction.Right;
-			rc.setX(rc.getX() + delaDist);//
-		}
-		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
-			// board.getTileList()[0][0].getRectangle().setX(board.getTileList()[0][0].getRectangle().getX()
-			// - delaDist);//
-			System.out.println("KEY_LEFT");
-			state = 1;
-			direction = Direction.Left;
-			rc.setX(rc.getX() - delaDist);//
-		}
-		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
-			System.out.println("KEY_UP");
-			state = 1;
-			direction = Direction.Up;
-			rc.setY(rc.getY() - delaDist);//
-		}
-		if (gc.getInput().isKeyDown(Input.KEY_DOWN)) {
-			System.out.println("KEY_DOWN");
-			state = 1;
-			direction = Direction.Down;
-			rc.setY(rc.getY() + delaDist);//
-		}
 		
-		if(board.move(direction))//Si le d�placement est valide
-		{
-			board.addTile();
-		}
-		
-		/*
-		 * } if (state == 1) { // Red�finit les bonnes coordonn�es pour chaque
-		 * point //if(!board.move(direction))//D�placement termin� state = 0; }
-		 */
-		// G�rer lorsque l'on a appuy� sur une touche et que le jeu d�place les
-		// tuiles
-	}
-
-	@Override
-	public void keyReleased(int key, char c) {
-		if (Input.KEY_ESCAPE == key) {
-			container.exit();
-		}
 	}
 
 	public static void main(String[] args) throws SlickException 
