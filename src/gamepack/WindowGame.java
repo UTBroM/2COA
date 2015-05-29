@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 public class WindowGame extends BasicGame {
+	//		ATTRIBUTES
 	private GameContainer container;
 	private final int windowSizeX = 800;
 	private final int windowSizeY = 800;
@@ -15,13 +16,12 @@ public class WindowGame extends BasicGame {
 	private int state; /* 0 = attente d'input 
 					    1 = en cours de déplacement (pas d'input possible)*/
 	private TileList board;
+	
+	//		METHODS
 	public WindowGame() 
 	{
 		super("2C0A");
-	}
-	
-	private Tile yolo;
-	
+	}	
 	public int getWindowSizeX() 
 	{
 		return windowSizeX;
@@ -37,11 +37,11 @@ public class WindowGame extends BasicGame {
 		this.container = container;
 		// A modifier board = new TileList(4, container.getHeight(), container.getWidth());
 		// container.setTargetFrameRate(60);
-		yolo = new Tile(40,50);
+		
 	}
 	
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		displayTile(yolo,g);
+		displayTile(,g);
 	}
 	
 	private void displayTile(Tile tile, Graphics g)
