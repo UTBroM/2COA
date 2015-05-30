@@ -12,7 +12,7 @@ public class WindowGame extends BasicGame
 	private final int windowSizeX = 800;
 	private final int windowSizeY = 600;
 
-	private int state; /* 	0 = attente d'input 
+	private int state; /* 	0 = attente d'input  
 					    	1 = en cours de déplacement (pas d'input possible)*/
 	private TileList board;
 	private Tile yolo;
