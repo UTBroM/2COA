@@ -46,9 +46,9 @@ public class Tile //implements DrawableObject
 		return this.rectangle.getCenterY();
 	}
 	
-	/*public void beDrawn (Graphics g)
+	public void beDrawn (Graphics g)
 	{
 		g.draw(this.rectangle);
 		g.drawString(""+this.value, this.getCenterX(), this.getCenterY());
-	}*/
+	}
 }

@@ -8,9 +8,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 public class WindowGame extends BasicGame {
+	
 	private GameContainer container;
-	private final int windowSizeX = 800;
-	private final int windowSizeY = 800;
+	private final int windowSizeX = 600;
+	private final int windowSizeY = 600;
 
 	private int state; /* 0 = attente d'input 
 					    1 = en cours de déplacement (pas d'input possible)*/
@@ -42,13 +43,8 @@ public class WindowGame extends BasicGame {
 	
 	//		VIEWER
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		//displayTile(,g);
-	}
-	
-	private void displayTile(Tile tile, Graphics g)
-	{
-		g.draw(tile.getRectangle());
-		g.drawString(""+tile.getValue(), tile.getCenterX(), tile.getCenterY());
+		yolo.beDrawn(g);
+		
 	}
 
 	@Override
