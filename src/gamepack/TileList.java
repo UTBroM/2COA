@@ -1,3 +1,7 @@
+/*
+ * Contient la liste des tuiles présentent dans la grille
+ * 
+ */
 package gamepack;
 import java.util.ArrayList;
 import java.util.List;
