@@ -3,26 +3,24 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 
-public class WindowGame extends BasicGame {
-	
+public class WindowGame extends BasicGame 
+{
+	//		ATTRIBUTES
 	private GameContainer container;
-	private final int windowSizeX = 600;
+	private final int windowSizeX = 800;
 	private final int windowSizeY = 600;
 
-	private int state; /* 0 = attente d'input 
-					    1 = en cours de déplacement (pas d'input possible)*/
+	private int state; /* 	0 = attente d'input 
+					    	1 = en cours de déplacement (pas d'input possible)*/
 	private TileList board;
+	private Tile yolo;
+	//		METHODS
 	public WindowGame() 
 	{
 		super("2C0A");
-	}
-	
-	private Tile yolo;
-	
+	}	
 	public int getWindowSizeX() 
 	{
 		return windowSizeX;
@@ -31,25 +29,33 @@ public class WindowGame extends BasicGame {
 	{
 		return windowSizeY;
 	}
-	
+
 	@Override
 	public void init(GameContainer container) throws SlickException 
 	{
 		this.container = container;
 		// A modifier board = new TileList(4, container.getHeight(), container.getWidth());
 		// container.setTargetFrameRate(60);
-		yolo = new Tile(40,50);
+		yolo = new Tile(1,1);
 	}
 	
-	//		VIEWER
-	public void render(GameContainer container, Graphics g) throws SlickException {
+	public void render(GameContainer container, Graphics g) throws SlickException 
+	{
 		yolo.beDrawn(g);
 		
+		 
 	}
+	
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		
+	}
+	
+	@Override
+	public void keyPressed(int key, char c)
+	{
+		System.out.println(key);
 	}
 	
 

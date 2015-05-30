@@ -3,11 +3,11 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 
-public class Tile //implements DrawableObject
+public class Tile implements DrawableObject//implements DrawableObject
 {
 	private int value;
 	private Rectangle rectangle;
-	//private int special;
+	
 	
 	public Tile(int x, int y)
 	{
@@ -17,7 +17,6 @@ public class Tile //implements DrawableObject
 	public Tile(int x, int y, int value)
 	{
 		this.rectangle = new Rectangle(x, y, 140, 140); 
-		//vérifier si la value est un multiple de 2
 		this.value = value;
 	}
 		
@@ -26,10 +25,6 @@ public class Tile //implements DrawableObject
 		return this.value;
 	}
 	
-	public Rectangle getRectangle()
-	{
-		return this.rectangle;
-	}
 	
 	public void move(float x, float y)
 	{
@@ -46,9 +41,9 @@ public class Tile //implements DrawableObject
 		return this.rectangle.getCenterY();
 	}
 	
-	public void beDrawn (Graphics g)
+	public void beDrawn(Graphics g)
 	{
-		g.draw(this.rectangle);
-		g.drawString(""+this.value, this.getCenterX(), this.getCenterY());
+		g.draw(rectangle);
+		g.drawString(""+value, getCenterX(), getCenterY());
 	}
 }
