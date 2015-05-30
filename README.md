@@ -4,4 +4,4 @@
 # Installation
 1. Cloner le repository dans un workspace eclipse
 2. Créer un nouveau projet Java avec le même nom que le repository
-3. Importer la librairie 2C0A
+3. Importer la librairie Slick2D.userlibraries
