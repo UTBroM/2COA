@@ -1,8 +1,10 @@
 package gamepack;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 
-public class Tile {
+public class Tile //implements DrawableObject
+{
 	private int value;
 	private Rectangle rectangle;
 	//private int special;
@@ -44,4 +46,9 @@ public class Tile {
 		return this.rectangle.getCenterY();
 	}
 	
+	/*public void beDrawn (Graphics g)
+	{
+		g.draw(this.rectangle);
+		g.drawString(""+this.value, this.getCenterX(), this.getCenterY());
+	}*/
 }
