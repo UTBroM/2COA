@@ -30,7 +30,7 @@ public class WindowGame extends BasicGame {
 	{
 		return windowSizeY;
 	}
-
+	
 	@Override
 	public void init(GameContainer container) throws SlickException 
 	{
@@ -40,16 +40,14 @@ public class WindowGame extends BasicGame {
 		
 	}
 	
+	//		VIEWER
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		displayTile(,g);
+		//displayTile(,g);
 	}
 	
-	private void displayTile(Tile tile, Graphics g)
-	{
-		g.draw(tile.getRectangle());
-		g.drawString(""+tile.getValue(), tile.getCenterX(), tile.getCenterY());
-	}
+	
 
+	//		CONTROLEUR
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		
