@@ -7,6 +7,7 @@ public class Tile implements DrawableObject//implements DrawableObject
 {
 	private int value;
 	private Rectangle rectangle;
+	private Direction tileDirection;	//Indique dans quelle direction va le tile
 	
 	
 	public Tile(int x, int y)
