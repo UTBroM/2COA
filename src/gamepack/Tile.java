@@ -26,6 +26,14 @@ public class Tile implements DrawableObject
 	{
 		return this.value;
 	}
+	public float getX()
+	{
+		return this.rectangle.getX();
+	}
+	public float getY()
+	{
+		return this.rectangle.getY();
+	}
 	public float getCenterX()
 	{
 		return this.rectangle.getCenterX();
@@ -56,7 +64,6 @@ public class Tile implements DrawableObject
 		this.rectangle.setX(this.rectangle.getX()+x);
 		this.rectangle.setY(this.rectangle.getY()+y);
 	}
-	
 	public void beDrawn(Graphics g)
 	{
 		g.draw(rectangle);
