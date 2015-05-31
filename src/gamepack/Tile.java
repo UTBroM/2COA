@@ -8,7 +8,7 @@ public class Tile implements DrawableObject
 	private int value;
 	private Rectangle rectangle;
 	private Direction tileDirection;	//Indique dans quelle direction va le tile
-	private Point arrivedPoint;			//Represent the point where the tile will go
+	private Tile arrivedTile;			
 	
 	
 	public Tile(int x, int y)
@@ -42,13 +42,13 @@ public class Tile implements DrawableObject
 	{
 		return this.rectangle.getCenterY();
 	}
-	public Point getArrivedPoint()
+	public Tile getArrivedTile()
 	{
-		return this.arrivedPoint;
+		return this.arrivedTile;
 	}
-	public void setArrivedPoint(Point p)
+	public void setArrivedTile(Tile t)
 	{
-		this.arrivedPoint = p;
+		this.arrivedTile = t;
 	}
 	public Direction getDirection ()
 	{
