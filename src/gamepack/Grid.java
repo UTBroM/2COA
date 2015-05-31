@@ -5,34 +5,39 @@ import org.newdawn.slick.Graphics;
 
 public class Grid implements DrawableObject
 {
-	private int	sizeX;
-	private int	sizeY;
+	private int		sizeX;
+	private int		sizeY;
+	private int		min;
+	private int		marginY;
+	private int		padX;
+	private int		padY;
+	private int		rectSizeX;
+	private int		rectSizeY;
+	private int		marginX;
+	
+	private Color	bgColor			= new Color(0xC1B8B0);
+	private Color	interiorColor	= new Color(0xD6CDC4);
 	
 	public Grid(int x, int y)
 	{
 		this.sizeX = x;
 		this.sizeY = y;
+		
+		this.min = (sizeX < sizeY ? sizeX : sizeY); // To let the grid be squared
+		
+		// delete min and replace by sizeX or by sizeY in the definitions if you no longer want to have a square
+		
+		this.marginY = 60 * min / 800;
+		this.padX = 20 * min / 800;
+		this.padY = 20 * min / 800;
+		this.rectSizeX = 160 * min / 800;
+		this.rectSizeY = 160 * min / 800;
+		
+		this.marginX = (sizeX - 4 * (rectSizeX + padX)) / 2; // Align the grid in the middle of the window
 	}
 	
 	public void beDrawn(Graphics g)
 	{
-		int min = (sizeX < sizeY ? sizeX : sizeY); // To let the grid be squared
-		
-		// delete min and replace by sizeX or by sizeY in the definitions if you
-		// no longer want to have a square
-		
-		//int marginX = 30 * min / 800;
-		int marginY = 60 * min / 800;
-		int padX = 20 * min / 800;
-		int padY = 20 * min / 800;
-		int rectSizeX = 160 * min / 800;
-		int rectSizeY = 160 * min / 800;
-		
-		int marginX = (sizeX - 4 * (rectSizeX + padX)) / 2; // Align the grid in the middle of the window
-		
-		Color bgColor = new Color(0xC1B8B0);
-		Color interiorColor = new Color(0xD6CDC4);
-		
 		/* BackGround */
 		g.setColor(bgColor);
 		g.fillRect(0, 0, sizeX, sizeY);
