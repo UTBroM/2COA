@@ -8,7 +8,7 @@ public class Tile implements DrawableObject
 	private int value;
 	private Rectangle rectangle;
 	private Direction tileDirection;	//Indique dans quelle direction va le tile
-	private Point arrivedPoint;			//Represent the point where the tile will gone
+	private Point arrivedPoint;			//Represent the point where the tile will go
 	
 	
 	public Tile(int x, int y)
