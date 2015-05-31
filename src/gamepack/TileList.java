@@ -23,11 +23,19 @@ public class TileList {
 		tList.add(new Tile(x,y));
 	}
 	
+	public Tile getTile(int i)
+	{
+		return this.tList.get(i);
+	}
+	public void setTile(int i, int x, int y, int value)
+	{
+		Tile tmp = new Tile(x,y,value);
+		tList.set(i, tmp);
+	}
 	public void remove(int i)
 	{
 		tList.remove(i);
 	}
-	
 	public int getSize()
 	{
 		return this.tList.size();
