@@ -19,6 +19,7 @@ public class Tile implements DrawableObject//implements DrawableObject
 	{
 		this.rectangle = new Rectangle(x, y, 140, 140); 
 		this.value = value;
+		tileDirection = Direction.None;
 	}
 		
 	public int getValue()
