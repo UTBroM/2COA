@@ -42,6 +42,14 @@ public class Tile implements DrawableObject
 	{
 		this.arrivedPoint = p;
 	}
+	public Direction getDirection ()
+	{
+		return this.tileDirection;
+	}
+	public void setDirection(Direction tileDirection)
+	{
+		this.tileDirection = tileDirection;
+	}
 	
 	public void move(float x, float y)
 	{
