@@ -16,6 +16,8 @@ public class WindowGame extends BasicGame
 					    	1 = en cours de déplacement (pas d'input possible)*/
 	private TileList board;
 	private Tile yolo;
+	private Grid grid = new Grid(windowSizeX, windowSizeY);
+	
 	//		METHODS
 	public WindowGame() 
 	{
@@ -41,8 +43,8 @@ public class WindowGame extends BasicGame
 	
 	public void render(GameContainer container, Graphics g) throws SlickException 
 	{
-		yolo.beDrawn(g);
-		
+		//yolo.beDrawn(g);
+		grid.beDrawn(g);
 		 
 	}
 	
