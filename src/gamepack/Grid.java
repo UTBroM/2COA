@@ -8,12 +8,12 @@ public class Grid implements DrawableObject
 	private int		sizeX;
 	private int		sizeY;
 	private int		min;
-	private int		marginY;
 	private int		padX;
 	private int		padY;
 	private int		rectSizeX;
 	private int		rectSizeY;
 	private int		marginX;
+	private int		marginY;
 	
 	private Color	bgColor			= new Color(0xC1B8B0);
 	private Color	interiorColor	= new Color(0xD6CDC4);
@@ -27,11 +27,11 @@ public class Grid implements DrawableObject
 		
 		// delete min and replace by sizeX or by sizeY in the definitions if you no longer want to have a square
 		
-		this.marginY = 60 * min / 800;
 		this.padX = 20 * min / 800;
 		this.padY = 20 * min / 800;
 		this.rectSizeX = 160 * min / 800;
 		this.rectSizeY = 160 * min / 800;
+		this.marginY = 60 * min / 800;
 		
 		this.marginX = (sizeX - 4 * (rectSizeX + padX)) / 2; // Align the grid in the middle of the window
 	}
