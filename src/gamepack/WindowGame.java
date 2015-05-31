@@ -1,8 +1,11 @@
 package gamepack;
+import java.awt.event.KeyEvent;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 public class WindowGame extends BasicGame 
@@ -12,16 +15,20 @@ public class WindowGame extends BasicGame
 	private final int windowSizeX = 800;
 	private final int windowSizeY = 600;
 
-	private int state; /* 	0 = attente d'input  
-					    	1 = en cours de dÃ©placement (pas d'input possible)*/
-	private TileList board;
-	private Tile yolo;
-	private Grid grid = new Grid(windowSizeX, windowSizeY);
+	private int state; /* 0 = attente d'input
+							1 = en cours de déplacement (pas d'input possible)
+								2 = Fin du déplacement, génération des nouveaux tile*/
+					    	
+	private Grid grid;
+	private TileListManager GameManager;
+	
 	
 	//		METHODS
 	public WindowGame() 
 	{
 		super("2C0A");
+		grid  = new Grid(windowSizeX, windowSizeY);
+		GameManager = new TileListManager();
 	}	
 	public int getWindowSizeX() 
 	{
@@ -36,28 +43,53 @@ public class WindowGame extends BasicGame
 	public void init(GameContainer container) throws SlickException 
 	{
 		this.container = container;
-		// A modifier board = new TileList(4, container.getHeight(), container.getWidth());
-		// container.setTargetFrameRate(60);
-		yolo = new Tile(1,1);
 	}
 	
 	public void render(GameContainer container, Graphics g) throws SlickException 
 	{
-		//yolo.beDrawn(g);
 		grid.beDrawn(g);
+		GameManager.getTileList().beDrawn(g);
 		 
 	}
 	
 
 	@Override
-	public void update(GameContainer gc, int delta) throws SlickException {
-		
+	public void update(GameContainer gc, int delta) throws SlickException 
+	{
+		//Once the movement is done, we generate new tiles
+		if(state == 2)
+		{
+			GameManager.generateNewTile();
+			state = 0;
+		}
+
+		//if we press a touch, we manage the movement and the fusions of tiles
+		if(state == 1)
+		{
+			state = GameManager.manageMovement(gc.getFPS());
+			GameManager.manageFusion();
+		}
 	}
 	
 	@Override
 	public void keyPressed(int key, char c)
 	{
-		System.out.println(key);
+		//If we are waiting for an event
+		if(state == 0)
+		{
+			state = 1;
+			if(key == Input.KEY_LEFT)
+				GameManager.initMovement(Direction.Left);
+			else if(key == Input.KEY_RIGHT)
+				GameManager.initMovement(Direction.Right);
+			else if(key == Input.KEY_DOWN)
+				GameManager.initMovement(Direction.Down);
+			else if(key == Input.KEY_UP)
+				GameManager.initMovement(Direction.Up);
+			else 
+				state = 0;	//if no interesting event were encoutered
+		}
+		
 	}
 	
 

@@ -7,8 +7,10 @@ public class Tile implements DrawableObject
 {
 	private int value;
 	private Rectangle rectangle;
-	private Direction tileDirection;	//Indique dans quelle direction va le tile
-	private Tile arrivedTile;			
+	private Direction tileDirection;	//Give in which direction the tile goes
+		
+	private Tile arrivedTile;		//If the tile has an arrived Tile
+	private Point arrivedPoint;		//If the tile has an arrived Point
 	
 	
 	public Tile(int x, int y)
@@ -34,11 +36,11 @@ public class Tile implements DrawableObject
 	{
 		return this.rectangle.getY();
 	}
-	public float getCenterX()
+	private float getCenterX()
 	{
 		return this.rectangle.getCenterX();
 	}
-	public float getCenterY()
+	private float getCenterY()
 	{
 		return this.rectangle.getCenterY();
 	}
@@ -50,10 +52,19 @@ public class Tile implements DrawableObject
 	{
 		this.arrivedTile = t;
 	}
-	public Direction getDirection ()
+	
+	public Point getArrivedPoint() {
+		return arrivedPoint;
+	}
+	public void setArrivedPoint(Point arrivedPoint) {
+		this.arrivedPoint = arrivedPoint;
+	}
+
+	public Direction getDirection()
 	{
 		return this.tileDirection;
 	}
+	
 	public void setDirection(Direction tileDirection)
 	{
 		this.tileDirection = tileDirection;
@@ -64,6 +75,15 @@ public class Tile implements DrawableObject
 		this.rectangle.setX(this.rectangle.getX()+x);
 		this.rectangle.setY(this.rectangle.getY()+y);
 	}
+	
+	//If the tile and his arrivedTile has the same coordinates, return true
+	//then, double the value of the arrivedTile (use a method doubleValue())
+	public Boolean refreshFusion()
+	{
+		
+		return false;//temporaire
+	}
+	
 	public void beDrawn(Graphics g)
 	{
 		g.draw(rectangle);
