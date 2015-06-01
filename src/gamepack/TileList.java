@@ -3,24 +3,39 @@
  * 
  */
 package gamepack;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileList {
-	private List<Tile> tList;
+import org.newdawn.slick.Graphics;
+
+public class TileList implements DrawableObject
+{
+	private List<Tile>	tList;
 	
 	public TileList()
 	{
 		this.tList = new ArrayList<Tile>();
 	}
 	
-	public void add(int x, int y, int value)
+	public void addNewTile(int x, int y, int value)
 	{
-		tList.add(new Tile(x,y,value));
+		tList.add(new Tile(x, y, value));
 	}
-	public void add(int x, int y)
+	
+	public void addNewTile(int x, int y)
 	{
-		tList.add(new Tile(x,y));
+		tList.add(new Tile(x, y));
+	}
+	
+	public Tile getTile(int i)
+	{
+		return this.tList.get(i);
+	}
+	
+	public void setTile(int i, Tile tmp)
+	{
+		tList.set(i, tmp);
 	}
 	
 	public void remove(int i)
@@ -32,4 +47,14 @@ public class TileList {
 	{
 		return this.tList.size();
 	}
+	
+	public void beDrawn(Graphics g)
+	{
+		for (int i = 0; i < tList.size(); i++)
+		{
+			tList.get(i).beDrawn(g);
+		}
+		
+	}
+	
 }

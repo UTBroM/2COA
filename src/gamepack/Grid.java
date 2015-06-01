@@ -7,7 +7,6 @@ public class Grid implements DrawableObject
 {
 	private int		sizeX;
 	private int		sizeY;
-	private int		min;
 	private int		padX;
 	private int		padY;
 	private int		rectSizeX;
@@ -23,7 +22,7 @@ public class Grid implements DrawableObject
 		this.sizeX = x;
 		this.sizeY = y;
 		
-		this.min = (sizeX < sizeY ? sizeX : sizeY); // To let the grid be squared
+		int min = (sizeX < sizeY ? sizeX : sizeY); // To let the grid be squared
 		
 		// delete min and replace by sizeX or by sizeY in the definitions if you no longer want to have a square
 		
