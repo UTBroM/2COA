@@ -10,20 +10,18 @@ import org.newdawn.slick.SlickException;
 public class WindowGame extends BasicGame
 {
 	//		ATTRIBUTES
-	private GameContainer	container;
-	private final int		windowSizeX	= 800;
-	private final int		windowSizeY	= 600;
+	private GameContainer container;
+	private final int windowSizeX = 800;
+	private final int windowSizeY = 600;
 	
-	private int				state;				/*
-												 * 0 = attente d'input
-												 * 1 = en cours de déplacement
-												 * (pas d'input possible)
-												 * 2 = Fin du déplacement,
-												 * génération des nouveaux tile
-												 */
+	private int state; /*
+						 * 0 = attente d'input 
+						 * 1 = en cours de déplacement (pas d'input possible)
+						 * 2 = Fin du déplacement, génération des nouveaux tile
+						 */
 	
-	private Grid			grid;
-	private TileListManager	GameManager;
+	private Grid grid;
+	private TileListManager GameManager;
 	
 	//		METHODS
 	public WindowGame()
