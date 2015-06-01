@@ -33,10 +33,50 @@ public class TileListManager
 	}
 	
 	//Move each Tile in the right direction and set them at the good position if they passe their good position
-	public int manageMovement(int FPS)
+	//return true if there is movement, false otherwise
+	public boolean manageMovement(int FPS)
 	{
+		//init
+		boolean trueIfMovement = false;				//For the state modification in WindowGame
+		final float movementDurationInSec = 1.0f;
+		float pixelPerFrame = 0;					//Speed of the tile
 		
-		return 0;//temp
+		for(int i = 0; i < tileList.getSize(); i++)		
+		{
+			//current Tile in the list
+			Tile currentTile = tileList.getTile(i);
+			Direction currentDirection = currentTile.getDirection();
+			
+			//if the tile has to move
+			if(currentDirection != Direction.None)
+			{
+				trueIfMovement = true;
+				//if the tile is not arrived
+				if(!currentTile.isArrived())
+				{
+					//move the tile depending on the FPS
+					pixelPerFrame = movementDurationInSec/FPS;
+					if(currentDirection == Direction.Left)
+						currentTile.move(-pixelPerFrame,0);
+					else if(currentDirection == Direction.Right)
+						currentTile.move(pixelPerFrame,0);
+					else if(currentDirection == Direction.Down)
+						currentTile.move(0,+pixelPerFrame);
+					else if(currentDirection == Direction.Up)
+						currentTile.move(0,-pixelPerFrame);
+					
+					//if the tile has gone too far (because of low framerate etc..) 
+					if(pixelPerFrame > 1)
+						currentTile.improvePosition();
+				}
+				//if the tile is arrived, then its Direction will be set to None
+				else
+					currentTile.setDirection(Direction.None);
+				
+			}
+		}
+		
+		return trueIfMovement;
 	}
 	
 	//call the function refreshFusion for each tile
