@@ -67,7 +67,8 @@ public class WindowGame extends BasicGame
 		//if we press a touch, we manage the movement and the fusions of tiles
 		if (state == 1)
 		{
-			state = GameManager.manageMovement(gc.getFPS());
+			if(!GameManager.manageMovement(gc.getFPS()))	//if there is no movement
+				state = 2;
 			GameManager.manageFusion();
 		}
 	}
