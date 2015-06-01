@@ -39,6 +39,16 @@ public class Tile implements DrawableObject
 		return this.rectangle.getY();
 	}
 	
+	public void setX(int x)
+	{
+		this.rectangle.setX(x);
+	}
+	
+	public void setY(int y)
+	{
+		this.rectangle.setY(y);
+	}
+	
 	private float getCenterX()
 	{
 		return this.rectangle.getCenterX();
@@ -57,11 +67,17 @@ public class Tile implements DrawableObject
 	public void setArrivedTile(Tile t)
 	{
 		this.arrivedTile = t;
+		arrivedPoint = new Point((int)t.getX(), (int)t.getY());
 	}
 	
-	public Point getArrivedPoint()
+	public int getArrivedPointX()
 	{
-		return arrivedPoint;
+		return arrivedPoint.getX();
+	}
+	
+	public int getArrivedPointY()
+	{
+		return arrivedPoint.getY();
 	}
 	
 	public void setArrivedPoint(Point arrivedPoint)
@@ -91,6 +107,40 @@ public class Tile implements DrawableObject
 	{
 		
 		return false;//temporaire
+	}
+	
+	//return true if the tile has arrived to his arrivedPoint 
+	public boolean isArrived()
+	{
+		if(arrivedPoint != null)
+			return getX() == arrivedPoint.getX() && getY() == arrivedPoint.getY();
+		return true;
+	}
+	
+	//avoid a bad positionning of the tile (it could be positionning after the arrived point due to
+	//bad framerate)
+	public void improvePosition()
+	{
+		if(tileDirection == Direction.Left)
+		{
+			if(getX() < getArrivedPointX())
+				setX(getArrivedPointX());
+		}
+		else if(tileDirection == Direction.Right)
+		{
+			if(getX() > getArrivedPointX())
+				setX(getArrivedPointX());
+		}
+		else if(tileDirection == Direction.Up)
+		{
+			if(getY() < getArrivedPointY())
+				setY(getArrivedPointY());
+		}
+		else if(tileDirection == Direction.Down)
+		{
+			if(getY() > getArrivedPointY())
+				setY(getArrivedPointY());
+		}
 	}
 	
 	public void beDrawn(Graphics g)
