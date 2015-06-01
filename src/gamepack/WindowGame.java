@@ -14,6 +14,8 @@ public class WindowGame extends BasicGame
 
 	private int state; /* 	0 = attente d'input  
 					    	1 = en cours de déplacement (pas d'input possible)*/
+	private TileListManager game;
+	
 	private TileList board;
 	private Tile yolo;
 	private Grid grid = new Grid(windowSizeX, windowSizeY);
@@ -39,6 +41,7 @@ public class WindowGame extends BasicGame
 		// A modifier board = new TileList(4, container.getHeight(), container.getWidth());
 		// container.setTargetFrameRate(60);
 		yolo = new Tile(1,1);
+		game = new TileListManager(/* ?????? */);
 	}
 	
 	public void render(GameContainer container, Graphics g) throws SlickException 
