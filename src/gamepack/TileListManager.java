@@ -99,7 +99,13 @@ public class TileListManager
 	//if refreshFusion return true, delete the current tile from the list (null + remove)
 	public void manageFusion()
 	{
-		
+		for(int i = 0; i < tileList.getSize(); i++)		
+		{
+			if (this.tileList.getTile(i).refreshFusion())
+			{
+				this.tileList.remove(i);
+			}
+		}
 	}
 	
 }
