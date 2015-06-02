@@ -105,8 +105,12 @@ public class Tile implements DrawableObject
 	//then, double the value of the arrivedTile (use a method doubleValue())
 	public Boolean refreshFusion()
 	{
-		
-		return false;//temporaire
+		if (this.equals(this.arrivedTile)) {
+			this.value = (this.value) * 2;
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	//return true if the tile has arrived to his arrivedPoint 
