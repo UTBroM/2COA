@@ -1,6 +1,7 @@
 package gamepack;
 
 import java.util.List;
+import java.util.Random;
 
 public class TileListManager
 {
@@ -22,7 +23,22 @@ public class TileListManager
 	//Create new tiles at the right positions
 	public void generateNewTile()
 	{
+		Random alea = new Random();
+		Tile tmpTile = new Tile(alea.nextInt(),alea.nextInt());
+		boolean existTile = true;
 		
+		while (existTile == true)
+		{
+			tmpTile = new Tile(alea.nextInt(),alea.nextInt());
+			for (int i = 0; i < this.tileList.getSize(); i++) 
+			{
+				if (!this.tileList.getTile(i).equals(tmpTile)) 
+				{
+					existTile = false;
+				} 
+			}
+		}
+		this.tileList.addNewTile(tmpTile);
 	}
 	
 	//Give each tile his direction and his arrived Tile(null if no arrived tile, None if no Direction)
