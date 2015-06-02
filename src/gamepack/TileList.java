@@ -22,10 +22,13 @@ public class TileList implements DrawableObject
 	{
 		tList.add(new Tile(x, y, value));
 	}
-	
 	public void addNewTile(int x, int y)
 	{
 		tList.add(new Tile(x, y));
+	}
+	public void addNewTile(Tile newTile)
+	{
+		tList.add(newTile);
 	}
 	
 	public Tile getTile(int i)
