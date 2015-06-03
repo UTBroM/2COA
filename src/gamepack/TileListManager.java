@@ -1,6 +1,6 @@
 package gamepack;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -26,10 +26,9 @@ public class TileListManager
 	{
 		Random alea = new Random();
 		boolean isFree = true;
-		boolean anyFree = true;
-		Point currentGoodPosition = new Point();
-		Tile currentTile = new Tile(-1,-1);
-		TileList goodFreeTile = new TileList();
+		Point currentGoodPosition;
+		Tile currentTile;
+		ArrayList<Point> goodFreeTile = new ArrayList<Point>();
 		
 		//Construction of a new TileList which contain only free space for new Tile
 		for (int i = 0; i < goodPositions.size(); i++) {
@@ -44,18 +43,18 @@ public class TileListManager
 				}
 			}
 			if (isFree) {			//If any Tile in tileList is equal to the current goodPosition so it's a free tile
-				goodFreeTile.addNewTile(currentGoodPosition.getX(),currentGoodPosition.getY());
+				goodFreeTile.add(new Point(currentGoodPosition.getX(),currentGoodPosition.getY()));
 				isFree = true;
-				anyFree = false;
 			}
 		}
 		
 		//If after traversing all the goodPosition any Tile is free so we return an error
-		if (anyFree) {
+		if (goodFreeTile.isEmpty()) {
 			return false;
 		}else{
 			//Choose randomly a free space and add the new Tile
-			tileList.addNewTile(goodFreeTile.getTile(alea.nextInt(goodFreeTile.getSize())));
+			int tmp = alea.nextInt(goodFreeTile.size());
+			tileList.addNewTile(new Tile(goodFreeTile.get(tmp).getX(), goodFreeTile.get(tmp).getY()));
 			return true;
 		}
 	}
