@@ -22,31 +22,42 @@ public class TileListManager
 	}
 	
 	//Create new tiles at the right positions
-	public void generateNewTile()
+	public boolean generateNewTile()
 	{
 		Random alea = new Random();
-		int tmp = alea.nextInt(goodPositions.size());
-		int i = 0;
-		Tile tmpTile = new Tile(goodPositions.get(tmp).getX(),goodPositions.get(tmp).getY());
-		boolean existTile = true;
+		boolean isFree = true;
+		boolean anyFree = true;
+		Point currentGoodPosition = new Point();
+		Tile currentTile = new Tile(-1,-1);
+		TileList goodFreeTile = new TileList();
 		
-		
-		while (existTile) 
-		{
-			tmp = alea.nextInt(goodPositions.size());
-			tmpTile.setX(goodPositions.get(tmp).getX());
-			tmpTile.setY(goodPositions.get(tmp).getY());
+		//Construction of a new TileList which contain only free space for new Tile
+		for (int i = 0; i < goodPositions.size(); i++) {
+			currentGoodPosition = goodPositions.get(i);
 			
-			while(i < tileList.getSize() && existTile)
-			{
-				if (!tmpTile.equals(tileList.getTile(i))) 
+			for (int j = 0; j < tileList.getSize(); j++) {
+				currentTile = tileList.getTile(j);
+				
+				if (currentGoodPosition.getX() == currentTile.getX() && currentGoodPosition.getY() == currentTile.getY())
 				{
-					existTile = false;
+					isFree = false;
 				}
 			}
-			
+			if (isFree) {			//If any Tile in tileList is equal to the current goodPosition so it's a free tile
+				goodFreeTile.addNewTile(currentGoodPosition.getX(),currentGoodPosition.getY());
+				isFree = true;
+				anyFree = false;
+			}
 		}
-		this.tileList.addNewTile(tmpTile);
+		
+		//If after traversing all the goodPosition any Tile is free so we return an error
+		if (anyFree) {
+			return false;
+		}else{
+			//Choose randomly a free space and add the new Tile
+			tileList.addNewTile(goodFreeTile.getTile(alea.nextInt(goodFreeTile.getSize())));
+			return true;
+		}
 	}
 	
 	//Give each tile his direction and his arrived Tile(null if no arrived tile, None if no Direction)
