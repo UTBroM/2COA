@@ -101,6 +101,25 @@ public class Tile implements DrawableObject
 		this.rectangle.setY(this.rectangle.getY() + y);
 	}
 	
+	//Test if two tiles have the same
+	public boolean equals(Tile secondTile)
+	{
+		if (rectangle.getX() == secondTile.getX()) 
+		{
+			if (rectangle.getY() == secondTile.getY()) {
+				if (value == secondTile.getValue()) {
+					return true;
+				}else {
+					return false;
+				}
+			}else {
+				return false;
+			}
+		}else {
+			return false;
+		}
+	}
+	
 	//If the tile and his arrivedTile has the same coordinates, return true
 	//then, double the value of the arrivedTile (use a method doubleValue())
 	public Boolean refreshFusion()
