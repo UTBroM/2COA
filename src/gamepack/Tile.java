@@ -48,9 +48,9 @@ public class Tile implements DrawableObject
 	{
 		this.rectangle.setY(y);
 	}
-	public void setValue(int value)
+	public void doubleValue()
 	{
-		this.value = value;
+		value = 2*value;
 	}
 	private float getCenterX()
 	{
@@ -107,20 +107,9 @@ public class Tile implements DrawableObject
 	//Test if two tiles have the same
 	public boolean equals(Tile secondTile)
 	{
-		if (rectangle.getX() == secondTile.getX()) 
-		{
-			if (rectangle.getY() == secondTile.getY()) {
-				if (value == secondTile.getValue()) {
-					return true;
-				}else {
-					return false;
-				}
-			}else {
-				return false;
-			}
-		}else {
+		if (getX() == secondTile.getX() && getY() == secondTile.getY() && value == secondTile.getValue()) 
+			return true;
 			return false;
-		}
 	}
 	
 	//If the tile and his arrivedTile has the same coordinates, return true
@@ -128,7 +117,7 @@ public class Tile implements DrawableObject
 	public Boolean refreshFusion()
 	{
 		if (this.equals(this.arrivedTile)) {
-			this.arrivedTile.setValue((this.arrivedTile.getValue()) * 2);
+			this.arrivedTile.doubleValue();
 			return true;
 		}else{
 			return false;
