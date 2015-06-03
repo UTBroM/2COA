@@ -1,5 +1,6 @@
 package gamepack;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -25,8 +26,26 @@ public class TileListManager
 	{
 		Random alea = new Random();
 		int tmp = alea.nextInt(goodPositions.size());
+		int i = 0;
 		Tile tmpTile = new Tile(goodPositions.get(tmp).getX(),goodPositions.get(tmp).getY());
-		goodPositions.remove(tmp);
+		boolean existTile = true;
+		
+		
+		while (existTile) 
+		{
+			tmp = alea.nextInt(goodPositions.size());
+			tmpTile.setX(goodPositions.get(tmp).getX());
+			tmpTile.setY(goodPositions.get(tmp).getY());
+			
+			while(i < tileList.getSize() && existTile)
+			{
+				if (!tmpTile.equals(tileList.getTile(i))) 
+				{
+					existTile = false;
+				}
+			}
+			
+		}
 		this.tileList.addNewTile(tmpTile);
 	}
 	
