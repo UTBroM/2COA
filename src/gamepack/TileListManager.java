@@ -24,20 +24,9 @@ public class TileListManager
 	public void generateNewTile()
 	{
 		Random alea = new Random();
-		Tile tmpTile = new Tile(alea.nextInt(),alea.nextInt());
-		boolean existTile = true;
-		
-		while (existTile == true)
-		{
-			tmpTile = new Tile(alea.nextInt(),alea.nextInt());
-			for (int i = 0; i < this.tileList.getSize(); i++) 
-			{
-				if (!this.tileList.getTile(i).equals(tmpTile)) 
-				{
-					existTile = false;
-				} 
-			}
-		}
+		int tmp = alea.nextInt(goodPositions.size());
+		Tile tmpTile = new Tile(goodPositions.get(tmp).getX(),goodPositions.get(tmp).getY());
+		goodPositions.remove(tmp);
 		this.tileList.addNewTile(tmpTile);
 	}
 	
