@@ -11,8 +11,8 @@ public class WindowGame extends BasicGame
 {
 	//		ATTRIBUTES
 	private GameContainer container;
-	private final int windowSizeX = 800;
-	private final int windowSizeY = 600;
+	private final int windowSizeX;
+	private final int windowSizeY;
 	
 	private int state; /*
 						 * 0 = attente d'input 
@@ -26,9 +26,18 @@ public class WindowGame extends BasicGame
 	//		METHODS
 	public WindowGame()
 	{
+		//Parent Constructor
 		super("2C0A");
+		
+		//Attributes initialization
+		windowSizeX  = 800;
+		windowSizeY = 600;
 		grid = new Grid(windowSizeX, windowSizeY);
 		GameManager = new TileListManager();
+		state = 0;
+		
+		//The game starts with the generation of new tiles
+		GameManager.generateNewTile();
 	}
 	
 	public int getWindowSizeX()
