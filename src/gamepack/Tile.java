@@ -48,7 +48,10 @@ public class Tile implements DrawableObject
 	{
 		this.rectangle.setY(y);
 	}
-	
+	public void setValue(int value)
+	{
+		this.value = value;
+	}
 	private float getCenterX()
 	{
 		return this.rectangle.getCenterX();
