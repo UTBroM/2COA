@@ -128,7 +128,7 @@ public class Tile implements DrawableObject
 	public Boolean refreshFusion()
 	{
 		if (this.equals(this.arrivedTile)) {
-			this.value = (this.value) * 2;
+			this.arrivedTile.setValue((this.arrivedTile.getValue()) * 2);
 			return true;
 		}else{
 			return false;
