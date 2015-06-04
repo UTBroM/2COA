@@ -16,8 +16,8 @@ public class WindowGame extends BasicGame
 	
 	private int state; /*
 						 * 0 = attente d'input 
-						 * 1 = en cours de déplacement (pas d'input possible)
-						 * 2 = Fin du déplacement, génération des nouveaux tile
+						 * 1 = en cours de d�placement (pas d'input possible)
+						 * 2 = Fin du d�placement, g�n�ration des nouveaux tile
 						 */
 	
 	private Grid grid;
@@ -29,12 +29,16 @@ public class WindowGame extends BasicGame
 		//Parent Constructor
 		super("2C0A");
 		
+		
 		//Attributes initialization
 		windowSizeX  = 800;
 		windowSizeY = 600;
 		grid = new Grid(windowSizeX, windowSizeY);
-		GameManager = new TileListManager(windowSizeX, windowSizeY);
+		//    Get the new size of the size depending on the resolution (80% of the grid rectangle size)
+		int tileSize = (int) (0.8 * grid.squareSize());
+		GameManager = new TileListManager(tileSize);
 		state = 0;
+		
 		
 		//The game starts with the generation of new tiles
 		GameManager.generateNewTile();
@@ -50,7 +54,6 @@ public class WindowGame extends BasicGame
 		return windowSizeY;
 	}
 	
-	@Override
 	public void init(GameContainer container) throws SlickException
 	{
 		this.container = container;
@@ -63,7 +66,6 @@ public class WindowGame extends BasicGame
 		
 	}
 	
-	@Override
 	public void update(GameContainer gc, int delta) throws SlickException
 	{
 		//Once the movement is done, we generate new tiles
@@ -82,7 +84,6 @@ public class WindowGame extends BasicGame
 		}
 	}
 	
-	@Override
 	public void keyPressed(int key, char c)
 	{
 		//If we are waiting for an event
@@ -110,7 +111,6 @@ public class WindowGame extends BasicGame
 		appgc = new AppGameContainer(wGame);
 		appgc.setDisplayMode(wGame.getWindowSizeX(), wGame.getWindowSizeY(), false);
 		appgc.setShowFPS(false);
-		appgc.setVSync(true);
 		appgc.start();
 	}
 }
