@@ -1,5 +1,6 @@
 package gamepack;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -40,7 +41,7 @@ public class Grid implements DrawableObject
 		
 		this.marginX = (sizeX - 4 * (rectSizeX + padX)) / 2; // Align the grid in the middle of the window
 		
-		rectangleList = new LinkedList<Rectangle>();
+		rectangleList = new ArrayList<Rectangle>();
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < 4; j++)
@@ -53,6 +54,11 @@ public class Grid implements DrawableObject
 	public Collection<Rectangle> getRectangles()
 	{
 		return this.rectangleList;
+	}
+	
+	public int squareSize()
+	{
+		return (int) ((Rectangle)((ArrayList)rectangleList).get(0)).getWidth();
 	}
 	
 	public void beDrawn(Graphics g)
