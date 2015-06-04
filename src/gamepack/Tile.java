@@ -1,5 +1,6 @@
 package gamepack;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -12,14 +13,14 @@ public class Tile implements DrawableObject
 	private Tile		arrivedTile;	//If the tile has an arrived Tile
 	private Point		arrivedPoint;	//If the tile has an arrived Point
 										
-	public Tile(int x, int y)
+	public Tile(int x, int y, int size)
 	{
-		this(x, y, 2); //changer  le 2 en random value entre 2 ou 4 ou bombe
+		this(x, y, 2,size); //changer  le 2 en random value entre 2 ou 4 ou bombe
 	}
 	
-	public Tile(int x, int y, int value)
+	public Tile(int x, int y, int value, int size)
 	{
-		this.rectangle = new Rectangle(x, y, 140, 140);
+		this.rectangle = new Rectangle(x, y, size, size);
 		this.value = value;
 		tileDirection = Direction.None;
 	}
@@ -109,7 +110,7 @@ public class Tile implements DrawableObject
 	{
 		if (getX() == secondTile.getX() && getY() == secondTile.getY() && value == secondTile.getValue()) 
 			return true;
-		return false;
+			return false;
 	}
 	
 	//If the tile and his arrivedTile has the same coordinates, return true
@@ -160,7 +161,12 @@ public class Tile implements DrawableObject
 	
 	public void beDrawn(Graphics g)
 	{
+		//Couleurs de tests, à changer
+		g.setColor(Color.red);
+		g.fill(rectangle);
+		
 		g.draw(rectangle);
+		g.setColor(Color.white);
 		g.drawString("" + value, getCenterX(), getCenterY());
 	}
 }
