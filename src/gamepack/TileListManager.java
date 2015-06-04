@@ -81,7 +81,7 @@ public class TileListManager
 		
 		System.out.println(d);
 		
-		//Generation des listes de X et de Y;
+		//Generation des listes de X et de Y (comme la liste goodPositions mais ordonné);
 		
 		int curX = 0;
 		int curY = 0;		
@@ -102,13 +102,18 @@ public class TileListManager
 			}
 		}
 		
+		//Gestion de l'appui sur la touche droite et gauche
+		
 		if(d == Direction.Left || d == Direction.Right){
-			this.tileList.sortY();
+			
+			this.tileList.sortY(); //Tri sur Y de la liste de tuiles afin de les regrouper par lignes
 			
 			int i = 0;
 			curY = (int)this.tileList.getTile(0).getY();
 			swagList.add(new TileList());
 			
+			
+			//On trie toutes les tuiles par ligne
 			for(Tile curTile : this.tileList.gettList()){
 				if(curY != curTile.getY()){
 					i++;
@@ -118,16 +123,19 @@ public class TileListManager
 				swagList.get(i).add(curTile);
 			}
 			
+			//On veut maintenant gérer le déplacement à proprement parler
 			for(TileList curTileList : swagList){
-				curTileList.sortX();
+				curTileList.sortX();//Tri de chaque ligne
 				
-				Tile precTile = null;
-				boolean precTilefus = false;
+				Tile precTile = null;//La tuile précédente qui sert aux fusions
+				boolean precTilefus = false;//un booléen qui évite de faire des fusions en chaine
 				
+				//On condidère chaque tuile
 				for(Tile curTile : curTileList.gettList()){
 
-					curTile.setDirection(d);
+					curTile.setDirection(d);//On défini la direction
 					
+					//Si on obtient null pour precTile c'est que c'est la première tuile
 					if(precTile == null){
 						curTile.setArrivedTile(null);
 						curTile.setArrivedPoint(new Point(listX.get(0), (int)curTile.getY()));
@@ -135,6 +143,7 @@ public class TileListManager
 						precTilefus = false;
 					}
 					else{
+						//On check si les valeurs sont égales et si on avait pas déjà fait une fusion avant
 						if(curTile.getValue() == precTile.getValue() && !precTilefus){
 							curTile.setArrivedTile(precTile);
 							curTile.setArrivedPoint(precTile.getArrivedPoint());
@@ -142,8 +151,8 @@ public class TileListManager
 							precTilefus = true;
 						}
 						else{
-							curTile.setArrivedTile(null);
-							//On récupère le point de la tuile précédente et on prend le suivant
+							curTile.setArrivedTile(null);//On se retrouve sur une case vide du coup
+							//On récupère le point de la tuile précédente dans la liste des X possibles et on prend le suivant
 							curTile.setArrivedPoint(new Point(listX.get(listX.indexOf(precTile.getArrivedPoint())+1), (int)curTile.getY()));
 							precTile = curTile;
 							precTilefus = false;
