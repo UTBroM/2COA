@@ -89,7 +89,7 @@ public class WindowGame extends BasicGame
 		//If we are waiting for an event
 		if (state == 0)
 		{
-			state = 1;
+			//state = 1;
 			if (key == Input.KEY_LEFT)
 				GameManager.initMovement(Direction.Left);
 			else if (key == Input.KEY_RIGHT)
