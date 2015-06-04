@@ -1,6 +1,5 @@
 package gamepack;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -20,7 +19,7 @@ public class Tile implements DrawableObject
 	
 	public Tile(int x, int y, int value)
 	{
-		this.rectangle = new Rectangle(x, y, 120, 120); /* Gérer la taille des rectanlges dynamiquement */
+		this.rectangle = new Rectangle(x, y, 140, 140);
 		this.value = value;
 		tileDirection = Direction.None;
 	}
@@ -161,10 +160,7 @@ public class Tile implements DrawableObject
 	
 	public void beDrawn(Graphics g)
 	{
-		g.setColor(new Color(0xFFFFFF)); /* Gérer les coulers dynamiquement */
-		g.fill(rectangle);
-		g.setColor(new Color(0xC1B8B0));
+		g.draw(rectangle);
 		g.drawString("" + value, getCenterX(), getCenterY());
 	}
 }
-
