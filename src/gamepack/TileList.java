@@ -64,4 +64,12 @@ public class TileList implements DrawableObject
 		
 	}
 	
+	public void sortX(){
+		
+	}
+	
+	public void sortY(){
+		
+	}
+	
 }
