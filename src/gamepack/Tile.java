@@ -75,7 +75,6 @@ public class Tile implements DrawableObject
 	public void setArrivedTile(Tile t)
 	{
 		this.arrivedTile = t;
-		arrivedPoint = new Point((int)t.getX(), (int)t.getY());
 	}
 	
 	public int getArrivedPointX()
