@@ -16,8 +16,8 @@ public class WindowGame extends BasicGame
 	
 	private int state; /*
 						 * 0 = attente d'input 
-						 * 1 = en cours de d�placement (pas d'input possible)
-						 * 2 = Fin du d�placement, g�n�ration des nouveaux tile
+						 * 1 = en cours de déplacement (pas d'input possible)
+						 * 2 = Fin du déplacement, génération des nouveaux tile
 						 */
 	
 	private Grid grid;
