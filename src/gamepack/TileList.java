@@ -18,15 +18,15 @@ public class TileList implements DrawableObject
 		this.tList = new ArrayList<Tile>();
 	}
 	
-	public void addNewTile(int x, int y, int value)
+	public void addNewTile(int x, int y, int value, int size)
 	{
-		tList.add(new Tile(x, y, value));
+		tList.add(new Tile(x, y, value,size));
 	}
-	public void addNewTile(int x, int y)
+	public void addNewTile(int x, int y, int size)
 	{
-		tList.add(new Tile(x, y));
+		tList.add(new Tile(x, y,size));
 	}
-	public void addNewTile(Tile newTile)
+	public void add(Tile newTile)
 	{
 		tList.add(newTile);
 	}
