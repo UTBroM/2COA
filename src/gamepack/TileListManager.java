@@ -76,6 +76,8 @@ public class TileListManager
 	{
 		
 		ArrayList<TileList> swagList = new ArrayList<TileList>();
+		int extremeXd = this.goodPositions.get(0).getX(), extremeXg= this.goodPositions.get(3).getX(); //extrèmes des positions des tuiles
+		
 		
 		System.out.println(d);
 		
@@ -97,7 +99,15 @@ public class TileListManager
 			
 			for(TileList curTileList : swagList){
 				curTileList.sortX();
+				
+				Tile precTile = null;
+				
+				for(Tile curTile : curTileList.gettList()){
+					
+				}
 			}
+			
+			
 			
 		}
 
