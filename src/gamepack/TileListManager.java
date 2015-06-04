@@ -122,9 +122,33 @@ public class TileListManager
 				curTileList.sortX();
 				
 				Tile precTile = null;
+				boolean precTilefus = false;
 				
 				for(Tile curTile : curTileList.gettList()){
+
+					curTile.setDirection(d);
 					
+					if(precTile == null){
+						curTile.setArrivedTile(null);
+						curTile.setArrivedPoint(new Point(listX.get(0), (int)curTile.getY()));
+						precTile = curTile;
+						precTilefus = false;
+					}
+					else{
+						if(curTile.getValue() == precTile.getValue() && !precTilefus){
+							curTile.setArrivedTile(precTile);
+							curTile.setArrivedPoint(precTile.getArrivedPoint());
+							precTile = curTile;
+							precTilefus = true;
+						}
+						else{
+							curTile.setArrivedTile(null);
+							//On récupère le point de la tuile précédente et on prend le suivant
+							curTile.setArrivedPoint(new Point(listX.get(listX.indexOf(precTile.getArrivedPoint())+1), (int)curTile.getY()));
+							precTile = curTile;
+							precTilefus = false;
+						}
+					}
 				}
 			}
 			
