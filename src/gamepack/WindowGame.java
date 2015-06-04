@@ -35,7 +35,7 @@ public class WindowGame extends BasicGame
 		windowSizeY = 600;
 		grid = new Grid(windowSizeX, windowSizeY);
 		//    Get the new size of the size depending on the resolution (80% of the grid rectangle size)
-		int tileSize = (int) (0.8 * grid.squareSize());
+		int tileSize = (int) (1 * grid.squareSize());
 		GameManager = new TileListManager(tileSize, grid.getRectangles());
 		state = 0;
 		
