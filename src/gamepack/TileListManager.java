@@ -74,7 +74,37 @@ public class TileListManager
 	//Then it will set the arrived point (coordinnates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
+		
+		ArrayList<TileList> swagList = new ArrayList<TileList>();
+		
 		System.out.println(d);
+		
+		if(d == Direction.Left || d == Direction.Right){
+			this.tileList.sortY();
+			
+			int i = 0;
+			int curY = (int)this.tileList.getTile(0).getY();
+			swagList.add(new TileList());
+			
+			for(Tile curTile : this.tileList.gettList()){
+				if(curY != curTile.getY()){
+					i++;
+					swagList.add(new TileList());
+				}
+				
+				swagList.get(i).add(curTile);
+			}
+			
+			for(TileList curTileList : swagList){
+				curTileList.sortX();
+			}
+			
+		}
+
+		else if(d == Direction.Down || d == Direction.Up){
+			this.tileList.sortY();
+		}
+
 	}
 	
 	//Move each Tile in the right direction and set them at the good position if they passe their good position
