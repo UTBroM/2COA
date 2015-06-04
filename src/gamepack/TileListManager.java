@@ -1,21 +1,29 @@
 package gamepack;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Collection;
 import java.util.Random;
+
+import org.newdawn.slick.geom.Rectangle;
 
 public class TileListManager
 {
 	private TileList	tileList;
-	private List<Point>	goodPositions;
+	private ArrayList<Point>	goodPositions;
 	private final int tileSize;
 	
 	//Will compute the goodPositins where Tiles will be
-	public TileListManager(int tileSize)
+	public TileListManager(int tileSize, Collection<Rectangle> rectangleList)
 	{
 		tileList = new TileList();
 		this.tileSize = tileSize;
+		
+		this.goodPositions = new ArrayList<Point>();
+		
+		for(Rectangle curRect : rectangleList){
+			this.goodPositions.add(new Point((int)curRect.getX(), (int)curRect.getY()));
+		}
+		
 	}
 	
 	//Return the TileList of the TileListManager to display it
