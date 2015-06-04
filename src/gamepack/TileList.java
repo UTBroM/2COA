@@ -13,6 +13,10 @@ public class TileList implements DrawableObject
 {
 	private List<Tile>	tList;
 	
+	public List<Tile> gettList() {
+		return tList;
+	}
+
 	public TileList()
 	{
 		this.tList = new ArrayList<Tile>();
