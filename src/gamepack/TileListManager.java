@@ -1,18 +1,36 @@
 package gamepack;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class TileListManager
 {
 	private TileList	tileList;
-	private List<Point>	goodPositions;
+	private ArrayList<Point>	goodPositions;
 	
 	//Will compute the goodPositins where Tiles will be
-	public TileListManager()
+	public TileListManager(int x, int y)
 	{
 		tileList = new TileList();
+		this.goodPositions = new ArrayList<Point>(); 
+		
+		int min = (x < y ? x : y); // To let the grid be squared
+		
+		// delete min and replace by sizeX or by sizeY in the definitions if you no longer want to have a square
+		
+		int padX = 20 * min / 800;
+		int padY = 20 * min / 800;
+		int rectSizeX = 160 * min / 800;
+		int rectSizeY = 160 * min / 800;
+		
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				this.goodPositions.add(new Point(x + j * (rectSizeX + padX), y + i * (rectSizeY + padY)));
+			}
+		}
+		
 	}
 	
 	//Return the TileList of the TileListManager to display it

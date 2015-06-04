@@ -33,7 +33,7 @@ public class WindowGame extends BasicGame
 		windowSizeX  = 800;
 		windowSizeY = 600;
 		grid = new Grid(windowSizeX, windowSizeY);
-		GameManager = new TileListManager();
+		GameManager = new TileListManager(windowSizeX, windowSizeY);
 		state = 0;
 		
 		//The game starts with the generation of new tiles
