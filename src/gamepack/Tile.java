@@ -13,6 +13,10 @@ public class Tile implements DrawableObject
 	private Tile		arrivedTile;	//If the tile has an arrived Tile
 	private Point		arrivedPoint;	//If the tile has an arrived Point
 										
+	public Point getArrivedPoint() {
+		return arrivedPoint;
+	}
+
 	public Tile(int x, int y, int size)
 	{
 		this(x, y, 2,size); //changer  le 2 en random value entre 2 ou 4 ou bombe
@@ -161,7 +165,7 @@ public class Tile implements DrawableObject
 	
 	public void beDrawn(Graphics g)
 	{
-		//Couleurs de tests, à changer
+		//Couleurs de tests, ï¿½ changer
 		g.setColor(Color.red);
 		g.fill(rectangle);
 		
