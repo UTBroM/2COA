@@ -23,11 +23,15 @@ public class TileListManager
 		int rectSizeX = 160 * min / 800;
 		int rectSizeY = 160 * min / 800;
 		
+		int marginY = 60 * min / 800;
+		int marginX = (x - 4 * (rectSizeX + padX)) / 2; // Align the grid in the middle of the window
+		
+		
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				this.goodPositions.add(new Point(x + j * (rectSizeX + padX), y + i * (rectSizeY + padY)));
+				this.goodPositions.add(new Point(marginX + j * (rectSizeX + padX), marginY + i * (rectSizeY + padY)));
 			}
 		}
 		
