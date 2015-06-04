@@ -1,5 +1,6 @@
 package gamepack;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -56,7 +57,7 @@ public class TileListManager
 		}else{
 			//Choose randomly a free space and add the new Tile
 			int tmp = alea.nextInt(goodFreeTile.size());
-			tileList.addNewTile(new Tile(goodFreeTile.get(tmp).getX(), goodFreeTile.get(tmp).getY()));
+			tileList.add(new Tile(goodFreeTile.get(tmp).getX(), goodFreeTile.get(tmp).getY(),tileSize));
 			return true;
 		}
 	}
