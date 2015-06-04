@@ -76,16 +76,37 @@ public class TileListManager
 	{
 		
 		ArrayList<TileList> swagList = new ArrayList<TileList>();
-		int extremeXd = this.goodPositions.get(0).getX(), extremeXg= this.goodPositions.get(3).getX(); //extrèmes des positions des tuiles
-		
+		ArrayList<Integer> listX = new ArrayList<Integer>();
+		ArrayList<Integer> listY = new ArrayList<Integer>();
 		
 		System.out.println(d);
+		
+		//Generation des listes de X et de Y;
+		
+		int curX = 0;
+		int curY = 0;		
+		
+		for(Point curPoint : this.goodPositions){
+			
+			int xOfCurPoint = curPoint.getX();
+			int yOfCurPoint = curPoint.getY();
+			
+			if(xOfCurPoint>curX){
+				listX.add(xOfCurPoint);
+				curX = xOfCurPoint;
+			}
+			
+			if(yOfCurPoint>curY){
+				listY.add(yOfCurPoint);
+				curY = yOfCurPoint;
+			}
+		}
 		
 		if(d == Direction.Left || d == Direction.Right){
 			this.tileList.sortY();
 			
 			int i = 0;
-			int curY = (int)this.tileList.getTile(0).getY();
+			curY = (int)this.tileList.getTile(0).getY();
 			swagList.add(new TileList());
 			
 			for(Tile curTile : this.tileList.gettList()){
