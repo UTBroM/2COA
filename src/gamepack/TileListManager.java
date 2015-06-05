@@ -123,12 +123,12 @@ public class TileListManager
 				swagList.get(i).add(curTile);
 			}
 			
-			//On veut maintenant g√©rer le d√©placement √† proprement parler
+			//On veut maintenant gÈrer le dÈplacement ‡ proprement parler
 			for(TileList curTileList : swagList){
 				curTileList.sortX();//Tri de chaque ligne
 				
-				Tile precTile = null;//La tuile pr√©c√©dente qui sert aux fusions
-				boolean precTilefus = false;//un bool√©en qui √©vite de faire des fusions en chaine
+				Tile precTile = null;//La tuile prÈcÈdente qui sert aux fusions
+				boolean precTilefus = false;//un boolÈen qui Èvite de faire des fusions en chaine
 				
 				//On condid√®re chaque tuile
 				for(Tile curTile : curTileList.gettList()){
@@ -143,7 +143,7 @@ public class TileListManager
 						precTilefus = false;
 					}
 					else{
-						//On check si les valeurs sont √©gales et si on avait pas d√©j√† fait une fusion avant
+						//On check si les valeurs sont Ègales et si on avait pas dÈj‡† fait une fusion avant
 						if(curTile.getValue() == precTile.getValue() && !precTilefus){
 							curTile.setArrivedTile(precTile);
 							curTile.setArrivedPoint(precTile.getArrivedPoint());
@@ -152,7 +152,7 @@ public class TileListManager
 						}
 						else{
 							curTile.setArrivedTile(null);//On se retrouve sur une case vide du coup
-							//On r√©cup√®re le point de la tuile pr√©c√©dente dans la liste des X possibles et on prend le suivant
+							//On rÈcupËre le point de la tuile prÈcÈdente dans la liste des X possibles et on prend le suivant
 							curTile.setArrivedPoint(new Point(listX.get(listX.indexOf(precTile.getArrivedPoint())+1), (int)curTile.getY()));
 							precTile = curTile;
 							precTilefus = false;

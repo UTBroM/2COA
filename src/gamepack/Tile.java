@@ -113,7 +113,7 @@ public class Tile implements DrawableObject
 	{
 		if (getX() == secondTile.getX() && getY() == secondTile.getY() && value == secondTile.getValue()) 
 			return true;
-			return false;
+		return false;
 	}
 	
 	//If the tile and his arrivedTile has the same coordinates, return true

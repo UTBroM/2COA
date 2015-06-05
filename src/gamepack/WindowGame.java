@@ -15,7 +15,7 @@ public class WindowGame extends BasicGame
 	private final int windowSizeY;
 	
 	private int state; /*
-						 * 0 = attente d'input 
+						 * 0 = attente d'input  ééé
 						 * 1 = en cours de d�placement (pas d'input possible)
 						 * 2 = Fin du d�placement, g�n�ration des nouveaux tile
 						 */
@@ -93,7 +93,7 @@ public class WindowGame extends BasicGame
 		//If we are waiting for an event
 		if (state == 0)
 		{
-			//state = 1;
+			state = 1;
 			if (key == Input.KEY_LEFT)
 				GameManager.initMovement(Direction.Left);
 			else if (key == Input.KEY_RIGHT)
