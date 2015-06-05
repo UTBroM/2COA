@@ -165,7 +165,7 @@ public class Tile implements DrawableObject
 	public void beDrawn(Graphics g)
 	{
 		//Couleurs de tests, � changer
-		g.setColor(Color.red);
+		g.setColor(new Color(255,0,0,100));
 		g.fill(rectangle);
 		
 		g.draw(rectangle);
