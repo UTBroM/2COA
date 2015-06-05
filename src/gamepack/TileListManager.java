@@ -118,6 +118,7 @@ public class TileListManager
 				if(curY != curTile.getY()){
 					i++;
 					swagList.add(new TileList());
+					curY = (int)curTile.getY();
 				}
 				
 				swagList.get(i).add(curTile);
@@ -131,10 +132,10 @@ public class TileListManager
 				boolean precTilefus = false;//un boolï¿½en qui ï¿½vite de faire des fusions en chaine
 				int collumn=0;
 				
-				//On condidère chaque tuile
+				//On condidï¿½re chaque tuile
 				for(Tile curTile : curTileList.gettList()){
 
-					curTile.setDirection(d);//On défini la direction
+					curTile.setDirection(d);//On dï¿½fini la direction
 					
 					//Si on obtient null pour precTile c'est que c'est la premiÃ¨re tuile
 					if(precTile == null){
