@@ -154,7 +154,7 @@ public class TileListManager
 						else{
 							curTile.setArrivedTile(null);//On se retrouve sur une case vide du coup
 							//On r�cup�re le point de la tuile pr�c�dente dans la liste des X possibles et on prend le suivant
-							curTile.setArrivedPoint(new Point(listX.get(listX.indexOf(precTile.getArrivedPoint())+1), (int)curTile.getY()));
+							curTile.setArrivedPoint(new Point(listX.get(listX.indexOf(precTile.getArrivedPoint().getX())+1), (int)curTile.getY()));
 							precTile = curTile;
 							precTilefus = false;
 							collumn++;
