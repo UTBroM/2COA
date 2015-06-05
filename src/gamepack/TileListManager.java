@@ -2,6 +2,7 @@ package gamepack;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 import org.newdawn.slick.geom.Rectangle;
@@ -93,6 +94,7 @@ public class TileListManager
 			
 			if(xOfCurPoint>curX){
 				listX.add(xOfCurPoint);
+				if(d == Direction.Right){Collections.reverse(listX);}
 				curX = xOfCurPoint;
 			}
 			
@@ -112,7 +114,6 @@ public class TileListManager
 			curY = (int)this.tileList.getTile(0).getY();
 			swagList.add(new TileList());
 			
-			
 			//On trie toutes les tuiles par ligne
 			for(Tile curTile : this.tileList.gettList()){
 				if(curY != curTile.getY()){
@@ -127,6 +128,8 @@ public class TileListManager
 			//On veut maintenant g�rer le d�placement � proprement parler
 			for(TileList curTileList : swagList){
 				curTileList.sortX();//Tri de chaque ligne
+				
+				if(d == Direction.Right){Collections.reverse(curTileList.gettList());}
 				
 				Tile precTile = null;//La tuile pr�c�dente qui sert aux fusions
 				boolean precTilefus = false;//un bool�en qui �vite de faire des fusions en chaine
