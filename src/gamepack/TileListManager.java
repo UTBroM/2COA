@@ -259,7 +259,7 @@ public class TileListManager
 	{
 		//init
 		boolean trueIfMovement = false; //For the state modification in WindowGame
-		final float movementDurationInSec = 1.0f;
+		final float pixelPerSecond = 800.0f;
 		float pixelPerFrame = 0; //Speed of the tile
 		
 		for (int i = 0; i < tileList.getSize(); i++)
@@ -276,7 +276,7 @@ public class TileListManager
 				if (!currentTile.isArrived())
 				{
 					//move the tile depending on the FPS
-					pixelPerFrame = FPS / movementDurationInSec;
+					pixelPerFrame = pixelPerSecond/FPS;
 					if (currentDirection == Direction.Left)
 						currentTile.move(-pixelPerFrame, 0);
 					else if (currentDirection == Direction.Right)
@@ -287,8 +287,7 @@ public class TileListManager
 						currentTile.move(0, -pixelPerFrame);
 					
 					//if the tile has gone too far (because of low framerate etc..) 
-					if (pixelPerFrame > 1)
-						currentTile.improvePosition();
+					currentTile.improvePosition();
 				}
 				//if the tile is arrived, then its Direction will be set to None
 				else
