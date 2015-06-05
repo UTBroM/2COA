@@ -46,6 +46,16 @@ public class WindowGame extends BasicGame
 		GameManager.generateNewTile();
 		GameManager.generateNewTile();
 		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		
 	}
 	
 	public int getWindowSizeX()
