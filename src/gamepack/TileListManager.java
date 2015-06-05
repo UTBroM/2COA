@@ -224,7 +224,8 @@ public class TileListManager
 	{
 		for(int i = 0; i < tileList.getSize(); i++)		
 		{
-			if (this.tileList.getTile(i).refreshFusion())
+			Tile t = this.tileList.getTile(i);
+			if (t.getArrivedTile() != null && t.refreshFusion())
 			{
 				this.tileList.remove(i);
 			}
