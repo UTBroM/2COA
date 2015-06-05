@@ -82,7 +82,7 @@ public class TileListManager
 		
 		System.out.println(d);
 		
-		//Generation des listes de X et de Y (comme la liste goodPositions mais ordonné);
+		//Generation des listes de X et de Y (comme la liste goodPositions mais ordonnée);
 		
 		int curX = 0;
 		int curY = 0;		
@@ -94,7 +94,6 @@ public class TileListManager
 			
 			if(xOfCurPoint>curX){
 				listX.add(xOfCurPoint);
-				if(d == Direction.Right){Collections.reverse(listX);}
 				curX = xOfCurPoint;
 			}
 			
@@ -103,6 +102,8 @@ public class TileListManager
 				curY = yOfCurPoint;
 			}
 		}
+		if(d == Direction.Right)
+			Collections.reverse(listX);
 		
 		//Gestion de l'appui sur la touche droite et gauche
 		
@@ -125,22 +126,22 @@ public class TileListManager
 				swagList.get(i).add(curTile);
 			}
 			
-			//On veut maintenant g�rer le d�placement � proprement parler
+			//On veut maintenant gérer le déplacement à proprement parler
 			for(TileList curTileList : swagList){
 				curTileList.sortX();//Tri de chaque ligne
 				
 				if(d == Direction.Right){Collections.reverse(curTileList.gettList());}
 				
-				Tile precTile = null;//La tuile pr�c�dente qui sert aux fusions
-				boolean precTilefus = false;//un bool�en qui �vite de faire des fusions en chaine
+				Tile precTile = null;//La tuile précédente qui sert aux fusions
+				boolean precTilefus = false;//un booléen qui évite de faire des fusions en chaine
 				int collumn=0;
 				
-				//On condid�re chaque tuile
+				//On condidère chaque tuile
 				for(Tile curTile : curTileList.gettList()){
 
-					curTile.setDirection(d);//On d�fini la direction
+					curTile.setDirection(d);//On défini la direction
 					
-					//Si on obtient null pour precTile c'est que c'est la première tuile
+					//Si on obtient null pour precTile c'est que c'est la premiÃ¨re tuile
 					if(precTile == null){
 						curTile.setArrivedTile(null);
 						curTile.setArrivedPoint(new Point(listX.get(collumn), (int)curTile.getY()));
@@ -148,7 +149,7 @@ public class TileListManager
 						precTilefus = false;
 					}
 					else{
-						//On check si les valeurs sont �gales et si on avait pas d�j� fait une fusion avant
+						//On check si les valeurs sont égales et si on avait pas déjà fait une fusion avant
 						if(curTile.getValue() == precTile.getValue() && !precTilefus){
 							curTile.setArrivedTile(precTile);
 							curTile.setArrivedPoint(precTile.getArrivedPoint());
@@ -157,7 +158,7 @@ public class TileListManager
 						}
 						else{
 							curTile.setArrivedTile(null);//On se retrouve sur une case vide du coup
-							//On r�cup�re le point de la tuile pr�c�dente dans la liste des X possibles et on prend le suivant
+							//On réécupère le point de la tuile précédente dans la liste des X possibles et on prend le suivant
 							curTile.setArrivedPoint(new Point(listX.get(listX.indexOf(precTile.getArrivedPoint().getX())+1), (int)curTile.getY()));
 							precTile = curTile;
 							precTilefus = false;
