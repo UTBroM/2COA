@@ -123,12 +123,13 @@ public class TileListManager
 				swagList.get(i).add(curTile);
 			}
 			
-			//On veut maintenant gérer le déplacement à proprement parler
+			//On veut maintenant gï¿½rer le dï¿½placement ï¿½ proprement parler
 			for(TileList curTileList : swagList){
 				curTileList.sortX();//Tri de chaque ligne
 				
-				Tile precTile = null;//La tuile précédente qui sert aux fusions
-				boolean precTilefus = false;//un booléen qui évite de faire des fusions en chaine
+				Tile precTile = null;//La tuile prï¿½cï¿½dente qui sert aux fusions
+				boolean precTilefus = false;//un boolï¿½en qui ï¿½vite de faire des fusions en chaine
+				int collumn=0;
 				
 				//On condidÃ¨re chaque tuile
 				for(Tile curTile : curTileList.gettList()){
@@ -138,12 +139,12 @@ public class TileListManager
 					//Si on obtient null pour precTile c'est que c'est la premiÃ¨re tuile
 					if(precTile == null){
 						curTile.setArrivedTile(null);
-						curTile.setArrivedPoint(new Point(listX.get(0), (int)curTile.getY()));
+						curTile.setArrivedPoint(new Point(listX.get(collumn), (int)curTile.getY()));
 						precTile = curTile;
 						precTilefus = false;
 					}
 					else{
-						//On check si les valeurs sont égales et si on avait pas déjà  fait une fusion avant
+						//On check si les valeurs sont ï¿½gales et si on avait pas dï¿½jï¿½ fait une fusion avant
 						if(curTile.getValue() == precTile.getValue() && !precTilefus){
 							curTile.setArrivedTile(precTile);
 							curTile.setArrivedPoint(precTile.getArrivedPoint());
@@ -152,10 +153,11 @@ public class TileListManager
 						}
 						else{
 							curTile.setArrivedTile(null);//On se retrouve sur une case vide du coup
-							//On récupère le point de la tuile précédente dans la liste des X possibles et on prend le suivant
+							//On rï¿½cupï¿½re le point de la tuile prï¿½cï¿½dente dans la liste des X possibles et on prend le suivant
 							curTile.setArrivedPoint(new Point(listX.get(listX.indexOf(precTile.getArrivedPoint())+1), (int)curTile.getY()));
 							precTile = curTile;
 							precTilefus = false;
+							collumn++;
 						}
 					}
 				}
