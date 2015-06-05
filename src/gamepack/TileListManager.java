@@ -131,10 +131,10 @@ public class TileListManager
 				boolean precTilefus = false;//un boolï¿½en qui ï¿½vite de faire des fusions en chaine
 				int collumn=0;
 				
-				//On condidÃ¨re chaque tuile
+				//On condidère chaque tuile
 				for(Tile curTile : curTileList.gettList()){
 
-					curTile.setDirection(d);//On dÃ©fini la direction
+					curTile.setDirection(d);//On défini la direction
 					
 					//Si on obtient null pour precTile c'est que c'est la premiÃ¨re tuile
 					if(precTile == null){
@@ -196,7 +196,7 @@ public class TileListManager
 				if(!currentTile.isArrived())
 				{
 					//move the tile depending on the FPS
-					pixelPerFrame = movementDurationInSec/FPS;
+					pixelPerFrame = FPS/movementDurationInSec;
 					if(currentDirection == Direction.Left)
 						currentTile.move(-pixelPerFrame,0);
 					else if(currentDirection == Direction.Right)
