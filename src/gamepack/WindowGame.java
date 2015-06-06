@@ -22,6 +22,8 @@ public class WindowGame extends BasicGame
 	
 	private Grid grid;
 	private TileListManager GameManager;
+	private int gameFPS;
+	
 	
 	//		METHODS
 	public WindowGame()
@@ -38,7 +40,7 @@ public class WindowGame extends BasicGame
 		int tileSize = (int) (1 * grid.squareSize());
 		GameManager = new TileListManager(tileSize, grid.getRectangles());
 		state = 0;
-		
+		gameFPS = 100;
 		
 		//The game starts with the generation of new tiles
 		GameManager.generateNewTile();
@@ -82,20 +84,33 @@ public class WindowGame extends BasicGame
 	
 	public void update(GameContainer gc, int delta) throws SlickException
 	{
-		//Once the movement is done, we generate new tiles
-		if (state == 2)
+		if(state != 0)
 		{
-			GameManager.generateNewTile();
-			state = 0;
+			//Once the movement is done, we generate new tiles
+			if (state == 2)
+			{
+				GameManager.generateNewTile();
+				state = 0;
+			}
+			
+			//if we press a touch, we manage the movement and the fusions of tiles
+			if (state == 1)
+			{
+				if(!GameManager.manageMovement(gameFPS))	//if there is no movement
+					state = 2;
+				GameManager.manageFusion();
+			}
+			refreshFPS(gc.getFPS());
 		}
 		
-		//if we press a touch, we manage the movement and the fusions of tiles
-		if (state == 1)
-		{
-			if(!GameManager.manageMovement(gc.getFPS()))	//if there is no movement
-				state = 2;
-			GameManager.manageFusion();
-		}
+	}
+	
+	public void refreshFPS(int fps)
+	{
+		if(fps == 0)
+			fps = 60;
+
+		gameFPS = fps;
 	}
 	
 	public void keyPressed(int key, char c)
@@ -127,6 +142,7 @@ public class WindowGame extends BasicGame
 		appgc = new AppGameContainer(wGame);
 		appgc.setDisplayMode(wGame.getWindowSizeX(), wGame.getWindowSizeY(), false);
 		appgc.setShowFPS(false);
+		appgc.setTargetFrameRate(100);
 		appgc.start();
 	}
 }
