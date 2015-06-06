@@ -115,6 +115,8 @@ public class WindowGame extends BasicGame
 			else
 				state = 0; //if no interesting event were encoutered
 		}
+		else
+			GameManager.manageMovement(1);
 		
 	}
 	
