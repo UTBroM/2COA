@@ -5,14 +5,21 @@
 package gamepack;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.newdawn.slick.Graphics;
 
 public class TileList implements DrawableObject
 {
-	private List<Tile>	tList;
+	private ArrayList<Tile>	tList;
 	
+	public List<Tile> gettList() {
+		return tList;
+	}
+
 	public TileList()
 	{
 		this.tList = new ArrayList<Tile>();
@@ -58,6 +65,47 @@ public class TileList implements DrawableObject
 			tList.get(i).beDrawn(g);
 		}
 		
+	}
+	
+	public void sortX(){
+		
+		Collections.sort(tList,new PointCompareX());
+	}
+	
+    public class PointCompareX implements Comparator<Tile> {
+
+	    public int compare(final Tile a, final Tile b) {
+	        if (a.getX() < b.getX()) {
+	            return -1;
+	        }
+	        else if (a.getX() > b.getX()) {
+	            return 1;
+	        }
+	        else {
+	            return 0;
+	        }
+	    }
+	}
+	
+	public void sortY(){
+
+		Collections.sort(tList,new PointCompareY());
+		
+	}
+	
+    public class PointCompareY implements Comparator<Tile> {
+
+	    public int compare(final Tile a, final Tile b) {
+	        if (a.getY() < b.getY()) {
+	            return -1;
+	        }
+	        else if (a.getY() > b.getY()) {
+	            return 1;
+	        }
+	        else {
+	            return 0;
+	        }
+	    }
 	}
 	
 }

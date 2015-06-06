@@ -15,9 +15,9 @@ public class WindowGame extends BasicGame
 	private final int windowSizeY;
 	
 	private int state; /*
-						 * 0 = attente d'input 
-						 * 1 = en cours de déplacement (pas d'input possible)
-						 * 2 = Fin du déplacement, génération des nouveaux tile
+						 * 0 = wait for input
+						 * 1 = keep calm it's moving (input isn't possible)
+						 * 2 = end of moving & generation of a new tile
 						 */
 	
 	private Grid grid;
@@ -42,6 +42,20 @@ public class WindowGame extends BasicGame
 		
 		//The game starts with the generation of new tiles
 		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		GameManager.generateNewTile();
+		
 	}
 	
 	public int getWindowSizeX()

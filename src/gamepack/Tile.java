@@ -13,6 +13,10 @@ public class Tile implements DrawableObject
 	private Tile		arrivedTile;	//If the tile has an arrived Tile
 	private Point		arrivedPoint;	//If the tile has an arrived Point
 										
+	public Point getArrivedPoint() {
+		return arrivedPoint;
+	}
+
 	public Tile(int x, int y, int size)
 	{
 		this(x, y, 2,size); //changer  le 2 en random value entre 2 ou 4 ou bombe
@@ -71,7 +75,6 @@ public class Tile implements DrawableObject
 	public void setArrivedTile(Tile t)
 	{
 		this.arrivedTile = t;
-		arrivedPoint = new Point((int)t.getX(), (int)t.getY());
 	}
 	
 	public int getArrivedPointX()
@@ -108,9 +111,9 @@ public class Tile implements DrawableObject
 	//Test if two tiles have the same
 	public boolean equals(Tile secondTile)
 	{
-		if (getX() == secondTile.getX() && getY() == secondTile.getY() && value == secondTile.getValue()) 
+		if (secondTile != null && getX() == secondTile.getX() && getY() == secondTile.getY() && value == secondTile.getValue()) 
 			return true;
-			return false;
+		return false;
 	}
 	
 	//If the tile and his arrivedTile has the same coordinates, return true
@@ -161,8 +164,8 @@ public class Tile implements DrawableObject
 	
 	public void beDrawn(Graphics g)
 	{
-		//Couleurs de tests, à changer
-		g.setColor(Color.red);
+		//Couleurs de tests, ï¿½ changer
+		g.setColor(new Color(255,0,0,100));
 		g.fill(rectangle);
 		
 		g.draw(rectangle);
