@@ -14,5 +14,5 @@ hs_err_pid*
 # Gedit files
 *~
 /bin/
-
 *.classpath
+changement gitignore
