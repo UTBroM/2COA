@@ -1,5 +1,6 @@
 package gamepack;
 
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -162,14 +163,29 @@ public class Tile implements DrawableObject
 		}
 	}
 	
-	public void beDrawn(Graphics g)
+	public void beDrawn(Graphics gr)
 	{
-		//Couleurs de tests, ï¿½ changer
-		g.setColor(new Color(255,0,0,100));
-		g.fill(rectangle);
+		//Calcul de la couleur
+		int power = ProjectMethods.powerOfTwo(value);
+		int r=0,g=0,b=0;
+		if(power <= 7) //jusqu'à 64
+		{
+			r = 230;
+			g = 210-power*20;
+			b = 200-power*20;
+		}
+		else if(power <= 12) //jusqu'à 2048
+		{
+			r = 230-(power-7)*3;
+			g = 210-(power-7)*5;
+			b = 110-(power-7)*10;
+		}
 		
-		g.draw(rectangle);
-		g.setColor(Color.white);
-		g.drawString("" + value, getCenterX(), getCenterY());
+		//Couleur mise
+		gr.setColor(new Color(r,g,b,255));
+		gr.fill(rectangle);
+		
+		gr.setColor(Color.white);
+		gr.drawString("" + value, getCenterX(), getCenterY());
 	}
 }

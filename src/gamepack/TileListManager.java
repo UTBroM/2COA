@@ -259,7 +259,7 @@ public class TileListManager
 	{
 		//init
 		boolean trueIfMovement = false; //For the state modification in WindowGame
-		final float pixelPerSecond = 800.0f;
+		final float pixelPerSecond = 1400.0f;
 		float pixelPerFrame = 0; //Speed of the tile
 		
 		for (int i = 0; i < tileList.getSize(); i++)
