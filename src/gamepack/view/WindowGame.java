@@ -25,7 +25,7 @@ public class WindowGame extends BasicGame
 						 */
 	
 	private Grid grid;
-	private TileListManager GameManager;
+	private TileListManager gameManager;
 	private int gameFPS;
 	private int numberOfFrameWithMovement;		//in order to generate a new tile only if there is movement
 	
@@ -45,13 +45,13 @@ public class WindowGame extends BasicGame
 		grid = new Grid(windowSizeX, windowSizeY);
 		//    Get the new size of the size depending on the resolution (80% of the grid rectangle size)
 		int tileSize = (int) (1 * grid.squareSize());
-		GameManager = new TileListManager(tileSize, grid.getRectangles());
+		gameManager = new TileListManager(tileSize, grid.getRectangles());
 		state = 0;
 		gameFPS = 100;
 		
 		//The game starts with the generation of new tiles
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
+		gameManager.generateNewTile();
+		gameManager.generateNewTile();
 		
 	}
 	
@@ -73,7 +73,7 @@ public class WindowGame extends BasicGame
 	public void render(GameContainer container, Graphics g) throws SlickException
 	{
 		grid.beDrawn(g);
-		GameManager.getTileList().beDrawn(g);
+		gameManager.getTileList().beDrawn(g);
 		
 	}
 	
@@ -85,7 +85,7 @@ public class WindowGame extends BasicGame
 			if (state == 2)
 			{
 				if(numberOfFrameWithMovement != 1)	//if there was a movement, we generate a new tile
-					GameManager.generateNewTile();
+					gameManager.generateNewTile();
 				state = 0;
 				numberOfFrameWithMovement = 0;
 			}
@@ -93,11 +93,11 @@ public class WindowGame extends BasicGame
 			//if we press a touch, we manage the movement and the fusions of tiles
 			if (state == 1)
 			{
-				if(!GameManager.manageMovement(gameFPS))	//if there is no movement
+				if(!gameManager.manageMovement(gameFPS))	//if there is no movement
 					state = 2;
 				else 										//if there is a movement
 					numberOfFrameWithMovement++;			//we notice that there was a movement
-				GameManager.manageFusion();
+				gameManager.manageFusion();
 			}
 			refreshFPS(gc.getFPS());
 		}
@@ -119,18 +119,18 @@ public class WindowGame extends BasicGame
 		{
 			state = 1;
 			if (key == Input.KEY_LEFT)
-				GameManager.initMovement(Direction.Left);
+				gameManager.initMovement(Direction.Left);
 			else if (key == Input.KEY_RIGHT)
-				GameManager.initMovement(Direction.Right);
+				gameManager.initMovement(Direction.Right);
 			else if (key == Input.KEY_DOWN)
-				GameManager.initMovement(Direction.Down);
+				gameManager.initMovement(Direction.Down);
 			else if (key == Input.KEY_UP)
-				GameManager.initMovement(Direction.Up);
+				gameManager.initMovement(Direction.Up);
 			else
 				state = 0; //if no interesting event were encoutered
 		}
 		else
-			GameManager.manageMovement(1);
+			gameManager.manageMovement(1);
 		
 	}
 	
