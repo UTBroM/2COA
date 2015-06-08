@@ -45,18 +45,6 @@ public class WindowGame extends BasicGame
 		//The game starts with the generation of new tiles
 		GameManager.generateNewTile();
 		GameManager.generateNewTile();
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
-		GameManager.generateNewTile();
 		
 	}
 	
