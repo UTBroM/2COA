@@ -2,7 +2,6 @@ package gamepack.data;
 
 
 import gamepack.utily.Direction;
-import gamepack.utily.DrawableObject;
 import gamepack.utily.ProjectMethods;
 
 import org.newdawn.slick.Color;

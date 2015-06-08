@@ -1,7 +1,5 @@
 package gamepack.data;
 
-import gamepack.utily.DrawableObject;
-
 import java.util.ArrayList;
 import java.util.Collection;
 

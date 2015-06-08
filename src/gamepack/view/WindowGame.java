@@ -1,6 +1,7 @@
-package gamepack.gestion;
+package gamepack.view;
 
 import gamepack.data.Grid;
+import gamepack.manager.TileListManager;
 import gamepack.utily.Direction;
 
 import org.newdawn.slick.AppGameContainer;
