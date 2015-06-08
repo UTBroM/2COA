@@ -36,24 +36,4 @@ public abstract class ProjectMethods
 		return new int[]{r,g,b};
 	}
 	
-	public static int alea()
-	{
-		Random rand = new Random();
-		switch (rand.nextInt(3)) {
-			case 0:
-				return 1;
-				break;
-			case 1:
-				return 2;
-				break;
-			case 2:
-				return 4;
-				break;
-	
-			default:
-				return -1;
-				break;
-		}
-		
-	}
 }
