@@ -1,15 +1,22 @@
 package gamepack;
 
+
+import java.awt.Font;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Tile implements DrawableObject
 {
 	private int			value;
+	private int			powerOfTwo;
+	
 	private Rectangle	rectangle;
+	private Color 		rectangleColor;
+	
 	private Direction	tileDirection;	//Give in which direction the tile goes
-										
 	private Tile		arrivedTile;	//If the tile has an arrived Tile
 	private Point		arrivedPoint;	//If the tile has an arrived Point
 										
@@ -26,9 +33,12 @@ public class Tile implements DrawableObject
 	{
 		this.rectangle = new Rectangle(x, y, size, size);
 		this.value = value;
+		powerOfTwo = ProjectMethods.powerOfTwo(value);
 		tileDirection = Direction.None;
+		refreshColor();
 	}
 	
+	//GET
 	public int getValue()
 	{
 		return this.value;
@@ -44,39 +54,21 @@ public class Tile implements DrawableObject
 		return this.rectangle.getY();
 	}
 	
-	public void setX(int x)
+	private int getCenterX()
 	{
-		this.rectangle.setX(x);
+		return (int) this.rectangle.getCenterX();
 	}
 	
-	public void setY(int y)
+	private int getCenterY()
 	{
-		this.rectangle.setY(y);
+		return (int) this.rectangle.getCenterY();
 	}
-	public void doubleValue()
-	{
-		value = 2*value;
-	}
-	private float getCenterX()
-	{
-		return this.rectangle.getCenterX();
-	}
-	
-	private float getCenterY()
-	{
-		return this.rectangle.getCenterY();
-	}
-	
+
 	public Tile getArrivedTile()
 	{
 		return this.arrivedTile;
 	}
-	
-	public void setArrivedTile(Tile t)
-	{
-		this.arrivedTile = t;
-	}
-	
+
 	public int getArrivedPointX()
 	{
 		return arrivedPoint.getX();
@@ -86,15 +78,41 @@ public class Tile implements DrawableObject
 	{
 		return arrivedPoint.getY();
 	}
+
+	public Direction getDirection()
+	{
+		return this.tileDirection;
+	}
+	
+	private int getTextX()
+	{
+		return getCenterX();
+	}
+	
+	private int getTextY()
+	{
+		return getCenterY();
+	}
+	
+	//SET
+	public void setX(int x)
+	{
+		this.rectangle.setX(x);
+	}
+	
+	public void setY(int y)
+	{
+		this.rectangle.setY(y);
+	}
+
+	public void setArrivedTile(Tile t)
+	{
+		this.arrivedTile = t;
+	}
 	
 	public void setArrivedPoint(Point arrivedPoint)
 	{
 		this.arrivedPoint = arrivedPoint;
-	}
-	
-	public Direction getDirection()
-	{
-		return this.tileDirection;
 	}
 	
 	public void setDirection(Direction tileDirection)
@@ -102,13 +120,25 @@ public class Tile implements DrawableObject
 		this.tileDirection = tileDirection;
 	}
 	
+	
+	//OTHER
+	
+	//Double the value of the tile, increment the powerOfTwo and refresh the color
+	public void doubleValue()
+	{
+		value = 2*value;
+		powerOfTwo++;
+		refreshColor();
+	}
+	
+	//move the tile 
 	public void move(float x, float y)
 	{
 		this.rectangle.setX(this.rectangle.getX() + x);
 		this.rectangle.setY(this.rectangle.getY() + y);
 	}
 	
-	//Test if two tiles have the same
+	//Test if two tiles have the same positions and value
 	public boolean equals(Tile secondTile)
 	{
 		if (secondTile != null && getX() == secondTile.getX() && getY() == secondTile.getY() && value == secondTile.getValue()) 
@@ -162,14 +192,23 @@ public class Tile implements DrawableObject
 		}
 	}
 	
-	public void beDrawn(Graphics g)
+	//Draw the Tile
+	public void beDrawn(Graphics gr)
 	{
-		//Couleurs de tests, � changer
-		g.setColor(new Color(255,0,0,100));
-		g.fill(rectangle);
+		//Couleur mise
+		gr.setColor(rectangleColor);
+		gr.fill(rectangle);
 		
-		g.draw(rectangle);
-		g.setColor(Color.white);
-		g.drawString("" + value, getCenterX(), getCenterY());
+		gr.setColor(Color.white);
+		gr.drawString("" + value, getTextX(), getTextY());
 	}
+	
+	//refresh the color of the Tile
+	private void refreshColor()
+	{
+		int rgb[] = ProjectMethods.getRGBColor(powerOfTwo);
+		rectangleColor = new Color(rgb[0],rgb[1],rgb[2]);
+	}
+
+
 }
