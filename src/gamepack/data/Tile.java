@@ -27,7 +27,7 @@ public class Tile implements DrawableObject
 
 	public Tile(int x, int y, int size)
 	{
-		this(x, y, 2, size); //changer  le 2 en random value entre 2 ou 4 ou bombe
+		this(x, y, alea(), size); //changer  le 2 en random value entre 2 ou 4 ou bombe
 
 	}
 	
