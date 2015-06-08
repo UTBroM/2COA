@@ -67,15 +67,12 @@ public class TileListManager
 		
 		//If after traversing all the goodPosition any Tile is free so we return an error
 		if (goodFreeTile.isEmpty()) {
-			System.out.println("goodFreeTile is empty");
 			return false;
 		}
 		else
 		{
 			//Choose randomly a free space and add the new Tile
 			int tmp = alea.nextInt(goodFreeTile.size());
-			System.out.println("tmp : " + tmp);
-			System.out.println("new Tile x : " + goodFreeTile.get(tmp).getX()+"new Tile y : " + goodFreeTile.get(tmp).getY() );
 			tileList.addNewTile(goodFreeTile.get(tmp).getX(), goodFreeTile.get(tmp).getY(), tileSize);
 
 			return true;
