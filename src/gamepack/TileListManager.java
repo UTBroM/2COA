@@ -38,7 +38,7 @@ public class TileListManager
 	public boolean generateNewTile()
 	{
 		Random alea = new Random();
-		boolean isFree = true;
+		boolean isFree;
 		Point currentGoodPosition;
 		Tile currentTile;
 		ArrayList<Point> goodFreeTile = new ArrayList<Point>();
@@ -47,6 +47,7 @@ public class TileListManager
 		for (int i = 0; i < goodPositions.size(); i++)
 		{
 			currentGoodPosition = goodPositions.get(i);
+			isFree = true;
 			
 			for (int j = 0; j < tileList.getSize(); j++)
 			{
