@@ -23,6 +23,7 @@ public class WindowGame extends BasicGame
 	private Grid grid;
 	private TileListManager GameManager;
 	private int gameFPS;
+	private boolean generateIfMovement;
 	
 	
 	//		METHODS
@@ -32,7 +33,9 @@ public class WindowGame extends BasicGame
 		super("2C0A");
 		
 		
+		
 		//Attributes initialization
+		generateIfMovement = true;
 		windowSizeX  = 800;
 		windowSizeY = 600;
 		grid = new Grid(windowSizeX, windowSizeY);
