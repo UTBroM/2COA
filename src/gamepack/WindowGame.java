@@ -23,7 +23,7 @@ public class WindowGame extends BasicGame
 	private Grid grid;
 	private TileListManager GameManager;
 	private int gameFPS;
-	private boolean generateIfMovement;
+	private int numberOfFrameWithMovement;		//in order to generate a new tile only if there is movement
 	
 	
 	//		METHODS
@@ -35,7 +35,7 @@ public class WindowGame extends BasicGame
 		
 		
 		//Attributes initialization
-		generateIfMovement = true;
+		numberOfFrameWithMovement = 0;
 		windowSizeX  = 800;
 		windowSizeY = 600;
 		grid = new Grid(windowSizeX, windowSizeY);
@@ -80,8 +80,13 @@ public class WindowGame extends BasicGame
 			//Once the movement is done, we generate new tiles
 			if (state == 2)
 			{
-				GameManager.generateNewTile();
+				if(numberOfFrameWithMovement != 1)
+				{
+					System.out.println(numberOfFrameWithMovement);
+					GameManager.generateNewTile();
+				}
 				state = 0;
+				numberOfFrameWithMovement = 0;
 			}
 			
 			//if we press a touch, we manage the movement and the fusions of tiles
@@ -89,6 +94,8 @@ public class WindowGame extends BasicGame
 			{
 				if(!GameManager.manageMovement(gameFPS))	//if there is no movement
 					state = 2;
+				else 
+					numberOfFrameWithMovement++;
 				GameManager.manageFusion();
 			}
 			refreshFPS(gc.getFPS());
