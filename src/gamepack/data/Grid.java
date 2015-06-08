@@ -1,8 +1,9 @@
-package gamepack;
+package gamepack.data;
+
+import gamepack.utily.DrawableObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

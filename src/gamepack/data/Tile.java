@@ -1,7 +1,9 @@
-package gamepack;
+package gamepack.data;
 
 
-import java.util.Random;
+import gamepack.utily.Direction;
+import gamepack.utily.DrawableObject;
+import gamepack.utily.ProjectMethods;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

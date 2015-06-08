@@ -1,4 +1,4 @@
-package gamepack;
+package gamepack.utily;
 
 import org.newdawn.slick.Graphics;
 

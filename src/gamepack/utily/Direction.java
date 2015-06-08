@@ -1,4 +1,4 @@
-package gamepack;
+package gamepack.utily;
 
 public enum Direction {
 	Right,

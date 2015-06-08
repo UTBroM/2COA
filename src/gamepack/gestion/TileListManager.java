@@ -1,4 +1,10 @@
-package gamepack;
+package gamepack.gestion;
+
+import gamepack.data.Point;
+import gamepack.data.Tile;
+import gamepack.data.TileList;
+import gamepack.utily.Direction;
+import gamepack.utily.DrawableObject;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package gamepack;
+package gamepack.utily;
 
 public abstract class ProjectMethods
 {
@@ -18,13 +18,13 @@ public abstract class ProjectMethods
 	static int[] getRGBColor(int power)
 	{
 		int r=0,g=0,b=0;
-		if(power <= 7) //jusqu'à 64
+		if(power <= 7) //jusqu'ï¿½ 64
 		{
 			r = 230;
 			g = 210-power*20;
 			b = 200-power*20;
 		}
-		else if(power <= 12) //jusqu'à 2048
+		else if(power <= 12) //jusqu'ï¿½ 2048
 		{
 			r = 230-(power-7)*3;
 			g = 210-(power-7)*5;

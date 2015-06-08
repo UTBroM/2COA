@@ -1,6 +1,5 @@
-package gamepack;
+package gamepack.data;
 
-import org.newdawn.slick.geom.Rectangle;
 
 public class Bomb extends Tile{
 	private int tempsExplosion;

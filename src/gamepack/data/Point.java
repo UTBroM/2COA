@@ -1,4 +1,4 @@
-package gamepack;
+package gamepack.data;
 
 public final class Point
 {
