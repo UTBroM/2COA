@@ -80,11 +80,8 @@ public class WindowGame extends BasicGame
 			//Once the movement is done, we generate new tiles
 			if (state == 2)
 			{
-				if(numberOfFrameWithMovement != 1)
-				{
-					System.out.println(numberOfFrameWithMovement);
+				if(numberOfFrameWithMovement != 1)	//if there was a movement, we generate a new tile
 					GameManager.generateNewTile();
-				}
 				state = 0;
 				numberOfFrameWithMovement = 0;
 			}
@@ -94,8 +91,8 @@ public class WindowGame extends BasicGame
 			{
 				if(!GameManager.manageMovement(gameFPS))	//if there is no movement
 					state = 2;
-				else 
-					numberOfFrameWithMovement++;
+				else 										//if there is a movement
+					numberOfFrameWithMovement++;			//we notice that there was a movement
 				GameManager.manageFusion();
 			}
 			refreshFPS(gc.getFPS());

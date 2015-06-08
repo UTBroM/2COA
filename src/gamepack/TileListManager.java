@@ -29,7 +29,8 @@ public class TileListManager
 	}
 	
 	//Return the TileList of the TileListManager to display it
-	public TileList getTileList()
+	//I return a drawable object for data-protection purpose
+	public DrawableObject getTileList()
 	{
 		return tileList;
 	}
