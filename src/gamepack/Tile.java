@@ -1,11 +1,10 @@
 package gamepack;
 
 
-import java.awt.Font;
+import java.util.Random;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Tile implements DrawableObject
@@ -26,7 +25,8 @@ public class Tile implements DrawableObject
 
 	public Tile(int x, int y, int size)
 	{
-		this(x, y, 2,size); //changer  le 2 en random value entre 2 ou 4 ou bombe
+		this(x, y, (new Random().nextInt(3))*2, size); //changer  le 2 en random value entre 2 ou 4 ou bombe
+
 	}
 	
 	public Tile(int x, int y, int value, int size)
