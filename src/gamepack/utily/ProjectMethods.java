@@ -3,7 +3,7 @@ package gamepack.utily;
 public abstract class ProjectMethods
 {
 	//return the power of two of the value
-	static int powerOfTwo(int v)
+	public static int powerOfTwo(int v)
 	{
 		int r = 0;
 		while(v % 2 == 0)
@@ -15,7 +15,7 @@ public abstract class ProjectMethods
 	}
 	
 	//Give the color of the tile in an array depending of its value
-	static int[] getRGBColor(int power)
+	public static int[] getRGBColor(int power)
 	{
 		int r=0,g=0,b=0;
 		if(power <= 7) //jusqu'� 64
