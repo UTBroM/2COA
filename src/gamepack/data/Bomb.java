@@ -14,9 +14,16 @@ public class Bomb extends Tile{
 	
 	public Bomb(int x, int y, int size, int tempsExplosion)
 	{
-		super(x,y,size);
-		this.tempsExplosion = tempsExplosion;
-		this.rayonExplosion = rayonExplosion;
+		this(x, y, 2, size, tempsExplosion, 1);
+	}
+	
+	public int getTempExplo()
+	{
+		return this.tempsExplosion;
+	}
+	public int getRayonExplo()
+	{
+		return this.rayonExplosion;
 	}
 	
 }
