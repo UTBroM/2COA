@@ -105,7 +105,7 @@ public class TileListManager
 	//Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
-		ArrayList<TileList> swagList = new ArrayList<TileList>();
+		ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
 		ArrayList<Integer> listX = new ArrayList<Integer>();
 		ArrayList<Integer> listY = new ArrayList<Integer>();
 		
@@ -143,7 +143,7 @@ public class TileListManager
 			
 			int i = 0;
 			curY = (int) this.tileList.getTile(0).getY();
-			swagList.add(new TileList());
+			mainMatrix.add(new TileList());
 			
 			//On trie toutes les tuiles par ligne
 			for (Tile curTile : this.tileList.gettList())
@@ -151,14 +151,14 @@ public class TileListManager
 				if (curY != curTile.getY())
 				{
 					i++;
-					swagList.add(new TileList());
+					mainMatrix.add(new TileList());
 					curY = (int) curTile.getY();
 				}
-				swagList.get(i).add(curTile);
+				mainMatrix.get(i).add(curTile);
 			}
 			
 			//On veut maintenant gérer le déplacement à proprement parler
-			for (TileList curTileList : swagList)// Pour chaque ligne 
+			for (TileList curTileList : mainMatrix)// Pour chaque ligne 
 			{
 				curTileList.sortX();//Tri de chaque ligne
 				if (d == Direction.Right)
@@ -209,7 +209,7 @@ public class TileListManager
 			
 			int i = 0;
 			curX = (int) this.tileList.getTile(0).getX();
-			swagList.add(new TileList());
+			mainMatrix.add(new TileList());
 			
 			//On trie toutes les tuiles par ligne
 			for (Tile curTile : this.tileList.gettList())
@@ -217,15 +217,15 @@ public class TileListManager
 				if (curX != curTile.getX())
 				{
 					i++;
-					swagList.add(new TileList());
+					mainMatrix.add(new TileList());
 					curX = (int) curTile.getX();
 				}
 				
-				swagList.get(i).add(curTile);
+				mainMatrix.get(i).add(curTile);
 			}
 			
 			//On veut maintenant gérer le déplacement à proprement parler
-			for (TileList curTileList : swagList)
+			for (TileList curTileList : mainMatrix)
 			{
 				curTileList.sortY();//Tri de chaque ligne
 				
