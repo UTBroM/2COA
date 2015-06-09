@@ -18,11 +18,13 @@ public class TileListManager
 	private TileList tileList;
 	private ArrayList<Point> goodPositions;
 	private final int tileSize;
+	private Random rand;
 	
 	//Will compute the goodPositins where Tiles will be
 	public TileListManager(int tileSize, Collection<Rectangle> rectangleList)
 	{
 		tileList = new TileList();
+		rand = new Random();
 		this.tileSize = tileSize;
 		
 		this.goodPositions = new ArrayList<Point>();
@@ -83,6 +85,19 @@ public class TileListManager
 			tileList.addNewTile(goodFreeTile.get(tmp).getX(), goodFreeTile.get(tmp).getY(), tileSize);
 
 			return true;
+		}
+	}
+	
+	public int getRandomTileValue()
+	{
+		switch (rand.nextInt(4)) {
+		case 0:
+			return 4;
+			break;
+			
+		default:
+			return 2;
+			break;
 		}
 	}
 	
@@ -316,6 +331,5 @@ public class TileListManager
 				this.tileList.remove(i);
 			}
 		}
-	}
-	
+	}	
 }
