@@ -44,7 +44,6 @@ public class Grid implements DrawableObject
 		rectSizeX = (min - (leftMarginX + rightMarginX) - (gridSize-1)*padX)/(gridSize);
 		rectSizeY = (min - (2*marginY) - (gridSize-1)*padY)/(gridSize);
 		minRectSize = (float) Math.floor((rectSizeX < rectSizeY ? rectSizeX : rectSizeY));
-		System.out.println(rectSizeX + " " + rectSizeY);
 		rectangleList = new ArrayList<Rectangle>();
 		for (int i = 0; i < gridSize; i++)
 		{
