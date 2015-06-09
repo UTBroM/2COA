@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+//sauvegarde quand on ferme la fenêtre
 public class GameSaver
 {
 	private Scanner fileScanner;
