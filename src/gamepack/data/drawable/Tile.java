@@ -14,8 +14,8 @@ public class Tile implements DrawableObject
 	private int			value;
 	private int			powerOfTwo;
 	
-	private Rectangle	rectangle;
-	private Color 		rectangleColor;
+	protected Rectangle	rectangle;
+	protected Color 		rectangleColor;
 	
 	private Direction	tileDirection;	//Give in which direction the tile goes
 	private Tile		arrivedTile;	//If the tile has an arrived Tile
@@ -86,12 +86,12 @@ public class Tile implements DrawableObject
 		return this.tileDirection;
 	}
 	
-	private int getTextX()
+	protected int getTextX()
 	{
 		return getCenterX();
 	}
 	
-	private int getTextY()
+	protected int getTextY()
 	{
 		return getCenterY();
 	}
