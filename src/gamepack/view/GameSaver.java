@@ -1,5 +1,7 @@
 package gamepack.view;
 
+import gamepack.data.drawable.TileList;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -10,6 +12,7 @@ public class GameSaver
 	
 	public GameSaver(String path)
 	{
+		fileScanner = null;
 		try
 		{
 			fileScanner = new Scanner(new File(path));
@@ -21,11 +24,14 @@ public class GameSaver
 		
 	}
 	
-	public String readFile()
+	
+	
+	private String readFile()
 	{
 		//Initialization
 		String file = "";
-		String l ="";		
+		String l ="";
+		
 		//Read File
 		l = fileScanner.nextLine();
 		while (l != null)
@@ -37,5 +43,16 @@ public class GameSaver
 		}
 		
 		return file;
+	}
+	
+	public TileList getSavedTileList()
+	{
+		String savedFile = readFile();
+		TileList list = new TileList();
+		
+	
+		
+		
+		return list;
 	}
 }

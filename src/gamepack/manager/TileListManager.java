@@ -37,6 +37,13 @@ public class TileListManager
 		
 	}
 	
+	//receive the tileList with bad coordinates and compute the good positions
+	public void loadGame(TileList fakeList)
+	{
+		
+	}
+	
+	
 	//Return the TileList of the TileListManager to display it
 	//I return a drawable object for data-protection purpose
 	public DrawableObject getTileList()
