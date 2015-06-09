@@ -1,6 +1,7 @@
 package gamepack.manager;
 
 import gamepack.data.Point;
+import gamepack.data.drawable.Bomb;
 import gamepack.data.drawable.DrawableObject;
 import gamepack.data.drawable.Tile;
 import gamepack.data.drawable.TileList;
@@ -82,8 +83,11 @@ public class TileListManager
 		{
 			//Choose randomly a free space and add the new Tile
 			int tmp = alea.nextInt(goodFreeTile.size());
-			tileList.addNewTile(goodFreeTile.get(tmp).getX(), goodFreeTile.get(tmp).getY(), tileSize);
-
+			if (rand.nextInt(20) == 0) {
+				tileList.add(new Bomb(goodFreeTile.get(tmp).getX(), goodFreeTile.get(tmp).getY(), this.getRandomTileValue(),tileSize));
+			} else {
+				tileList.add(new Tile(goodFreeTile.get(tmp).getX(), goodFreeTile.get(tmp).getY(), this.getRandomTileValue(),tileSize));
+			}
 			return true;
 		}
 	}
