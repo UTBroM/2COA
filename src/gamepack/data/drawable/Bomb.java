@@ -1,5 +1,8 @@
 package gamepack.data.drawable;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+
 
 public class Bomb extends Tile{
 	private int remainingMovement;
@@ -24,6 +27,17 @@ public class Bomb extends Tile{
 	public int getExplosionRadius()
 	{
 		return this.explosionRadius;
+	}
+	
+	//Draw the Bomb
+	public void beDrawn(Graphics gr)
+	{
+		//Color
+		gr.setColor(rectangleColor);
+		gr.fill(rectangle);
+		
+		gr.setColor(Color.black);
+		gr.drawString("" + getValue(), getTextX(), getTextY());
 	}
 	
 }
