@@ -94,15 +94,18 @@ public class TileListManager
 	
 	public int getRandomTileValue()
 	{
+		int tmp;
 		switch (rand.nextInt(4)) {
 		case 0:
-			return 4;
+			tmp = 4;
 			break;
 			
 		default:
-			return 2;
+			tmp = 2;
 			break;
 		}
+		
+		return tmp;
 	}
 	
 	//Give each tile his direction and his arrived Tile(null if no arrived tile, None if no Direction)
