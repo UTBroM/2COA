@@ -25,6 +25,7 @@ public class Grid implements DrawableObject
 	
 	public Grid(int x, int y)
 	{
+		int gridSize = 5;
 		this.sizeX = x;
 		this.sizeY = y;
 		
@@ -38,12 +39,12 @@ public class Grid implements DrawableObject
 		this.rectSizeY = 160 * min / 800;
 		this.marginY = 60 * min / 800;
 		
-		this.marginX = (sizeX - 4 * (rectSizeX + padX)) / 2; // Align the grid in the middle of the window
+		this.marginX = (sizeX - gridSize * (rectSizeX + padX)) / 2; // Align the grid in the middle of the window
 		
 		rectangleList = new ArrayList<Rectangle>();
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < gridSize; i++)
 		{
-			for (int j = 0; j < 4; j++)
+			for (int j = 0; j < gridSize; j++)
 			{
 				rectangleList.add(new Rectangle(marginX + j * (rectSizeX + padX), marginY + i * (rectSizeY + padY), rectSizeX, rectSizeY));
 			}
