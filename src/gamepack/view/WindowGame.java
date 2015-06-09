@@ -28,6 +28,7 @@ public class WindowGame extends BasicGame
 	private TileListManager gameManager;
 	private int gameFPS;
 	private int numberOfFrameWithMovement;		//in order to generate a new tile only if there is movement
+	private GameSaver gSave;
 	
 	
 	//		METHODS
