@@ -1,8 +1,9 @@
-package gamepack.data;
+package gamepack.data.drawable;
 
 
-import gamepack.utily.Direction;
-import gamepack.utily.ProjectMethods;
+import gamepack.data.Point;
+import gamepack.utility.Direction;
+import gamepack.utility.ProjectMethods;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

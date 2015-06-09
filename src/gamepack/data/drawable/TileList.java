@@ -2,7 +2,7 @@
  * Contient la liste des tuiles présentent dans la grille
  * 
  */
-package gamepack.data;
+package gamepack.data.drawable;
 
 import java.util.ArrayList;
 import java.util.Collections;

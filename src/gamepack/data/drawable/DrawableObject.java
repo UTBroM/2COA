@@ -1,4 +1,4 @@
-package gamepack.data;
+package gamepack.data.drawable;
 
 import org.newdawn.slick.Graphics;
 

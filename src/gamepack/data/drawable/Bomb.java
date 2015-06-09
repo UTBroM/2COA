@@ -1,4 +1,4 @@
-package gamepack.data;
+package gamepack.data.drawable;
 
 
 public class Bomb extends Tile{
