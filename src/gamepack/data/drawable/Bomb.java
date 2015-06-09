@@ -5,7 +5,7 @@ public class Bomb extends Tile{
 	private int remainingMovement;
 	private int explosionRadius;
 	
-	public Bomb(int x, int y, int value, int size, int remainingMovement, int explosionRadius)
+	private Bomb(int x, int y, int value, int size, int remainingMovement, int explosionRadius)
 	{
 		super(x, y, value, size);
 		this.remainingMovement = remainingMovement;
