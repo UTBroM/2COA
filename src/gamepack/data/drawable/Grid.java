@@ -2,6 +2,7 @@ package gamepack.data.drawable;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -15,19 +16,19 @@ public class Grid implements DrawableObject
 	private Color bgColor = new Color(0xC1B8B0);
 	private Color interiorColor = new Color(0xD6CDC4);
 	
-	private Collection<Rectangle> rectangleList;
+	private List<Rectangle> rectangleList;
 	
 	public Grid(int x, int y)
 	{
 		// Initialization of the base attributes of the grid :
-		int gridSize = 10;
+		int gridSize = 4;
 		
 		float padX = 20;
 		float padY = 20;
 		
-		float marginY = 60;
+		float marginY = 30;
 		float leftMarginX = 30;
-		float rightMarginX = 100;
+		float rightMarginX = 50;
 		float rectSizeX, rectSizeY, minRectSize;
 		
 		this.sizeX = x;
@@ -61,7 +62,7 @@ public class Grid implements DrawableObject
 	
 	public int squareSize()
 	{
-		return (int) ((Rectangle)((ArrayList)rectangleList).get(0)).getWidth();
+		return (int) ((Rectangle)rectangleList.get(0)).getWidth();
 	}
 	
 	public void beDrawn(Graphics g)
