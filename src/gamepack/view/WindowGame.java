@@ -1,6 +1,7 @@
 package gamepack.view;
 
 import gamepack.data.drawable.Grid;
+import gamepack.manager.GameSaver;
 import gamepack.manager.TileListManager;
 import gamepack.utility.Direction;
 
@@ -40,6 +41,7 @@ public class WindowGame extends BasicGame
 		
 		
 		//Attributes initialization
+		gSave = new GameSaver("save.txt");
 		numberOfFrameWithMovement = 0;
 		windowSizeX  = 800;
 		windowSizeY = 600;

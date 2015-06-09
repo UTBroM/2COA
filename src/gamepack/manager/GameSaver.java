@@ -1,4 +1,4 @@
-package gamepack.view;
+package gamepack.manager;
 
 import gamepack.data.drawable.TileList;
 
@@ -10,12 +10,15 @@ public class GameSaver
 {
 	private Scanner fileScanner;
 	
+	//Initialize the file scanner if the file is not empty
 	public GameSaver(String path)
 	{
 		fileScanner = null;
 		try
 		{
-			fileScanner = new Scanner(new File(path));
+			File file = new File(path);
+			if(file.length() == 0)
+				fileScanner = new Scanner(file);
 		} catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
@@ -25,7 +28,7 @@ public class GameSaver
 	}
 	
 	
-	
+	//return the file
 	private String readFile()
 	{
 		//Initialization
