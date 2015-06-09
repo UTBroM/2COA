@@ -2,28 +2,28 @@ package gamepack.data.drawable;
 
 
 public class Bomb extends Tile{
-	private int tempsExplosion;
-	private int rayonExplosion;
+	private int remainingMovement;
+	private int explosionRadius;
 	
-	public Bomb(int x, int y, int value, int size, int tempsExplosion, int rayonExplosion)
+	public Bomb(int x, int y, int value, int size, int remainingMovement, int explosionRadius)
 	{
 		super(x, y, value, size);
-		this.tempsExplosion = tempsExplosion;
-		this.rayonExplosion = rayonExplosion;
+		this.remainingMovement = remainingMovement;
+		this.explosionRadius = explosionRadius;
 	}
 	
-	public Bomb(int x, int y, int size, int tempsExplosion)
+	public Bomb(int x, int y, int value, int size)
 	{
-		this(x, y, 2, size, tempsExplosion, 1);
+		this(x, y, value, size, 10, 1);
 	}
 	
-	public int getTempExplo()
+	public int getRemainingMovement()
 	{
-		return this.tempsExplosion;
+		return this.remainingMovement;
 	}
-	public int getRayonExplo()
+	public int getExplosionRadius()
 	{
-		return this.rayonExplosion;
+		return this.explosionRadius;
 	}
 	
 }
