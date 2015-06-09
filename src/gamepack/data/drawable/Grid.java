@@ -11,12 +11,6 @@ public class Grid implements DrawableObject
 {
 	private int sizeX;
 	private int sizeY;
-	private int padX;
-	private int padY;
-	private int rectSizeX;
-	private int rectSizeY;
-	private int marginX;
-	private int marginY;
 	
 	private Color bgColor = new Color(0xC1B8B0);
 	private Color interiorColor = new Color(0xD6CDC4);
@@ -25,28 +19,37 @@ public class Grid implements DrawableObject
 	
 	public Grid(int x, int y)
 	{
-		int gridSize = 5;
+		// Initialization of the base attributes of the grid :
+		int gridSize = 10;
+		
+		float padX = 20;
+		float padY = 20;
+		
+		float marginY = 60;
+		float leftMarginX = 30;
+		float rightMarginX = 100;
+		float rectSizeX, rectSizeY, minRectSize;
+		
 		this.sizeX = x;
 		this.sizeY = y;
 		
-		int min = (sizeX < sizeY ? sizeX : sizeY); // To let the grid be squared
+		float min = (sizeX < sizeY ? sizeX : sizeY); // To let the grid be squared
 		
-		// delete min and replace by sizeX or by sizeY in the definitions if you no longer want to have a square
-		
-		this.padX = 20 * min / 800;
-		this.padY = 20 * min / 800;
-		this.rectSizeX = 160 * min / 800;
-		this.rectSizeY = 160 * min / 800;
-		this.marginY = 60 * min / 800;
-		
-		this.marginX = (sizeX - gridSize * (rectSizeX + padX)) / 2; // Align the grid in the middle of the window
-		
+		padX *= min / 800;
+		padY *= min / 800;
+		marginY *= min / 800;
+		leftMarginX *= min/800;
+		rightMarginX *= min/800;
+		rectSizeX = (min - (leftMarginX + rightMarginX) - (gridSize-1)*padX)/(gridSize);
+		rectSizeY = (min - (2*marginY) - (gridSize-1)*padY)/(gridSize);
+		minRectSize = (float) Math.floor((rectSizeX < rectSizeY ? rectSizeX : rectSizeY));
+		System.out.println(rectSizeX + " " + rectSizeY);
 		rectangleList = new ArrayList<Rectangle>();
 		for (int i = 0; i < gridSize; i++)
 		{
 			for (int j = 0; j < gridSize; j++)
 			{
-				rectangleList.add(new Rectangle(marginX + j * (rectSizeX + padX), marginY + i * (rectSizeY + padY), rectSizeX, rectSizeY));
+				rectangleList.add(new Rectangle(leftMarginX + j * (minRectSize + padX), marginY + i * (minRectSize + padY), minRectSize, minRectSize));
 			}
 		}
 	}
