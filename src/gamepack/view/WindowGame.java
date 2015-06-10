@@ -140,7 +140,7 @@ public class WindowGame extends BasicGame
 	
 	public boolean closeRequested()
 	{
-		gSave.save(gameManager.getTileList());
+		//gSave.save(gameManager.getTileList());
 		
 		
 		

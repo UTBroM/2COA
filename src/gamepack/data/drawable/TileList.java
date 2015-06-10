@@ -24,14 +24,22 @@ public class TileList implements DrawableObject
 		this.tList = new ArrayList<Tile>();
 	}
 	
+	public TileList(int size)
+	{
+		this.tList = new ArrayList<Tile>(size);
+		
+	}
+	
 	public void addNewTile(int x, int y, int value, int size)
 	{
 		tList.add(new Tile(x, y, value,size));
 	}
+	
 	public void addNewTile(int x, int y, int size)
 	{
 		tList.add(new Tile(x, y,size));
 	}
+	
 	public void add(Tile newTile)
 	{
 		tList.add(newTile);
@@ -105,6 +113,11 @@ public class TileList implements DrawableObject
 	            return 0;
 	        }
 	    }
+	}
+
+	public void addAt(int x, Tile t)
+	{
+		tList.set(x, t);
 	}
 	
 }

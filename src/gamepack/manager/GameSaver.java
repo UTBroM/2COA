@@ -1,9 +1,11 @@
 package gamepack.manager;
 
+import gamepack.data.Point;
 import gamepack.data.drawable.TileList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 //sauvegarde quand on ferme la fenêtre
@@ -60,7 +62,7 @@ public class GameSaver
 		return list;
 	}
 	
-	public void save(TileList l)
+	public void save(TileList tileMatrix)
 	{
 		String file = "";
 		

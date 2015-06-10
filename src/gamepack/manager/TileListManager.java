@@ -64,6 +64,12 @@ public class TileListManager
 	{
 		return tileList;
 	}
+		
+	//Return the TileList of the TileListManager to display it and to save it
+	public ArrayList<ArrayList<Point>> getPointMatrix()
+	{
+		return goodPositions;
+	}
 	
 	//Create new tiles at the right positions
 	public boolean generateNewTile()
