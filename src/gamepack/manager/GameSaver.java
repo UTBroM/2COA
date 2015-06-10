@@ -59,4 +59,11 @@ public class GameSaver
 		
 		return list;
 	}
+	
+	public void save(TileList l)
+	{
+		String file = "";
+		
+	
+	}
 }

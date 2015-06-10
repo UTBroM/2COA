@@ -16,7 +16,7 @@ public class Grid implements DrawableObject
 	private Color bgColor = new Color(0xC1B8B0);
 	private Color interiorColor = new Color(0xD6CDC4);
 	
-	private List<Rectangle> rectangleList;
+	private ArrayList<Rectangle> rectangleList;
 	
 	public Grid(int x, int y)
 	{
@@ -54,7 +54,7 @@ public class Grid implements DrawableObject
 		}
 	}
 	
-	public Collection<Rectangle> getRectangles()
+	public ArrayList<Rectangle> getRectangles()
 	{
 		return this.rectangleList;
 	}

@@ -1,6 +1,7 @@
 package gamepack.view;
 
 import gamepack.data.drawable.Grid;
+import gamepack.data.drawable.TileList;
 import gamepack.manager.GameSaver;
 import gamepack.manager.TileListManager;
 import gamepack.utility.Direction;
@@ -135,6 +136,15 @@ public class WindowGame extends BasicGame
 		else
 			gameManager.manageMovement(1);
 		
+	}
+	
+	public boolean closeRequested()
+	{
+		gSave.save(gameManager.getTileList());
+		
+		
+		
+		return true;
 	}
 	
 	public static void main(String[] args) throws SlickException

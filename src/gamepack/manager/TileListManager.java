@@ -17,23 +17,38 @@ import org.newdawn.slick.geom.Rectangle;
 public class TileListManager
 {
 	private TileList tileList;
-	private ArrayList<Point> goodPositions;
+	private ArrayList<ArrayList<Point>> goodPositions;
 	private final int tileSize;
 	private Random rand;
 	
 	//Will compute the goodPositins where Tiles will be
-	public TileListManager(int tileSize, Collection<Rectangle> rectangleList)
+	public TileListManager(int tileSize, ArrayList<Rectangle> rectangleList)
 	{
 		tileList = new TileList();
 		rand = new Random();
 		this.tileSize = tileSize;
 		
-		this.goodPositions = new ArrayList<Point>();
+		//Création de la liste deux dimensions de point
+		this.goodPositions = new ArrayList<ArrayList<Point>>();
 		
-		for (Rectangle curRect : rectangleList)
+		int size = (int) Math.sqrt(rectangleList.size());
+		ArrayList<Point> pointList = null;
+		for(int i = 0; i < rectangleList.size(); i++)
 		{
-			this.goodPositions.add(new Point((int) curRect.getX(), (int) curRect.getY()));
+			Rectangle curRect = rectangleList.get(i);
+			if(i % size == 0)
+			{
+				if(i != 0)
+					this.goodPositions.add(pointList);
+				pointList  = new ArrayList<Point>();
+			}
+			pointList.add(new Point((int) curRect.getX(), (int) curRect.getY()));
+			
 		}
+		this.goodPositions.add(pointList);
+
+		for(int i = 0; i < goodPositions.size(); i++)
+			System.out.println(goodPositions.get(i));
 		
 	}
 	
@@ -44,9 +59,8 @@ public class TileListManager
 	}
 	
 	
-	//Return the TileList of the TileListManager to display it
-	//I return a drawable object for data-protection purpose
-	public DrawableObject getTileList()
+	//Return the TileList of the TileListManager to display it and to save it
+	public TileList getTileList()
 	{
 		return tileList;
 	}
@@ -61,10 +75,15 @@ public class TileListManager
 		ArrayList<Point> goodFreeTile = new ArrayList<Point>();
 		
 		//Construction of a new TileList which contain only free space for new Tile
+		int k = 0;
 		for (int i = 0; i < goodPositions.size(); i++)
 		{
-			currentGoodPosition = goodPositions.get(i);
+			if(k % goodPositions.size() == 0)
+				k = 0;
+			
+			currentGoodPosition = goodPositions.get(i).get(k);
 			isFree = true;
+			
 			
 			for (int j = 0; j < tileList.getSize(); j++)
 			{
@@ -128,22 +147,23 @@ public class TileListManager
 		int curX = 0;
 		int curY = 0;
 		
-		for (Point curPoint : this.goodPositions)
-		{
-			int xOfCurPoint = curPoint.getX();
-			int yOfCurPoint = curPoint.getY();
-			
-			if (xOfCurPoint > curX)
+		for(int i = 0 ; i < this.goodPositions.size(); i++)
+			for (Point curPoint : this.goodPositions.get(i))
 			{
-				listX.add(xOfCurPoint);
-				curX = xOfCurPoint;
+				int xOfCurPoint = curPoint.getX();
+				int yOfCurPoint = curPoint.getY();
+				
+				if (xOfCurPoint > curX)
+				{
+					listX.add(xOfCurPoint);
+					curX = xOfCurPoint;
+				}
+				if (yOfCurPoint > curY)
+				{
+					listY.add(yOfCurPoint);
+					curY = yOfCurPoint;
+				}
 			}
-			if (yOfCurPoint > curY)
-			{
-				listY.add(yOfCurPoint);
-				curY = yOfCurPoint;
-			}
-		}
 		if (d == Direction.Right)
 			Collections.reverse(listX);
 		else if (d == Direction.Down)
