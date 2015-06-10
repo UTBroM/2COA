@@ -73,6 +73,10 @@ public class TileListManager
 		return goodPositions;
 	}
 	
+	public int getScore() {
+		return score;
+	}
+
 	//Create new tiles at the right positions
 	public boolean generateNewTile()
 	{
