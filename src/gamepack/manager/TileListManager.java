@@ -5,6 +5,7 @@ import gamepack.data.drawable.Bomb;
 import gamepack.data.drawable.DrawableObject;
 import gamepack.data.drawable.Tile;
 import gamepack.data.drawable.TileList;
+import gamepack.data.drawable.TileMatrix;
 import gamepack.utility.Direction;
 
 import java.util.ArrayList;
@@ -16,22 +17,22 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class TileListManager
 {
-	private TileList tileList;
-	private final ArrayList<ArrayList<Point>> goodPositions;
+	private TileMatrix tileList;
+	private final PointMatrix goodPositions;
 	private final int tileSize;
 	private final Random rand;
 	
 	//Will compute the goodPositins where Tiles will be
 	public TileListManager(int tileSize, ArrayList<Rectangle> rectangleList)
 	{
-		tileList = new TileList();
+		tileList = new TileMatrix(rectangleList.size(), tileSize);
 		rand = new Random();
 		this.tileSize = tileSize;
 		
 		//Création de la liste deux dimensions de point
-		this.goodPositions = new ArrayList<ArrayList<Point>>();
+		this.goodPositions = new PointMatrix(rectangleList);
 		
-		int size = (int) Math.sqrt(rectangleList.size());
+		/*int size = (int) Math.sqrt(rectangleList.size());
 		ArrayList<Point> pointList = null;
 		for(int i = 0; i < rectangleList.size(); i++)
 		{
@@ -48,7 +49,8 @@ public class TileListManager
 		this.goodPositions.add(pointList);
 
 		for(int i = 0; i < goodPositions.size(); i++)
-			System.out.println(goodPositions.get(i));
+			System.out.println(goodPositions.get(i));*/
+		System.out.println(goodPositions);
 		
 	}
 	
@@ -60,13 +62,13 @@ public class TileListManager
 	
 	
 	//Return the TileList of the TileListManager to display it and to save it
-	public TileList getTileList()
+	public TileMatrix getTileList()
 	{
 		return tileList;
 	}
 		
 	//Return the TileList of the TileListManager to display it and to save it
-	public ArrayList<ArrayList<Point>> getPointMatrix()
+	public PointMatrix getPointMatrix()
 	{
 		return goodPositions;
 	}
@@ -78,7 +80,7 @@ public class TileListManager
 		boolean isFree;
 		Point currentGoodPosition;
 		Tile currentTile;
-		ArrayList<Point> goodFreeTile = new ArrayList<Point>();
+		ArrayList<Point> goodFreePoint = new ArrayList<Point>();
 		
 		//Construction of a new TileList which contain only free space for new Tile
 		int k = 0;
@@ -91,34 +93,34 @@ public class TileListManager
 			isFree = true;
 			
 			
-			for (int j = 0; j < tileList.getSize(); j++)
+			for (int j = 0; j < tileList.getLinearSize(); j++)
 			{
-				currentTile = tileList.getTile(j);
-				
-				if (currentGoodPosition.getX() == currentTile.getX() && currentGoodPosition.getY() == currentTile.getY())
-				{
-					isFree = false;
-				}
+				currentTile = tileList.getAtLinear(j);
+				if(currentTile != null)
+					if (currentGoodPosition.getX() == currentTile.getX() && currentGoodPosition.getY() == currentTile.getY())
+					{
+						isFree = false;
+					}
 			}
 			if (isFree)
 			{ //If any Tile in tileList is equal to the current goodPosition so it's a free tile
-				goodFreeTile.add(new Point(currentGoodPosition.getX(), currentGoodPosition.getY()));
+				goodFreePoint.add(new Point(currentGoodPosition.getX(), currentGoodPosition.getY()));
 				isFree = true;
 			}
 		}
 		
 		//If after traversing all the goodPosition any Tile is free so we return an error
-		if (goodFreeTile.isEmpty()) {
+		if (goodFreePoint.isEmpty()) {
 			return false;
 		}
 		else
 		{
 			//Choose randomly a free space and add the new Tile
-			int tmp = alea.nextInt(goodFreeTile.size());
+			int tmp = alea.nextInt(goodFreePoint.size());
 			if (rand.nextInt(20) == 0) {
-				tileList.add(new Bomb(goodFreeTile.get(tmp).getX(), goodFreeTile.get(tmp).getY(), this.getRandomTileValue(),tileSize));
+				tileList.add(new Bomb(goodFreePoint.get(tmp).getX(), goodFreePoint.get(tmp).getY(), this.getRandomTileValue(),tileSize));
 			} else {
-				tileList.add(new Tile(goodFreeTile.get(tmp).getX(), goodFreeTile.get(tmp).getY(), this.getRandomTileValue(),tileSize));
+				tileList.add(new Tile(goodFreePoint.get(tmp).getX(), goodFreePoint.get(tmp).getY(), this.getRandomTileValue(),tileSize));
 			}
 			return true;
 		}

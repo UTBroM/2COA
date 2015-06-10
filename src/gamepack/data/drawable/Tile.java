@@ -20,11 +20,7 @@ public class Tile implements DrawableObject
 	private Direction	tileDirection;	//Give in which direction the tile goes
 	private Tile		arrivedTile;	//If the tile has an arrived Tile
 	private Point		arrivedPoint;	//If the tile has an arrived Point
-										
-	public Point getArrivedPoint() {
-		return arrivedPoint;
-	}
-
+			
 	public Tile(int x, int y, int size)
 	{
 		this(x, y, 2, size); //changer  le 2 en random value entre 2 ou 4 ou bombe
@@ -69,6 +65,10 @@ public class Tile implements DrawableObject
 	public Tile getArrivedTile()
 	{
 		return this.arrivedTile;
+	}
+	
+	public Point getArrivedPoint() {
+	return arrivedPoint;
 	}
 
 	public int getArrivedPointX()
