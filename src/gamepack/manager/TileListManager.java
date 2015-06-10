@@ -17,9 +17,9 @@ import org.newdawn.slick.geom.Rectangle;
 public class TileListManager
 {
 	private TileList tileList;
-	private ArrayList<ArrayList<Point>> goodPositions;
+	private final ArrayList<ArrayList<Point>> goodPositions;
 	private final int tileSize;
-	private Random rand;
+	private final Random rand;
 	
 	//Will compute the goodPositins where Tiles will be
 	public TileListManager(int tileSize, ArrayList<Rectangle> rectangleList)
