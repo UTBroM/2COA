@@ -1,6 +1,7 @@
 package gamepack.manager;
 
 import gamepack.data.Point;
+import gamepack.data.PointMatrix;
 import gamepack.data.drawable.Bomb;
 import gamepack.data.drawable.DrawableObject;
 import gamepack.data.drawable.Tile;
@@ -17,7 +18,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class TileListManager
 {
-	private TileMatrix tileList;
+	private TileMatrix tileMatrix;
 	private final PointMatrix goodPositions;
 	private final int tileSize;
 	private final Random rand;
@@ -25,7 +26,7 @@ public class TileListManager
 	//Will compute the goodPositins where Tiles will be
 	public TileListManager(int tileSize, ArrayList<Rectangle> rectangleList)
 	{
-		tileList = new TileMatrix((int) Math.sqrt(rectangleList.size()), tileSize);
+		tileMatrix = new TileMatrix((int) Math.sqrt(rectangleList.size()), tileSize);
 		rand = new Random();
 		this.tileSize = tileSize;
 		
@@ -54,7 +55,7 @@ public class TileListManager
 		
 	}
 	
-	//receive the tileList with bad coordinates and compute the good positions
+	//receive the tileMatrix with bad coordinates and compute the good positions
 	public void loadGame(TileList fakeList)
 	{
 		
@@ -64,7 +65,7 @@ public class TileListManager
 	//Return the TileList of the TileListManager to display it and to save it
 	public TileMatrix getTileList()
 	{
-		return tileList;
+		return tileMatrix;
 	}
 		
 	//Return the TileList of the TileListManager to display it and to save it
@@ -91,10 +92,10 @@ public class TileListManager
 				isFree = true;
 				
 				
-				for (int j = 0; j < tileList.getLinearSize(); j++)
+				for (int j = 0; j < tileMatrix.getLinearSize(); j++)
 				{
 	
-					currentTile = tileList.getAtLinear(j);
+					currentTile = tileMatrix.getAtLinear(j);
 					if(currentTile != null)
 						if (currentGoodPosition.getX() == currentTile.getX() && currentGoodPosition.getY() == currentTile.getY())
 						{
@@ -102,7 +103,7 @@ public class TileListManager
 						}
 				}
 				if (isFree)
-				{ //If any Tile in tileList is equal to the current goodPosition so it's a free tile
+				{ //If any Tile in tileMatrix is equal to the current goodPosition so it's a free tile
 					goodFreePoint.add(currentGoodPosition);
 					isFree = true;
 				}
@@ -118,11 +119,11 @@ public class TileListManager
 			//Choose randomly a free space and add the new Tile
 			int tmp = alea.nextInt(goodFreePoint.size());
 			if (rand.nextInt(20) == 0) {
-				tileList.setAt(goodPositions.getPositionsOf(goodFreePoint.get(tmp))[0],
+				tileMatrix.setAt(goodPositions.getPositionsOf(goodFreePoint.get(tmp))[0],
 						goodPositions.getPositionsOf(goodFreePoint.get(tmp))[1],
 								new Bomb(goodFreePoint.get(tmp).getX(), goodFreePoint.get(tmp).getY(), this.getRandomTileValue(),tileSize));
 			} else {
-				tileList.setAt(goodPositions.getPositionsOf(goodFreePoint.get(tmp))[0],
+				tileMatrix.setAt(goodPositions.getPositionsOf(goodFreePoint.get(tmp))[0],
 						goodPositions.getPositionsOf(goodFreePoint.get(tmp))[1],
 						new Tile(goodFreePoint.get(tmp).getX(), goodFreePoint.get(tmp).getY(), this.getRandomTileValue(),tileSize));
 			}
@@ -150,7 +151,7 @@ public class TileListManager
 	//Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
-		ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
+		/*ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
 		ArrayList<Integer> listX = new ArrayList<Integer>();
 		ArrayList<Integer> listY = new ArrayList<Integer>();
 		
@@ -185,14 +186,14 @@ public class TileListManager
 		
 		if (d == Direction.Left || d == Direction.Right)
 		{
-			this.tileList.sortY(); //Tri sur Y de la liste de tuiles afin de les regrouper par lignes
+			this.tileMatrix.sortY(); //Tri sur Y de la liste de tuiles afin de les regrouper par lignes
 			
 			int i = 0;
-			curY = (int) this.tileList.getTile(0).getY();
+			curY = (int) this.tileMatrix.getTile(0).getY();
 			mainMatrix.add(new TileList());
 			
 			//On trie toutes les tuiles par ligne
-			for (Tile curTile : this.tileList.gettList())
+			for (Tile curTile : this.tileMatrix.gettList())
 			{
 				if (curY != curTile.getY())
 				{
@@ -251,14 +252,14 @@ public class TileListManager
 		
 		else if (d == Direction.Down || d == Direction.Up)
 		{
-			this.tileList.sortX(); //Tri sur X de la liste de tuiles afin de les regrouper par lignes
+			this.tileMatrix.sortX(); //Tri sur X de la liste de tuiles afin de les regrouper par lignes
 			
 			int i = 0;
-			curX = (int) this.tileList.getTile(0).getX();
+			curX = (int) this.tileMatrix.getTile(0).getX();
 			mainMatrix.add(new TileList());
 			
 			//On trie toutes les tuiles par ligne
-			for (Tile curTile : this.tileList.gettList())
+			for (Tile curTile : this.tileMatrix.gettList())
 			{
 				if (curX != curTile.getX())
 				{
@@ -315,7 +316,7 @@ public class TileListManager
 					}
 				}
 			}
-		}
+		}*/
 	}
 	
 	//Move each Tile in the right direction and set them at the good position if they passe their good position
@@ -328,12 +329,12 @@ public class TileListManager
 		final float pixelPerSecond = 2000.0f;
 		float pixelPerFrame = 0; //Speed of the tile
 		
-		for (int i = 0; i < tileList.getMatrixSize(); i++)
+		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
 		{
-			for(int j = 0; j < tileList.getMatrixSize(); j++)
+			for(int j = 0; j < tileMatrix.getMatrixSize(); j++)
 			{
 				//current Tile in the list
-				Tile currentTile = tileList.get(j, i);
+				Tile currentTile = tileMatrix.get(j, i);
 				if(currentTile != null)
 				{
 					
@@ -376,16 +377,16 @@ public class TileListManager
 	//if refreshFusion return true, delete the current tile from the list (null + remove)
 	public void manageFusion()
 	{
-		for (int i = 0; i < tileList.getMatrixSize(); i++)
+		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
 		{
-			for(int j = 0 ; j < tileList.getMatrixSize(); j++)
+			for(int j = 0 ; j < tileMatrix.getMatrixSize(); j++)
 			{
-				Tile t = this.tileList.get(i, j);
+				Tile t = this.tileMatrix.get(i, j);
 				if(t != null)
 				{
 					if (t.getArrivedTile() != null && t.refreshFusion())
 					{
-						this.tileList.setAt(i, j, null);
+						this.tileMatrix.setAt(i, j, null);
 					}
 				}
 			}

@@ -1,6 +1,5 @@
-package gamepack.manager;
+package gamepack.data;
 
-import gamepack.data.Point;
 import gamepack.data.drawable.TileList;
 
 import java.util.ArrayList;
