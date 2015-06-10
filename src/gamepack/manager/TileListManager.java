@@ -83,30 +83,29 @@ public class TileListManager
 		ArrayList<Point> goodFreePoint = new ArrayList<Point>();
 		
 		//Construction of a new TileList which contain only free space for new Tile
-		int k = 0;
 		for (int i = 0; i < goodPositions.size(); i++)
 		{
-			if(k % goodPositions.size() == 0)
-				k = 0;
-			
-			currentGoodPosition = goodPositions.getAt(i,k);
-			isFree = true;
-			
-			
-			for (int j = 0; j < tileList.getLinearSize(); j++)
+			for(int k = 0; k < goodPositions.size();k ++)
 			{
-
-				currentTile = tileList.getAtLinear(j);
-				if(currentTile != null)
-					if (currentGoodPosition.getX() == currentTile.getX() && currentGoodPosition.getY() == currentTile.getY())
-					{
-						isFree = false;
-					}
-			}
-			if (isFree)
-			{ //If any Tile in tileList is equal to the current goodPosition so it's a free tile
-				goodFreePoint.add(currentGoodPosition);
+				currentGoodPosition = goodPositions.getAt(i,k);
 				isFree = true;
+				
+				
+				for (int j = 0; j < tileList.getLinearSize(); j++)
+				{
+	
+					currentTile = tileList.getAtLinear(j);
+					if(currentTile != null)
+						if (currentGoodPosition.getX() == currentTile.getX() && currentGoodPosition.getY() == currentTile.getY())
+						{
+							isFree = false;
+						}
+				}
+				if (isFree)
+				{ //If any Tile in tileList is equal to the current goodPosition so it's a free tile
+					goodFreePoint.add(currentGoodPosition);
+					isFree = true;
+				}
 			}
 		}
 		
@@ -151,7 +150,7 @@ public class TileListManager
 	//Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
-		/*ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
+		ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
 		ArrayList<Integer> listX = new ArrayList<Integer>();
 		ArrayList<Integer> listY = new ArrayList<Integer>();
 		
@@ -316,7 +315,7 @@ public class TileListManager
 					}
 				}
 			}
-		}*/
+		}
 	}
 	
 	//Move each Tile in the right direction and set them at the good position if they passe their good position
