@@ -26,8 +26,9 @@ public class TileList implements DrawableObject
 	
 	public TileList(int size)
 	{
-		this.tList = new ArrayList<Tile>(size);
-		
+		this.tList = new ArrayList<Tile>();
+		for(int i =0 ; i< size; i++)
+			tList.add(null);
 	}
 	
 	public void addNewTile(int x, int y, int value, int size)
@@ -69,7 +70,8 @@ public class TileList implements DrawableObject
 	{
 		for (int i = 0; i < tList.size(); i++)
 		{
-			tList.get(i).beDrawn(g);
+			if(tList.get(i) != null)
+				tList.get(i).beDrawn(g);
 		}
 		
 	}

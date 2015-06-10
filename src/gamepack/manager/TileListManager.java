@@ -25,7 +25,7 @@ public class TileListManager
 	//Will compute the goodPositins where Tiles will be
 	public TileListManager(int tileSize, ArrayList<Rectangle> rectangleList)
 	{
-		tileList = new TileMatrix(rectangleList.size(), tileSize);
+		tileList = new TileMatrix((int) Math.sqrt(rectangleList.size()), tileSize);
 		rand = new Random();
 		this.tileSize = tileSize;
 		
@@ -50,7 +50,7 @@ public class TileListManager
 
 		for(int i = 0; i < goodPositions.size(); i++)
 			System.out.println(goodPositions.get(i));*/
-		System.out.println(goodPositions);
+		//System.out.println(goodPositions);
 		
 	}
 	
@@ -95,6 +95,7 @@ public class TileListManager
 			
 			for (int j = 0; j < tileList.getLinearSize(); j++)
 			{
+
 				currentTile = tileList.getAtLinear(j);
 				if(currentTile != null)
 					if (currentGoodPosition.getX() == currentTile.getX() && currentGoodPosition.getY() == currentTile.getY())
@@ -104,7 +105,7 @@ public class TileListManager
 			}
 			if (isFree)
 			{ //If any Tile in tileList is equal to the current goodPosition so it's a free tile
-				goodFreePoint.add(new Point(currentGoodPosition.getX(), currentGoodPosition.getY()));
+				goodFreePoint.add(currentGoodPosition);
 				isFree = true;
 			}
 		}

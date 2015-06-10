@@ -16,7 +16,10 @@ public class TileMatrix implements DrawableObject
 		matrix = new ArrayList<TileList>();
 		this.matrixSize = matrixSize;
 		for(int i = 0 ; i < matrixSize;i ++)
-			matrix.add(new TileList(matrixSize));
+		{
+			TileList t = new TileList(matrixSize);
+			matrix.add( t);
+		}
 		this.tileSize = tileSize;
 	}
 	
