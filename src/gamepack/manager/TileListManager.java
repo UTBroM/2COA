@@ -89,7 +89,7 @@ public class TileListManager
 			if(k % goodPositions.size() == 0)
 				k = 0;
 			
-			currentGoodPosition = goodPositions.get(i).get(k);
+			currentGoodPosition = goodPositions.getAt(i,k);
 			isFree = true;
 			
 			
@@ -118,9 +118,13 @@ public class TileListManager
 			//Choose randomly a free space and add the new Tile
 			int tmp = alea.nextInt(goodFreePoint.size());
 			if (rand.nextInt(20) == 0) {
-				tileList.add(new Bomb(goodFreePoint.get(tmp).getX(), goodFreePoint.get(tmp).getY(), this.getRandomTileValue(),tileSize));
+				tileList.setAt(goodPositions.getPositionsOf(goodFreePoint.get(tmp))[0],
+						goodPositions.getPositionsOf(goodFreePoint.get(tmp))[1],
+								new Bomb(goodFreePoint.get(tmp).getX(), goodFreePoint.get(tmp).getY(), this.getRandomTileValue(),tileSize));
 			} else {
-				tileList.add(new Tile(goodFreePoint.get(tmp).getX(), goodFreePoint.get(tmp).getY(), this.getRandomTileValue(),tileSize));
+				tileList.setAt(goodPositions.getPositionsOf(goodFreePoint.get(tmp))[0],
+						goodPositions.getPositionsOf(goodFreePoint.get(tmp))[1],
+						new Tile(goodFreePoint.get(tmp).getX(), goodFreePoint.get(tmp).getY(), this.getRandomTileValue(),tileSize));
 			}
 			return true;
 		}
@@ -146,7 +150,7 @@ public class TileListManager
 	//Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
-		ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
+		/*ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
 		ArrayList<Integer> listX = new ArrayList<Integer>();
 		ArrayList<Integer> listY = new ArrayList<Integer>();
 		
@@ -156,7 +160,7 @@ public class TileListManager
 		int curY = 0;
 		
 		for(int i = 0 ; i < this.goodPositions.size(); i++)
-			for (Point curPoint : this.goodPositions.get(i))
+			for (Point curPoint : this.goodPositions.getAt(i))
 			{
 				int xOfCurPoint = curPoint.getX();
 				int yOfCurPoint = curPoint.getY();
@@ -311,7 +315,7 @@ public class TileListManager
 					}
 				}
 			}
-		}
+		}*/
 	}
 	
 	//Move each Tile in the right direction and set them at the good position if they passe their good position
@@ -324,37 +328,44 @@ public class TileListManager
 		final float pixelPerSecond = 2000.0f;
 		float pixelPerFrame = 0; //Speed of the tile
 		
-		for (int i = 0; i < tileList.getSize(); i++)
+		for (int i = 0; i < tileList.getMatrixSize(); i++)
 		{
-			//current Tile in the list
-			Tile currentTile = tileList.getTile(i);
-			Direction currentDirection = currentTile.getDirection();
-			
-			//if the tile has to move
-			if (currentDirection != Direction.None)
+			for(int j = 0; j < tileList.getMatrixSize(); j++)
 			{
-				trueIfMovement = true;
-				//if the tile is not arrived
-				if (!currentTile.isArrived())
+				//current Tile in the list
+				Tile currentTile = tileList.get(j, i);
+				if(currentTile != null)
 				{
-					//move the tile depending on the FPS
-					pixelPerFrame = pixelPerSecond/FPS;
-					if (currentDirection == Direction.Left)
-						currentTile.move(-pixelPerFrame, 0);
-					else if (currentDirection == Direction.Right)
-						currentTile.move(pixelPerFrame, 0);
-					else if (currentDirection == Direction.Down)
-						currentTile.move(0, +pixelPerFrame);
-					else if (currentDirection == Direction.Up)
-						currentTile.move(0, -pixelPerFrame);
 					
-					//if the tile has gone too far (because of low framerate etc..) 
-					currentTile.improvePosition();
-				}
-				//if the tile is arrived, then its Direction will be set to None
-				else
-					currentTile.setDirection(Direction.None);
+				Direction currentDirection = currentTile.getDirection();
 				
+					//if the tile has to move
+					if (currentDirection != Direction.None)
+					{
+						trueIfMovement = true;
+						//if the tile is not arrived
+						if (!currentTile.isArrived())
+						{
+							//move the tile depending on the FPS
+							pixelPerFrame = pixelPerSecond/FPS;
+							if (currentDirection == Direction.Left)
+								currentTile.move(-pixelPerFrame, 0);
+							else if (currentDirection == Direction.Right)
+								currentTile.move(pixelPerFrame, 0);
+							else if (currentDirection == Direction.Down)
+								currentTile.move(0, +pixelPerFrame);
+							else if (currentDirection == Direction.Up)
+								currentTile.move(0, -pixelPerFrame);
+							
+							//if the tile has gone too far (because of low framerate etc..) 
+							currentTile.improvePosition();
+						}
+						//if the tile is arrived, then its Direction will be set to None
+						else
+							currentTile.setDirection(Direction.None);
+						
+					}
+				}
 			}
 		}
 		
@@ -365,12 +376,18 @@ public class TileListManager
 	//if refreshFusion return true, delete the current tile from the list (null + remove)
 	public void manageFusion()
 	{
-		for (int i = 0; i < tileList.getSize(); i++)
+		for (int i = 0; i < tileList.getMatrixSize(); i++)
 		{
-			Tile t = this.tileList.getTile(i);
-			if (t.getArrivedTile() != null && t.refreshFusion())
+			for(int j = 0 ; j < tileList.getMatrixSize(); j++)
 			{
-				this.tileList.remove(i);
+				Tile t = this.tileList.get(i, j);
+				if(t != null)
+				{
+					if (t.getArrivedTile() != null && t.refreshFusion())
+					{
+						this.tileList.setAt(i, j, null);
+					}
+				}
 			}
 		}
 	}	
