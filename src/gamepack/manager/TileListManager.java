@@ -64,6 +64,7 @@ public class TileListManager
 	//refresh the number of deplacement possible for a bomb and maybe ... BOOOOOMM !
 	public void refreshBomb()
 	{
+		boolean isExplosed;
 		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
 		{
 			for(int j = 0 ; j < tileMatrix.getMatrixSize(); j++)
@@ -71,7 +72,11 @@ public class TileListManager
 				Tile t = this.tileMatrix.get(i, j);
 				if (t instanceof Bomb)
 				{
-					((Bomb) t).minusRemainingMovement();
+					isExplosed = ((Bomb) t).minusRemainingMovement();
+					if (isExplosed)
+					{
+						t.explosion();
+					}
 				}
 			}
 		}
