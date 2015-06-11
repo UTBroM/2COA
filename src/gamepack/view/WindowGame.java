@@ -7,6 +7,7 @@ import gamepack.utility.Direction;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -77,6 +78,8 @@ public class WindowGame extends BasicGame
 	{
 		grid.beDrawn(g);
 		gameManager.getTileList().beDrawn(g);
+		g.setColor(Color.white);
+		g.drawString("score : " + this.gameManager.getScore(), container.getWidth() -150, 10);
 		
 	}
 	

@@ -9,6 +9,7 @@ import gamepack.data.drawable.TileMatrix;
 import gamepack.utility.Direction;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import org.newdawn.slick.geom.Rectangle;
@@ -16,16 +17,20 @@ import org.newdawn.slick.geom.Rectangle;
 public class TileListManager
 {
 	private TileMatrix tileMatrix;
+	private TileMatrix nextTileMatrix;
 	private final PointMatrix goodPositions;
 	private final int tileSize;
 	private final Random rand;
+	private int score;
 	
 	//Will compute the goodPositins where Tiles will be
 	public TileListManager(int tileSize, ArrayList<Rectangle> rectangleList)
 	{
 		tileMatrix = new TileMatrix((int) Math.sqrt(rectangleList.size()), tileSize);
+		nextTileMatrix = new TileMatrix(tileMatrix);
 		rand = new Random();
 		this.tileSize = tileSize;
+		this.score = 0;
 		
 		//Création de la liste deux dimensions de point
 		this.goodPositions = new PointMatrix(rectangleList);
@@ -121,6 +126,10 @@ public class TileListManager
 		return goodPositions;
 	}
 	
+	public int getScore() {
+		return score;
+	}
+
 	//Create new tiles at the right positions
 	public boolean generateNewTile()
 	{
@@ -199,11 +208,11 @@ public class TileListManager
 	public void initMovement(Direction d)
 	{
 		/*ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
-		ArrayList<Integer> listX = new ArrayList<Integer>();
-		ArrayList<Integer> listY = new ArrayList<Integer>();
+		/*ArrayList<Integer> listX = new ArrayList<Integer>();
+		ArrayList<Integer> listY = new ArrayList<Integer>();*/
 		
 		//Generation des listes de X et de Y (comme la liste goodPositions mais ordonnée);
-		
+		/*
 		int curX = 0;
 		int curY = 0;
 		
@@ -228,10 +237,10 @@ public class TileListManager
 			Collections.reverse(listX);
 		else if (d == Direction.Down)
 			Collections.reverse(listY);
-		
+		*/
 		//Gestion de l'appui sur la touche droite et gauche
 		
-		if (d == Direction.Left || d == Direction.Right)
+		/*if (d == Direction.Left || d == Direction.Right)
 		{
 			this.tileMatrix.sortY(); //Tri sur Y de la liste de tuiles afin de les regrouper par lignes
 			
@@ -284,6 +293,7 @@ public class TileListManager
 							curTile.setArrivedPoint(precTile.getArrivedPoint());
 							precTile = curTile;
 							precTilefus = true;
+							this.score += curTile.getValue()* 2;
 						}
 						else
 						{
@@ -353,6 +363,7 @@ public class TileListManager
 							curTile.setArrivedPoint(precTile.getArrivedPoint());
 							precTile = curTile;
 							precTilefus = true;
+							this.score += curTile.getValue()* 2;
 						}
 						else
 						{
