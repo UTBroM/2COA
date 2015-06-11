@@ -40,8 +40,14 @@ public class TileMatrix implements DrawableObject
 		{
 			for(int j = 0 ; j < matrixSize;j ++)
 			{
-				Tile t = new Tile(tMatrix.get(j, i));
-				setAt(j, i, t);
+				Tile beCopied = tMatrix.get(j, i);
+				if(beCopied != null)
+				{
+					Tile t = new Tile(beCopied);
+					setAt(j, i, t);
+				}
+				else
+					setAt(j, i, null);
 			}
 		}
 		
@@ -96,8 +102,8 @@ public class TileMatrix implements DrawableObject
 		matrix.get(y).addAt(x, t);
 	}
 	
-	//remove a tile at the end of the matrix (useless)
-	/*public void removeLinear(int index)
+	//remove a tile at the end of the matrix
+	public void removeLinear(int index)
 	{
 		int x = index, y = 0;
 		if(index > matrixSize)
@@ -106,7 +112,7 @@ public class TileMatrix implements DrawableObject
 			x = index%matrixSize;
 		}
 		matrix.get(y).remove(x);
-	}*/
+	}
 	
 	//remove the tile at the x and y coordinates in the matrix
 	public void deleteAt(int x, int y)

@@ -75,7 +75,7 @@ public class TileListManager
 					isExplosed = ((Bomb) t).minusRemainingMovement();
 					if (isExplosed)
 					{
-						t.explosion();
+						//t.explosion();
 					}
 				}
 			}
@@ -170,7 +170,7 @@ public class TileListManager
 	//Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
-		ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
+		/*ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
 		
 		/*ArrayList<Integer> listX = new ArrayList<Integer>();
 		ArrayList<Integer> listY = new ArrayList<Integer>();*/
@@ -204,7 +204,7 @@ public class TileListManager
 		*/
 		//Gestion de l'appui sur la touche droite et gauche
 		
-		if (d == Direction.Left || d == Direction.Right)
+		/*if (d == Direction.Left || d == Direction.Right)
 		{
 			this.tileMatrix.sortY(); //Tri sur Y de la liste de tuiles afin de les regrouper par lignes
 			
