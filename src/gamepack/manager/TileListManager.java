@@ -9,7 +9,6 @@ import gamepack.data.drawable.TileMatrix;
 import gamepack.utility.Direction;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 import org.newdawn.slick.geom.Rectangle;
@@ -73,11 +72,42 @@ public class TileListManager
 					isExplosed = ((Bomb) t).minusRemainingMovement();
 					if (isExplosed)
 					{
-						t.explosion();
+						this.explosion(i , j, ((Bomb) t).getExplosionRadius());
 					}
 				}
 			}
 		}
+	}
+
+	//Let's BOOOOOOOOM !
+	public void explosion(int x, int y, int explosionRadius)
+	{
+		int adjHighPosX = x - explosionRadius;
+		int adjHighPosY = y - explosionRadius;
+		int adjBotPosX = x + explosionRadius;
+		int adjBotPosY = y + explosionRadius;
+		
+		this.tileMatrix.deleteAt(x, y);
+		
+		if (adjHighPosX > 0) 
+		{
+			this.tileMatrix.deleteAt(adjHighPosX, y);
+		}
+		if (adjHighPosY > 0) 
+		{
+			this.tileMatrix.deleteAt(x, adjHighPosY);
+			this.tileMatrix.deleteAt(adjHighPosX, adjHighPosY);
+		}
+		if (adjBotPosX < this.tileMatrix.getLinearSize())
+		{
+			this.tileMatrix.deleteAt(adjBotPosX, y);
+		}
+		if (adjBotPosY < this.tileMatrix.getLinearSize())
+		{
+			this.tileMatrix.deleteAt(x, adjBotPosY);
+			this.tileMatrix.deleteAt(adjBotPosX, adjBotPosY);
+		}
+		
 	}
 	//Return the TileList of the TileListManager to display it and to save it
 	public TileMatrix getTileList()
@@ -135,7 +165,7 @@ public class TileListManager
 		{
 			//Choose randomly a free space and add the new Tile
 			int tmp = alea.nextInt(goodFreePoint.size());
-			if (rand.nextInt(20) == 0) {
+			if (rand.nextInt(20) != 0) {
 				tileMatrix.setAt(goodPositions.getPositionsOf(goodFreePoint.get(tmp))[0],
 						goodPositions.getPositionsOf(goodFreePoint.get(tmp))[1],
 								new Bomb(goodFreePoint.get(tmp).getX(), goodFreePoint.get(tmp).getY(), this.getRandomTileValue(),tileSize));
@@ -168,7 +198,7 @@ public class TileListManager
 	//Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
-		ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
+		/*ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
 		ArrayList<Integer> listX = new ArrayList<Integer>();
 		ArrayList<Integer> listY = new ArrayList<Integer>();
 		
