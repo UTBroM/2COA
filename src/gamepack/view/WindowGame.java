@@ -1,7 +1,6 @@
 package gamepack.view;
 
 import gamepack.data.drawable.Grid;
-import gamepack.data.drawable.TileList;
 import gamepack.manager.GameSaver;
 import gamepack.manager.TileListManager;
 import gamepack.utility.Direction;
