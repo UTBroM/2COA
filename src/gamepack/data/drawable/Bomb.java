@@ -24,10 +24,16 @@ public class Bomb extends Tile{
 	{
 		return this.remainingMovement;
 	}
-	public void minusRemainingMovement()
+	public boolean minusRemainingMovement()
 	{
 		this.remainingMovement--; 
+		if (this.remainingMovement <=0){
+			return true;
+		}else{
+			return false;
+		}
 	}
+	
 	public int getExplosionRadius()
 	{
 		return this.explosionRadius;
