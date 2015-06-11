@@ -24,6 +24,10 @@ public class Bomb extends Tile{
 	{
 		return this.remainingMovement;
 	}
+	public void minusRemainingMovement()
+	{
+		this.remainingMovement--; 
+	}
 	public int getExplosionRadius()
 	{
 		return this.explosionRadius;
@@ -37,7 +41,7 @@ public class Bomb extends Tile{
 		gr.fill(rectangle);
 		
 		gr.setColor(Color.black);
-		gr.drawString("" + getValue(), getTextX(), getTextY());
+		gr.drawString("" + getValue() + "\n\n"+ getRemainingMovement() + " move", getTextX()-5, getTextY()-5);
 	}
 	
 }
