@@ -207,6 +207,16 @@ public class TileListManager
 	//Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
+		//Initialization of the next matrice to compute on it the next state of the grid
+		nextTileMatrix = new TileMatrix(tileMatrix);
+		TileMatrix mainMatrix = nextTileMatrix;
+		
+		//Computation on the nextMatrix (no sort, add methods to the matrix if necessary, avoid using method with "(useless)" comment above it)
+		
+		
+		//END
+		
+		
 		/*ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
 		/*ArrayList<Integer> listX = new ArrayList<Integer>();
 		ArrayList<Integer> listY = new ArrayList<Integer>();*/
