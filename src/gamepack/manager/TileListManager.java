@@ -77,7 +77,7 @@ public class TileListManager
 					isExplosed = ((Bomb) t).minusRemainingMovement();
 					if (isExplosed)
 					{
-						this.explosion(i , j, ((Bomb) t).getExplosionRadius());
+						this.explosion(j , i, ((Bomb) t).getExplosionRadius());
 					}
 				}
 			}
@@ -87,30 +87,16 @@ public class TileListManager
 	//Let's BOOOOOOOOM !
 	public void explosion(int x, int y, int explosionRadius)
 	{
-		int adjHighPosX = x - explosionRadius;
-		int adjHighPosY = y - explosionRadius;
-		int adjBotPosX = x + explosionRadius;
-		int adjBotPosY = y + explosionRadius;
-		
-		this.tileMatrix.deleteAt(x, y);
-		
-		if (adjHighPosX > 0) 
-		{
-			this.tileMatrix.deleteAt(adjHighPosX, y);
-		}
-		if (adjHighPosY > 0) 
-		{
-			this.tileMatrix.deleteAt(x, adjHighPosY);
-			this.tileMatrix.deleteAt(adjHighPosX, adjHighPosY);
-		}
-		if (adjBotPosX < this.tileMatrix.getLinearSize())
-		{
-			this.tileMatrix.deleteAt(adjBotPosX, y);
-		}
-		if (adjBotPosY < this.tileMatrix.getLinearSize())
-		{
-			this.tileMatrix.deleteAt(x, adjBotPosY);
-			this.tileMatrix.deleteAt(adjBotPosX, adjBotPosY);
+	
+		for (int i = -explosionRadius; i <= explosionRadius; i++) {
+			for (int j = -explosionRadius; j < -explosionRadius; j++) {
+				int adjPosX = x + i;
+				int adjPosY = y + j;
+				boolean notOut = (0 <= adjPosX && adjPosX < this.tileMatrix.getMatrixSize() && 0 <= adjPosY && adjPosY < this.tileMatrix.getMatrixSize());
+				if (notOut) {
+					this.tileMatrix.deleteAt(adjPosX, adjPosY);
+				}
+			}
 		}
 		
 	}
