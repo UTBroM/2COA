@@ -21,6 +21,7 @@ public class TileListManager
 	private final PointMatrix goodPositions;
 	private final int tileSize;
 	private final Random rand;
+	private int score;
 	
 	//Will compute the goodPositins where Tiles will be
 	public TileListManager(int tileSize, ArrayList<Rectangle> rectangleList)
@@ -29,6 +30,7 @@ public class TileListManager
 		nextTileMatrix = new TileMatrix(tileMatrix);
 		rand = new Random();
 		this.tileSize = tileSize;
+		this.score = 0;
 		
 		//Création de la liste deux dimensions de point
 		this.goodPositions = new PointMatrix(rectangleList);
@@ -93,6 +95,10 @@ public class TileListManager
 		return goodPositions;
 	}
 	
+	public int getScore() {
+		return score;
+	}
+
 	//Create new tiles at the right positions
 	public boolean generateNewTile()
 	{
@@ -257,6 +263,7 @@ public class TileListManager
 							curTile.setArrivedPoint(precTile.getArrivedPoint());
 							precTile = curTile;
 							precTilefus = true;
+							this.score += curTile.getValue()* 2;
 						}
 						else
 						{
@@ -326,6 +333,7 @@ public class TileListManager
 							curTile.setArrivedPoint(precTile.getArrivedPoint());
 							precTile = curTile;
 							precTilefus = true;
+							this.score += curTile.getValue()* 2;
 						}
 						else
 						{
