@@ -1,6 +1,7 @@
 package gamepack.view;
 
 import gamepack.data.drawable.Grid;
+import gamepack.data.drawable.TileMatrix;
 import gamepack.manager.GameSaver;
 import gamepack.manager.TileListManager;
 import gamepack.utility.Direction;
@@ -90,6 +91,7 @@ public class WindowGame extends BasicGame
 			//Once the movement is done, we generate new tiles
 			if (state == 2)
 			{
+
 				if(numberOfFrameWithMovement != 1)	//if there was a movement, we generate a new tile
 					gameManager.refreshBomb();
 					gameManager.generateNewTile();

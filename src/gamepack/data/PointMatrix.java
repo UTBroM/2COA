@@ -61,7 +61,7 @@ public class PointMatrix
 		{
 			for (int j = 0; j < matrixSize; j++)
 			{
-				if(getAt(j, i) == point)
+				if(getAt(i, j) == point)
 				{
 					positions[0] = i;
 					positions[1] = j;

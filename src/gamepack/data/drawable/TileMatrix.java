@@ -150,4 +150,35 @@ public class TileMatrix implements DrawableObject
 	{
 		return matrixSize;
 	}
+	
+	public ArrayList<Integer> getLineValue(int y)
+	{
+		TileList l = matrix.get(y);
+		ArrayList<Integer> lineValue = new ArrayList<Integer>();
+		for(int i =0; i < l.getSize(); i++)
+		{
+			if(l.getTile(i) == null)
+				lineValue.add(null);
+			else
+				lineValue.add(l.getTile(i).getValue());
+		}
+		
+		return lineValue;
+	}
+	
+	public ArrayList<Integer> getColumnValue(int x)
+	{
+		ArrayList<Integer> columnValue = new ArrayList<Integer>();
+		for(int i =0; i < matrixSize; i++)
+		{
+			Tile t = matrix.get(i).getTile(x);
+			if(t != null)
+				columnValue.add(t.getValue());
+			else
+				columnValue.add(null);
+		}
+				
+		
+		return columnValue;
+	}
 }
