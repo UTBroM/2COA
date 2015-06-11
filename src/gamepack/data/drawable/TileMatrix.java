@@ -22,6 +22,23 @@ public class TileMatrix implements DrawableObject
 		}
 		this.tileSize = tileSize;
 	}
+		
+	//Constructor by copy
+	public TileMatrix(TileMatrix tMatrix)
+	{
+		this.tileSize = tMatrix.tileSize;
+		this.matrixSize = tMatrix.matrixSize;
+		
+
+		matrix = new ArrayList<TileList>();
+		for(int i = 0 ; i < matrixSize*matrixSize;i ++)
+		{
+			Tile t = new Tile(getAtLinear(i));
+			add( t);
+		}
+		
+		
+	}
 	
 	//to get a tile using linear coordinates, for example for a 4x4 matrix, getAtLinear(5) will return the tile
 	//with coordinates (0,1)

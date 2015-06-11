@@ -15,7 +15,7 @@ public class Tile implements DrawableObject
 	private int			powerOfTwo;
 	
 	protected Rectangle	rectangle;
-	protected Color 		rectangleColor;
+	protected Color rectangleColor;
 	
 	private Direction	tileDirection;	//Give in which direction the tile goes
 	private Tile		arrivedTile;	//If the tile has an arrived Tile
@@ -33,6 +33,18 @@ public class Tile implements DrawableObject
 		this.value = value;
 		powerOfTwo = ProjectMethods.powerOfTwo(value);
 		tileDirection = Direction.None;
+		refreshColor();
+	}
+	
+	public Tile(Tile t)
+	{
+		this.value = t.value;
+		this.powerOfTwo = t.powerOfTwo;
+
+		this.rectangle = new Rectangle(t.getX(), t.getY(), t.rectangle.getWidth(), t.rectangle.getHeight());
+		this.tileDirection = t.tileDirection;
+		this.arrivedTile = t.arrivedTile;
+		this.arrivedPoint = t.arrivedPoint;
 		refreshColor();
 	}
 	
