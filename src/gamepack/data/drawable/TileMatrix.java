@@ -81,14 +81,14 @@ public class TileMatrix implements DrawableObject
 	}
 	
 	//add a tile at the end of the matrix,(useless)
-	/*public void add(Tile t)
+	public void add(Tile t)
 	{
 		for(int i = 0; i < matrix.size(); i++)
 		{
 			if(matrix.get(i).getSize() != matrixSize)
 				matrix.get(i).add(t);
 		}
-	}*/
+	}
 	
 	//add a new tile at the end of the matrix (useless)
 	/*public void addNewTile(int x, int y, int value, int size)
