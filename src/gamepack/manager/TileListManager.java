@@ -17,6 +17,7 @@ import org.newdawn.slick.geom.Rectangle;
 public class TileListManager
 {
 	private TileMatrix tileMatrix;
+	private TileMatrix nextTileMatrix;
 	private final PointMatrix goodPositions;
 	private final int tileSize;
 	private final Random rand;
@@ -25,6 +26,7 @@ public class TileListManager
 	public TileListManager(int tileSize, ArrayList<Rectangle> rectangleList)
 	{
 		tileMatrix = new TileMatrix((int) Math.sqrt(rectangleList.size()), tileSize);
+		nextTileMatrix = new TileMatrix(tileMatrix);
 		rand = new Random();
 		this.tileSize = tileSize;
 		
@@ -169,11 +171,12 @@ public class TileListManager
 	public void initMovement(Direction d)
 	{
 		ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
-		ArrayList<Integer> listX = new ArrayList<Integer>();
-		ArrayList<Integer> listY = new ArrayList<Integer>();
+		
+		/*ArrayList<Integer> listX = new ArrayList<Integer>();
+		ArrayList<Integer> listY = new ArrayList<Integer>();*/
 		
 		//Generation des listes de X et de Y (comme la liste goodPositions mais ordonnée);
-		
+		/*
 		int curX = 0;
 		int curY = 0;
 		
@@ -198,7 +201,7 @@ public class TileListManager
 			Collections.reverse(listX);
 		else if (d == Direction.Down)
 			Collections.reverse(listY);
-		
+		*/
 		//Gestion de l'appui sur la touche droite et gauche
 		
 		if (d == Direction.Left || d == Direction.Right)

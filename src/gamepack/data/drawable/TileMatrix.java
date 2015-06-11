@@ -31,10 +31,18 @@ public class TileMatrix implements DrawableObject
 		
 
 		matrix = new ArrayList<TileList>();
-		for(int i = 0 ; i < matrixSize*matrixSize;i ++)
+		for(int i = 0 ; i < matrixSize;i ++)
 		{
-			Tile t = new Tile(getAtLinear(i));
-			add( t);
+			TileList t = new TileList(matrixSize);
+			matrix.add( t);
+		}
+		for(int i = 0 ; i < matrixSize;i ++)
+		{
+			for(int j = 0 ; j < matrixSize;j ++)
+			{
+				Tile t = new Tile(tMatrix.get(j, i));
+				setAt(j, i, t);
+			}
 		}
 		
 		
@@ -67,20 +75,20 @@ public class TileMatrix implements DrawableObject
 	}
 	
 	//add a tile at the end of the matrix,(useless)
-	public void add(Tile t)
+	/*public void add(Tile t)
 	{
 		for(int i = 0; i < matrix.size(); i++)
 		{
 			if(matrix.get(i).getSize() != matrixSize)
 				matrix.get(i).add(t);
 		}
-	}
+	}*/
 	
 	//add a new tile at the end of the matrix (useless)
-	public void addNewTile(int x, int y, int value, int size)
+	/*public void addNewTile(int x, int y, int value, int size)
 	{
 		add(new Tile(x, y, value, size));
-	}
+	}*/
 	
 	//add a tile at the x, y coordinates in the matrix
 	public void setAt(int x, int y, Tile t)
@@ -89,7 +97,7 @@ public class TileMatrix implements DrawableObject
 	}
 	
 	//remove a tile at the end of the matrix (useless)
-	public void removeLinear(int index)
+	/*public void removeLinear(int index)
 	{
 		int x = index, y = 0;
 		if(index > matrixSize)
@@ -98,7 +106,7 @@ public class TileMatrix implements DrawableObject
 			x = index%matrixSize;
 		}
 		matrix.get(y).remove(x);
-	}
+	}*/
 	
 	//remove the tile at the x and y coordinates in the matrix
 	public void deleteAt(int x, int y)
