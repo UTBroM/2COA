@@ -20,7 +20,11 @@ public class Tile implements DrawableObject
 	private Direction	tileDirection;	//Give in which direction the tile goes
 	private Tile		arrivedTile;	//If the tile has an arrived Tile
 	private Point		arrivedPoint;	//If the tile has an arrived Point
-			
+	
+	private int prevValue;
+	private Point prevPosition;
+	private Tile mergedTile;
+	
 	public Tile(int x, int y, int size)
 	{
 		this(x, y, 2, size); //changer  le 2 en random value entre 2 ou 4 ou bombe
@@ -224,5 +228,30 @@ public class Tile implements DrawableObject
 		rectangleColor = new Color(rgb[0],rgb[1],rgb[2]);
 	}
 
-
+	public void setMergedPrev(Tile prevTile)
+	{
+		this.setPrev();
+		mergedTile = prevTile;
+	}
+	
+	public void setPrev()
+	{
+		prevPosition = new Point((int) rectangle.getX(), (int) rectangle.getY());
+		prevValue = value;
+		mergedTile = null;
+	}
+	
+	public Tile getMergedTile()
+	{
+		return this.mergedTile;
+	}
+	
+	public void undo()
+	{
+		this.setArrivedTile(null);
+		this.setArrivedPoint(this.prevPosition);
+		prevPosition = null;
+		prevValue = 0;
+		mergedTile = null;
+	}
 }
