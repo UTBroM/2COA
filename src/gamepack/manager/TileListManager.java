@@ -3,14 +3,12 @@ package gamepack.manager;
 import gamepack.data.Point;
 import gamepack.data.PointMatrix;
 import gamepack.data.drawable.Bomb;
-import gamepack.data.drawable.DrawableObject;
 import gamepack.data.drawable.Tile;
 import gamepack.data.drawable.TileList;
 import gamepack.data.drawable.TileMatrix;
 import gamepack.utility.Direction;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
@@ -170,7 +168,7 @@ public class TileListManager
 	//Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
-		/*ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
+		ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
 		ArrayList<Integer> listX = new ArrayList<Integer>();
 		ArrayList<Integer> listY = new ArrayList<Integer>();
 		
@@ -241,6 +239,7 @@ public class TileListManager
 					//Si on obtient null pour precTile c'est que c'est la première tuile
 					if (precTile == null)
 					{
+						curTile.setPrev();
 						curTile.setArrivedTile(null);
 						curTile.setArrivedPoint(new Point(listX.get(collumn), (int) curTile.getY()));
 						precTile = curTile;
@@ -250,6 +249,7 @@ public class TileListManager
 						//On check si les valeurs sont égales et si on avait pas déjà fait une fusion avant
 						if (curTile.getValue() == precTile.getValue() && !precTilefus)
 						{
+							curTile.setMergedPrev(precTile);
 							curTile.setArrivedTile(precTile);
 							curTile.setArrivedPoint(precTile.getArrivedPoint());
 							precTile = curTile;
@@ -257,6 +257,7 @@ public class TileListManager
 						}
 						else
 						{
+							curTile.setPrev();
 							curTile.setArrivedTile(null);//On se retrouve sur une case vide du coup
 							//On récupère le point de la tuile précédente dans la liste des X possibles et on prend le suivant
 							curTile.setArrivedPoint(new Point(listX.get(listX.indexOf(precTile.getArrivedPoint().getX()) + 1), (int) curTile.getY()));
@@ -410,5 +411,24 @@ public class TileListManager
 				}
 			}
 		}
-	}	
+	}
+	
+	public void undo()
+	{
+		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
+		{
+			for(int j = 0 ; j < tileMatrix.getMatrixSize(); j++)
+			{
+				Tile t = this.tileMatrix.get(i, j);
+				if(t != null)
+				{
+					if(t.getMergedTile() != null)
+					{
+						tileMatrix.add(t.getMergedTile());
+					}
+					t.undo();
+				}
+			}
+		}
+	}
 }
