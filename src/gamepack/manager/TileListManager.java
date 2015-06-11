@@ -61,7 +61,21 @@ public class TileListManager
 		
 	}
 	
-	
+	//refresh the number of deplacement possible for a bomb
+	public void refreshBomb()
+	{
+		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
+		{
+			for(int j = 0 ; j < tileMatrix.getMatrixSize(); j++)
+			{
+				Bomb t = (Bomb)this.tileMatrix.get(i, j);
+				if(t.getClass().equals(Bomb.class))
+				{
+					t.minusRemainingMovement();
+				}
+			}
+		}
+	}
 	//Return the TileList of the TileListManager to display it and to save it
 	public TileMatrix getTileList()
 	{
