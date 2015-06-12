@@ -470,7 +470,8 @@ public class TileMatrixManager
 				Tile t = this.tileMatrix.get(i, j);
 				if (t != null)
 				{
-					t.refreshFusion(); 
+					if(t.refreshFusion())
+						score += t.getValue();
 					//if there is a fusion, the tile double its value, and the arrivedTile will be deleted
 					//when the tileMatrix will be deleted, at the beginning of the initMovement
 				}
