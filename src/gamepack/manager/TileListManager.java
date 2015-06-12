@@ -90,8 +90,8 @@ public class TileListManager
 	
 		for (int i = -explosionRadius; i <= explosionRadius; i++) {
 			for (int j = -explosionRadius; j < -explosionRadius; j++) {
-				int adjPosX = x + i;
-				int adjPosY = y + j;
+				int adjPosX = x + j;
+				int adjPosY = y + i;
 				boolean notOut = (0 <= adjPosX && adjPosX < this.tileMatrix.getMatrixSize() && 0 <= adjPosY && adjPosY < this.tileMatrix.getMatrixSize());
 				if (notOut) {
 					this.tileMatrix.deleteAt(adjPosX, adjPosY);
@@ -119,7 +119,6 @@ public class TileListManager
 	//Create new tiles at the right positions
 	public boolean generateNewTile()
 	{
-		Random alea = new Random();
 		boolean isFree;
 		Point currentGoodPosition;
 		Tile currentTile;
@@ -159,15 +158,16 @@ public class TileListManager
 		else
 		{
 			//Choose randomly a free space and add the new Tile
-			int tmp = alea.nextInt(goodFreePoint.size());
+			int randInt = rand.nextInt(goodFreePoint.size());
+			//Variable which contain the x position in the matrix
+			int xNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[0];
+			//Variable which contain the y position in the matrix
+			int yNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[1];
+						
 			if (rand.nextInt(20) != 0) {
-				tileMatrix.setAt(goodPositions.getPositionsOf(goodFreePoint.get(tmp))[0],
-						goodPositions.getPositionsOf(goodFreePoint.get(tmp))[1],
-								new Bomb(goodFreePoint.get(tmp).getX(), goodFreePoint.get(tmp).getY(), this.getRandomTileValue(),tileSize));
+				tileMatrix.setAt(xNewTile, yNewTile, new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue(),tileSize));
 			} else {
-				tileMatrix.setAt(goodPositions.getPositionsOf(goodFreePoint.get(tmp))[0],
-						goodPositions.getPositionsOf(goodFreePoint.get(tmp))[1],
-						new Tile(goodFreePoint.get(tmp).getX(), goodFreePoint.get(tmp).getY(), this.getRandomTileValue(),tileSize));
+				tileMatrix.setAt(xNewTile, yNewTile, new Tile(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue(),tileSize));
 			}
 			return true;
 		}
