@@ -118,6 +118,7 @@ public class TileListManager
 	//Create new tiles at the right positions
 	public boolean generateNewTile()
 	{
+		
 		boolean isFree;
 		Point currentGoodPosition;
 		Tile currentTile;
@@ -163,7 +164,7 @@ public class TileListManager
 			//Variable which contain the y position in the matrix
 			int yNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[1];
 						
-			if (rand.nextInt(20) != 0) {
+			if (rand.nextInt(20) == 0) {
 				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue(),tileSize); 
 				tileMatrix.setAt(xNewTile, yNewTile, newBomb);
 			} else {

@@ -186,4 +186,17 @@ public class TileMatrix implements DrawableObject
 		
 		return columnValue;
 	}
+	
+	public ArrayList<Tile> getLine(int y)
+	{
+		return matrix.get(y);
+	}
+	
+	public ArrayList<Tile> getColumn(int x)
+	{
+		ArrayList<Tile> col = new ArrayList<Tile>();
+		for(int i = 0; i< matrixSize; i++)
+			col.add(get(x,i));
+		return col;
+	}
 }
