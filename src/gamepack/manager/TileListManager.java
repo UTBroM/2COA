@@ -9,6 +9,7 @@ import gamepack.data.drawable.TileMatrix;
 import gamepack.utility.Direction;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import org.newdawn.slick.geom.Rectangle;
@@ -251,8 +252,8 @@ public class TileListManager
 
 				
 				curTile = this.nextTileMatrix.get(x, y);
-				if(prevTile == null)
-				{
+						if(prevTile == null)
+						{
 					curTile.setPrev();
 					curTile.setArrivedTile(null);
 					curTile.setArrivedPoint(prevTile.getArrivedPoint());
@@ -267,6 +268,17 @@ public class TileListManager
 					this.score += curTile.getValue()* 2;
 				}
 				else
+								{// Si la prev tile bouge :
+									Point prevTilePoint = prevTile.getArrivedPoint();
+									int xPoint = goodPositions.getPositionsOf(prevTilePoint)[0];
+									int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
+									Point curArrPoint = goodPositions.getAt(x, i);
+									curTile.setArrivedPoint(goodPositions.getAt((int) prevTile.get-1,i));
+								}
+							}
+						}
+						// 
+						if (prevTile == null)
 				{
 					curTile.setPrev();
 					curTile.setArrivedTile(null);
@@ -277,7 +289,9 @@ public class TileListManager
 				}
 				prevTile = curTile;
 			}
-		}*/
+				}
+			}
+		}
 		
 		//Computation on the nextMatrix (no sort, add methods to the matrix if necessary, avoid using method with "(useless)" comment above it)
 		//END
