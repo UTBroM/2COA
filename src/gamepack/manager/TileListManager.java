@@ -225,7 +225,6 @@ public class TileListManager
 				{
 					lineOrColumnList.add(nextTileMatrix.getColumn(i));
 				}
-			System.out.println(lineOrColumnList);
 				
 			for(int y=0;y<lineOrColumnList.size();y++)
 			{
