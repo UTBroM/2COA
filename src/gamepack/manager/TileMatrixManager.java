@@ -153,7 +153,7 @@ public class TileMatrixManager
 			int yNewTile = goodPositions.getPositionsOf(goodFreePoint
 					.get(randInt))[1];
 			// System.out.println(nextTileMatrix);
-			if (rand.nextInt(100000) == 0)
+			if (rand.nextInt(20) == 0)
 			{
 				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(),
 						goodFreePoint.get(randInt).getY(),
@@ -250,7 +250,7 @@ public class TileMatrixManager
 				curTile = lineOrColumn.get(x);
 				if (curTile != null)
 				{
-					// if the previous tile is null, the we are at the first non-null tile in the line
+					// if the previous tile is null, then we are at the first non-null tile in the line
 					// we have to put it at the full left of the grid & matrice
 					if (prevTile == null)
 					{
@@ -277,12 +277,12 @@ public class TileMatrixManager
 						if (x != 0)
 							lineOrColumn.set(x, null);
 					}
+					//If we are not at the first tile
 					else
 					{
 
 						// if the tile will fusion
-						if (curTile.getValue() == prevTile.getValue()
-								&& prevTile.getArrivedTile() == null)
+						if (curTile.getValue() == prevTile.getValue() && prevTile.getArrivedTile() == null)
 						{
 							curTile.setArrivedPoint(new Point((int) prevTile
 									.getArrivedPointX(), (int) prevTile
@@ -335,6 +335,10 @@ public class TileMatrixManager
 							}
 
 							curTile.setArrivedPoint(ArrPoint);
+							
+							
+							//Change the tile position in the list
+							
 							// utiliser pour simplifier plus tard
 							/*
 							 * lineOrColumn.set(x, null); 
@@ -382,6 +386,7 @@ public class TileMatrixManager
 
 						}
 					}
+					//if the current Tile is not null
 					prevTile = curTile;
 				}
 			}
@@ -389,9 +394,10 @@ public class TileMatrixManager
 			if (revert)
 				Collections.reverse(lineOrColumn);
 
-			if (line)
+			//re-add the line or the column to the matrix
+			if (line) //O(1)
 				nextTileMatrix.setLine(y, lineOrColumn);
-			else
+			else	//O(n)
 				nextTileMatrix.setColumn(y, lineOrColumn);
 
 		}
@@ -455,8 +461,6 @@ public class TileMatrixManager
 	}
 
 	// call the function refreshFusion for each tile
-	// if refreshFusion return true, delete the current tile from the list (null
-	// + remove)
 	public void manageFusion()
 	{
 		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
@@ -466,13 +470,18 @@ public class TileMatrixManager
 				Tile t = this.tileMatrix.get(i, j);
 				if (t != null)
 				{
-					t.refreshFusion();
+					t.refreshFusion(); 
+					//if there is a fusion, the tile double its value, and the arrivedTile will be deleted
+					//when the tileMatrix will be deleted, at the beginning of the initMovement
 				}
 			}
 		}
 	}
 	/*
-	 * public void undo() { for (int i = 0; i < tileMatrix.getMatrixSize(); i++) { for(int j = 0 ; j < tileMatrix.getMatrixSize(); j++) { Tile t =
-	 * this.tileMatrix.get(i, j); if(t != null) { if(t.getMergedTile() != null) { tileMatrix.add(t.getMergedTile()); } t.undo(); } } } }
+	 * public void undo() 
+	 * { for (int i = 0; i < tileMatrix.getMatrixSize(); i++) 
+	 * { for(int j = 0 ; j < tileMatrix.getMatrixSize(); j++) 
+	 * { Tile t = this.tileMatrix.get(i, j); 
+	 * if(t != null) { if(t.getMergedTile() != null) { tileMatrix.add(t.getMergedTile()); } t.undo(); } } } }
 	 */
 }

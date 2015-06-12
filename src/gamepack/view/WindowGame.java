@@ -100,7 +100,6 @@ public class WindowGame extends BasicGame
 					gameManager.refreshBomb();
 				}
 				state = 0;
-				numberOfFrameWithMovement = 0;
 			}
 			
 			//if we press a touch, we manage the movement and the fusions of tiles
@@ -141,8 +140,12 @@ public class WindowGame extends BasicGame
 				gameManager.initMovement(Direction.Up);
 			else
 				state = 0; //if no interesting event were encoutered
-			if(state != 0)
+			if(state != 0 && numberOfFrameWithMovement != 1)
+			{
+				//System.out.println(numberOfFrameWithMovement); // à corriger
 				gameManager.generateNewTile();
+				numberOfFrameWithMovement = 0;
+			}
 		}
 		else
 			gameManager.manageMovement(1);
