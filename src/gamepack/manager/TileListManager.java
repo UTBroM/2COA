@@ -240,7 +240,8 @@ public class TileListManager
 				
 				//
 				for(int x = 0; x<lineOrColumn.size();x++)
-				{		
+				{
+					
 					curTile = lineOrColumn.get(x);
 					if(curTile != null)
 					{
@@ -312,9 +313,13 @@ public class TileListManager
 									}
 								}
 								
-								
 								curTile.setArrivedPoint(ArrPoint);
+								//utiliser pour simplifier plus tard
+								/*lineOrColumn.set(x, null);
+								int newX = goodPositions.getPositionsOf(ArrPoint)[0];
+								lineOrColumn.set(newX, curTile);*/
 								boolean changeSet = false;
+								
 								if(line)
 								{
 									if(!revert)
@@ -331,11 +336,22 @@ public class TileListManager
 								}
 								if(changeSet)
 								{
-									lineOrColumn.set(x, null);
-									if(!revert)
-										lineOrColumn.set(yPoint+1, curTile);
+									if(line)
+									{
+										lineOrColumn.set(x, null);
+										if(!revert)
+											lineOrColumn.set(xPoint+1, curTile);
+										else
+											lineOrColumn.set(size-1-xPoint+1, curTile);
+									}
 									else
-										lineOrColumn.set(size-1-yPoint+1, curTile);
+									{
+										lineOrColumn.set(x, null);
+										if(!revert)
+											lineOrColumn.set(yPoint+1, curTile);
+										else
+											lineOrColumn.set(size-1-yPoint+1, curTile);
+									}
 							
 								}
 									
