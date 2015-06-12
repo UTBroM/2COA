@@ -1,5 +1,7 @@
 package gamepack.data.drawable;
 
+import gamepack.utility.Direction;
+
 import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
@@ -55,6 +57,20 @@ public class TileMatrix implements DrawableObject
 		}
 		
 		
+	}
+	
+	public void setDirection(Direction d)
+	{
+		for(ArrayList<Tile> line : matrix)
+		{
+			for(Tile tile : line)
+			{
+				if(tile != null)
+				{
+					tile.setDirection(d);
+				}
+			}
+		}
 	}
 	
 	//to get a tile using linear coordinates, for example for a 4x4 matrix, getAtLinear(5) will return the tile
