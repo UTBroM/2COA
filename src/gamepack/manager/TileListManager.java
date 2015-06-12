@@ -197,77 +197,52 @@ public class TileListManager
 	public void initMovement(Direction d)
 	{
 		//Initialization of the next matrice to compute on it the next state of the grid
-		nextTileMatrix = tileMatrix;
-		//TileMatrix mainMatrix = nextTileMatrix;
+		tileMatrix = nextTileMatrix;
+		nextTileMatrix.setDirection(d);
 		
-		Tile curTile, prevTile;
-		int x_init, y_init, x_end, y_end, x_delta, y_delta;
-		boolean prevTileFus;
 		int size = tileMatrix.getMatrixSize();
-		/*
-		// Compute how to parse the matrix :
-		if(d == Direction.Left)
-		{
-			x_init = 0;
-			x_end = size;
-			y_init = 0;
-			y_end = size;
-			x_delta = 1;
-			y_delta = 1;
-		}
-		else if(d == Direction.Right)
-		{
-			x_init = size-1;
-			x_end = 0;
-			y_init = 0;
-			y_end = size;
-			x_delta = -1;
-			y_delta = 1;
-		}
-		else if(d == Direction.Up)
-		{
-			x_init = 0;
-			x_end = size;
-			y_init = 
-			y_end = 
-			x_delta = 
-			y_delta = 
-		}
-		else if(d == Direction.Down)
-		{
-			x_init = 
-			x_end = 
-			y_init = 
-			y_end = 
-			x_delta = 
-			y_delta = 
-		}
 		
-		
-		for(int y = y_init;y!=y_end;y++)
+		if(d == Direction.Right || d == Direction.Left)
 		{
-			prevTile = null;
-			for(int x = x_init;x<x_end;x++)
+			ArrayList<ArrayList<Tile>> lineList = new ArrayList<ArrayList<Tile>>();
+			for(int i=0;i<tileMatrix.getMatrixSize();i++)
 			{
-
-				
-				curTile = this.nextTileMatrix.get(x, y);
+				lineList.add(tileMatrix.getLine(i));
+			}
+			
+			for(int i=0;i<lineList.size();i++)
+			{
+				ArrayList<Tile> line = lineList.get(i);
+				Tile curTile = null, prevTile = null;
+				boolean prevTileFus = false;
+				int deltaX = 1;
+				if(d == Direction.Right)
+					Collections.reverse(line);
+				for(int x = 0; x<line.size();x++)
+				{		
+					curTile = line.get(x);
+					if(curTile != null)
+					{
 						if(prevTile == null)
 						{
-					curTile.setPrev();
-					curTile.setArrivedTile(null);
-					curTile.setArrivedPoint(prevTile.getArrivedPoint());
-					prevTilefus = false;
-				}
-				else if(curTile.getValue() == prevTile.getValue() && !prevTilefus)
-				{
-					curTile.setMergedPrev(prevTile);
-					curTile.setArrivedTile(prevTile);
-					curTile.setArrivedPoint(prevTile.getArrivedPoint());
-					precTilefus = true;
-					this.score += curTile.getValue()* 2;
-				}
-				else
+							curTile.setArrivedPoint(goodPositions.getAt(0,i));
+							curTile.setArrivedTile(null);
+						}
+						if(curTile.getValue() == prevTile.getValue() && prevTile.getArrivedTile() == null)
+						{
+							curTile.setArrivedPoint(new Point((int) prevTile.getX(), (int) prevTile.getY()));
+							curTile.setArrivedTile(prevTile);
+						}
+						else
+						{
+							if(curTile.getValue() != prevTile.getValue())
+							{
+								if(prevTile.getArrivedPoint() == null)
+								{// Si la prevTile ne bouge pas :
+									//curTile.setArrivedPoint(goodPositions.getAt((int) prevTile.get²,i));
+									;
+								}
+								else
 								{// Si la prev tile bouge :
 									Point prevTilePoint = prevTile.getArrivedPoint();
 									int xPoint = goodPositions.getPositionsOf(prevTilePoint)[0];
@@ -279,16 +254,12 @@ public class TileListManager
 						}
 						// 
 						if (prevTile == null)
-				{
-					curTile.setPrev();
-					curTile.setArrivedTile(null);
-					//On récupère le point de la tuile précédente dans la liste des X possibles et on prend le suivant
-					curTile.setArrivedPoint(new Point(listX.get(listX.indexOf(precTile.getArrivedPoint().getX()) + 1), (int) curTile.getY()));/***********/
-					/*prevTilefus = false;
-					collumn++;
-				}
-				prevTile = curTile;
-			}
+						{
+							curTile.setArrivedTile(null);
+							curTile.setArrivedPoint();
+						}
+						prevTile = curTile;
+					}
 				}
 			}
 		}
