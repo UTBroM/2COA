@@ -58,7 +58,8 @@ public class TileMatrixManager
 					isExplosed = ((Bomb) currentTile).minusRemainingMovement();
 					if (isExplosed)
 					{
-						this.explosion(j, i, ((Bomb) currentTile).getExplosionRadius());
+						this.explosion(j, i,
+								((Bomb) currentTile).getExplosionRadius());
 					}
 				}
 			}
@@ -140,7 +141,8 @@ public class TileMatrixManager
 		if (goodFreePoint.isEmpty())
 		{
 			return false;
-		} else
+		}
+		else
 		{
 			// Choose randomly a free space and add the new Tile
 			int randInt = rand.nextInt(goodFreePoint.size());
@@ -157,7 +159,8 @@ public class TileMatrixManager
 						goodFreePoint.get(randInt).getY(),
 						this.getRandomTileValue());
 				nextTileMatrix.setAt(xNewTile, yNewTile, newBomb);
-			} else
+			}
+			else
 			{
 				Tile newTile = new Tile(goodFreePoint.get(randInt).getX(),
 						goodFreePoint.get(randInt).getY(),
@@ -168,17 +171,17 @@ public class TileMatrixManager
 		}
 	}
 
-	//Give a random tile value for a Tile
+	// Give a random tile value for a Tile
 	public int getRandomTileValue()
 	{
 		int value;
 		switch (rand.nextInt(4))
 		{
-			case 0:
+		case 0:
 			value = 4;
 			break;
 
-			default:
+		default:
 			value = 2;
 			break;
 		}
@@ -198,250 +201,200 @@ public class TileMatrixManager
 		// Computation on the nextMatrix
 		int size = nextTileMatrix.getMatrixSize();
 
-		if (d == Direction.Right || d == Direction.Left || d == Direction.Up
-				|| d == Direction.Down)
-		{
-			// Initialization of the list of column on line
-			ArrayList<ArrayList<Tile>> lineOrColumnList = new ArrayList<ArrayList<Tile>>();
-			boolean line = false;
+		// Initialization of the list of column on line
+		ArrayList<ArrayList<Tile>> lineOrColumnList = new ArrayList<ArrayList<Tile>>();
+		boolean line = false;
 
-			// if left or right, we make the line list
-			if (d == Direction.Right || d == Direction.Left)
-				for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
-				{
-					lineOrColumnList.add(nextTileMatrix.getLine(i));
-					line = true;
-				}
-
-			// if up or down, we make the column list
-			if (d == Direction.Down || d == Direction.Up)
-				for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
-				{
-					lineOrColumnList.add(nextTileMatrix.getColumn(i));
-				}
-
-			for (int y = 0; y < lineOrColumnList.size(); y++)
+		// if left or right, we make the line list
+		if (d == Direction.Right || d == Direction.Left)
+			for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
 			{
-				// Initializations
-				ArrayList<Tile> lineOrColumn = lineOrColumnList.get(y);
-				Tile curTile = null, prevTile = null;
+				lineOrColumnList.add(nextTileMatrix.getLine(i));
+				line = true;
+			}
 
-				// Revert the line/column if we go right or down (simplify
-				// computation)
-				boolean revert = d == Direction.Right || d == Direction.Down;
-				if (revert)
-					Collections.reverse(lineOrColumn); // O(n)
+		// if up or down, we make the column list
+		if (d == Direction.Down || d == Direction.Up)
+			for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
+			{
+				lineOrColumnList.add(nextTileMatrix.getColumn(i));
+			}
 
-				//we 
-				for (int x = 0; x < lineOrColumn.size(); x++)
+		for (int y = 0; y < lineOrColumnList.size(); y++)
+		{
+			// Initializations
+			ArrayList<Tile> lineOrColumn = lineOrColumnList.get(y);
+			Tile curTile = null, prevTile = null;
+
+			// Revert the line/column if we go right or down (simplify
+			// computation)
+			boolean revert = d == Direction.Right || d == Direction.Down;
+			if (revert)
+				Collections.reverse(lineOrColumn); // O(n)
+
+			// we go through the line or the column
+			for (int x = 0; x < lineOrColumn.size(); x++)
+			{
+
+				// Ok so from here it will get more complicated
+				// The goal from now is to go through the column or the line of
+				// tile from the left to the right
+				// We will compute like that
+				// curTile is the tile we are on
+				// prevTile is the previousTile that was not null
+				// x go through the ArrayList, so it can go in any direction as
+				// the ArrayList lineOrColumn is used for the four directions, same for y
+				// To simplify, one can imagine that the reverse and the use of the same variable
+				// for line and column is made to turn every situation into a "press left" situation
+				// where we will go through the lines from the left to the right to do the following computations:
+				curTile = lineOrColumn.get(x);
+				if (curTile != null)
 				{
-
-					curTile = lineOrColumn.get(x);
-					if (curTile != null)
+					// if the previous tile is null, the we are at the first non-null tile in the line
+					// we have to put it at the full left of the grid & matrice
+					if (prevTile == null)
 					{
-						if (prevTile == null)
+						if (line)
 						{
+							if (!revert)
+								curTile.setArrivedPoint(goodPositions.getAt(0,
+										y));
+							else
+								curTile.setArrivedPoint(goodPositions.getAt(
+										size - 1, y));
+						}
+						else
+						{
+							if (!revert)
+								curTile.setArrivedPoint(goodPositions.getAt(y,
+										0));
+							else
+								curTile.setArrivedPoint(goodPositions.getAt(y,
+										size - 1));
+						}
+						curTile.setArrivedTile(null);
+						lineOrColumn.set(0, curTile);
+						if (x != 0)
+							lineOrColumn.set(x, null);
+					}
+					else
+					{
+
+						// if the tile will fusion
+						if (curTile.getValue() == prevTile.getValue()
+								&& prevTile.getArrivedTile() == null)
+						{
+							curTile.setArrivedPoint(new Point((int) prevTile
+									.getArrivedPointX(), (int) prevTile
+									.getArrivedPointY()));
+							curTile.setArrivedTile(prevTile);
+							lineOrColumn.set(x, null);
+						}
+						// otherwise
+						else
+						{
+
+							Point prevTilePoint = prevTile.getArrivedPoint();
+							int xPoint = goodPositions
+									.getPositionsOf(prevTilePoint)[0];
+							int yPoint = goodPositions
+									.getPositionsOf(prevTilePoint)[1];
+
+							Point ArrPoint = null;
+							if (line)
+							{
+								if (xPoint + 1 > size)
+									ArrPoint = goodPositions.getAt(xPoint,
+											yPoint);
+								else
+								{
+									if (!revert)
+										ArrPoint = goodPositions.getAt(
+												xPoint + 1, yPoint);
+									else
+										ArrPoint = goodPositions.getAt(
+												xPoint - 1, yPoint);
+
+								}
+							}
+							else
+							{
+								if (yPoint + 1 > size)
+									ArrPoint = goodPositions.getAt(xPoint,
+											yPoint);
+								else
+								{
+									if (!revert)
+										ArrPoint = goodPositions.getAt(xPoint,
+												yPoint + 1);
+									else
+										ArrPoint = goodPositions.getAt(xPoint,
+												yPoint - 1);
+
+								}
+							}
+
+							curTile.setArrivedPoint(ArrPoint);
+							// utiliser pour simplifier plus tard
+							/*
+							 * lineOrColumn.set(x, null); 
+							 * int newX = goodPositions.getPositionsOf(ArrPoint)[0]; 
+							 * lineOrColumn.set(newX, curTile);
+							 */
+							boolean changeSet = false;
+
 							if (line)
 							{
 								if (!revert)
-									curTile.setArrivedPoint(goodPositions
-											.getAt(0, y));
+									changeSet = xPoint + 1 != x;
 								else
-									curTile.setArrivedPoint(goodPositions
-											.getAt(size - 1, y));
-							} else
-							{
-								if (!revert)
-									curTile.setArrivedPoint(goodPositions
-											.getAt(y, 0));
-								else
-									curTile.setArrivedPoint(goodPositions
-											.getAt(y, size - 1));
+									changeSet = size - 1 - xPoint + 1 != x;
 							}
-							curTile.setArrivedTile(null);
-							lineOrColumn.set(0, curTile);
-							if (x != 0)
-								lineOrColumn.set(x, null);
-						} else
-						{
-
-							// if the tile will fusion
-							if (curTile.getValue() == prevTile.getValue()
-									&& prevTile.getArrivedTile() == null)
-							{
-								curTile.setArrivedPoint(new Point(
-										(int) prevTile.getArrivedPointX(),
-										(int) prevTile.getArrivedPointY()));
-								curTile.setArrivedTile(prevTile);
-								lineOrColumn.set(x, null);
-							}
-							// otherwise
 							else
 							{
-
-								Point prevTilePoint = prevTile
-										.getArrivedPoint();
-								int xPoint = goodPositions
-										.getPositionsOf(prevTilePoint)[0];
-								int yPoint = goodPositions
-										.getPositionsOf(prevTilePoint)[1];
-
-								Point ArrPoint = null;
+								if (!revert)
+									changeSet = yPoint + 1 != x;
+								else
+									changeSet = size - 1 - yPoint + 1 != x;
+							}
+							if (changeSet)
+							{
 								if (line)
 								{
-									if (xPoint + 1 > size)
-										ArrPoint = goodPositions.getAt(xPoint,
-												yPoint);
-									else
-									{
-										if (!revert)
-											ArrPoint = goodPositions.getAt(
-													xPoint + 1, yPoint);
-										else
-											ArrPoint = goodPositions.getAt(
-													xPoint - 1, yPoint);
-
-									}
-								} else
-								{
-									if (yPoint + 1 > size)
-										ArrPoint = goodPositions.getAt(xPoint,
-												yPoint);
-									else
-									{
-										if (!revert)
-											ArrPoint = goodPositions.getAt(
-													xPoint, yPoint + 1);
-										else
-											ArrPoint = goodPositions.getAt(
-													xPoint, yPoint - 1);
-
-									}
-								}
-
-								curTile.setArrivedPoint(ArrPoint);
-								// utiliser pour simplifier plus tard
-								/*
-								 * lineOrColumn.set(x, null); int newX =
-								 * goodPositions.getPositionsOf(ArrPoint)[0];
-								 * lineOrColumn.set(newX, curTile);
-								 */
-								boolean changeSet = false;
-
-								if (line)
-								{
+									lineOrColumn.set(x, null);
 									if (!revert)
-										changeSet = xPoint + 1 != x;
+										lineOrColumn.set(xPoint + 1, curTile);
 									else
-										changeSet = size - 1 - xPoint + 1 != x;
-								} else
-								{
-									if (!revert)
-										changeSet = yPoint + 1 != x;
-									else
-										changeSet = size - 1 - yPoint + 1 != x;
+										lineOrColumn.set(size - 1 - xPoint + 1,
+												curTile);
 								}
-								if (changeSet)
+								else
 								{
-									if (line)
-									{
-										lineOrColumn.set(x, null);
-										if (!revert)
-											lineOrColumn.set(xPoint + 1,
-													curTile);
-										else
-											lineOrColumn.set(size - 1 - xPoint
-													+ 1, curTile);
-									} else
-									{
-										lineOrColumn.set(x, null);
-										if (!revert)
-											lineOrColumn.set(yPoint + 1,
-													curTile);
-										else
-											lineOrColumn.set(size - 1 - yPoint
-													+ 1, curTile);
-									}
-
+									lineOrColumn.set(x, null);
+									if (!revert)
+										lineOrColumn.set(yPoint + 1, curTile);
+									else
+										lineOrColumn.set(size - 1 - yPoint + 1,
+												curTile);
 								}
 
 							}
-						}
-						prevTile = curTile;
-					}
-				}
-				// revert again if we have reverted only for computation
-				if (revert)
-					Collections.reverse(lineOrColumn);
 
-				if (line)
-					nextTileMatrix.setLine(y, lineOrColumn);
-				else
-					nextTileMatrix.setColumn(y, lineOrColumn);
+						}
+					}
+					prevTile = curTile;
+				}
 			}
+			// revert again if we have reverted only for computation
+			if (revert)
+				Collections.reverse(lineOrColumn);
+
+			if (line)
+				nextTileMatrix.setLine(y, lineOrColumn);
+			else
+				nextTileMatrix.setColumn(y, lineOrColumn);
+
 		}
-		// System.out.println(nextTileMatrix);
-		// System.out.println(tileMatrix); //END
-		/**
-		 * curTile.setDirection(d);//On défini la direction //Si on obtient null
-		 * pour precTile c'est que c'est la première tuile if (precTile == null)
-		 * { curTile.setPrev(); curTile.setArrivedTile(null);
-		 * curTile.setArrivedPoint(new Point(listX.get(collumn), (int)
-		 * curTile.getY())); precTile = curTile; } else { //On check si les
-		 * valeurs sont égales et si on avait pas déjà fait une fusion avant if
-		 * (curTile.getValue() == precTile.getValue() && !precTilefus) {
-		 * curTile.setMergedPrev(precTile); curTile.setArrivedTile(precTile);
-		 * curTile.setArrivedPoint(precTile.getArrivedPoint()); precTile =
-		 * curTile; precTilefus = true; this.score += curTile.getValue()* 2; }
-		 * else { curTile.setPrev(); curTile.setArrivedTile(null);//On se
-		 * retrouve sur une case vide du coup //On récupère le point de la tuile
-		 * précédente dans la liste des X possibles et on prend le suivant
-		 * curTile.setArrivedPoint(new
-		 * Point(listX.get(listX.indexOf(precTile.getArrivedPoint().getX()) +
-		 * 1), (int) curTile.getY())); precTile = curTile; precTilefus = false;
-		 * collumn++; } } } } }
-		 * 
-		 * else if (d == Direction.Down || d == Direction.Up) {
-		 * this.tileMatrix.sortX(); //Tri sur X de la liste de tuiles afin de
-		 * les regrouper par lignes
-		 * 
-		 * int i = 0; curX = (int) this.tileMatrix.getTile(0).getX();
-		 * mainMatrix.add(new TileList());
-		 * 
-		 * //On trie toutes les tuiles par ligne for (Tile curTile :
-		 * this.tileMatrix.gettList()) { if (curX != curTile.getX()) { i++;
-		 * mainMatrix.add(new TileList()); curX = (int) curTile.getX(); }
-		 * 
-		 * mainMatrix.get(i).add(curTile); }
-		 * 
-		 * //On veut maintenant gérer le déplacement à proprement parler for
-		 * (TileList curTileList : mainMatrix) { curTileList.sortY();//Tri de
-		 * chaque ligne
-		 * 
-		 * if (d == Direction.Down) Collections.reverse(curTileList.gettList());
-		 * 
-		 * Tile precTile = null;//La tuile précédente qui sert aux fusions
-		 * boolean precTilefus = false;//un booléen qui évite de faire des
-		 * fusions en chaine int collumn = 0;
-		 * 
-		 * //On condidère chaque tuile for (Tile curTile :
-		 * curTileList.gettList()) { curTile.setDirection(d);//On défini la
-		 * direction //Si on obtient null pour precTile c'est que c'est la
-		 * première tuile if (precTile == null) { curTile.setArrivedTile(null);
-		 * curTile.setArrivedPoint(new Point((int)curTile.getX(),
-		 * listY.get(collumn))); precTile = curTile; } else { //On check si les
-		 * valeurs sont égales et si on avait pas déjà fait une fusion avant if
-		 * (curTile.getValue() == precTile.getValue() && !precTilefus) {
-		 * curTile.setArrivedTile(precTile);
-		 * curTile.setArrivedPoint(precTile.getArrivedPoint()); precTile =
-		 * curTile; precTilefus = true; this.score += curTile.getValue()* 2; }
-		 * else { curTile.setArrivedTile(null);//On se retrouve sur une case
-		 * vide du coup //On récupère le point de la tuile précédente dans la
-		 * liste des Y possibles et on prend le suivant
-		 * curTile.setArrivedPoint(new Point((int) curTile.getX(),
-		 * listY.get(listY.indexOf(precTile.getArrivedPoint().getY()) + 1)));
-		 * precTile = curTile; precTilefus = false; collumn++; } } } } }
-		 */
 	}
 
 	// Move each Tile in the right direction and set them at the good position
@@ -519,9 +472,7 @@ public class TileMatrixManager
 		}
 	}
 	/*
-	 * public void undo() { for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
-	 * { for(int j = 0 ; j < tileMatrix.getMatrixSize(); j++) { Tile t =
-	 * this.tileMatrix.get(i, j); if(t != null) { if(t.getMergedTile() != null)
-	 * { tileMatrix.add(t.getMergedTile()); } t.undo(); } } } }
+	 * public void undo() { for (int i = 0; i < tileMatrix.getMatrixSize(); i++) { for(int j = 0 ; j < tileMatrix.getMatrixSize(); j++) { Tile t =
+	 * this.tileMatrix.get(i, j); if(t != null) { if(t.getMergedTile() != null) { tileMatrix.add(t.getMergedTile()); } t.undo(); } } } }
 	 */
 }
