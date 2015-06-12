@@ -69,7 +69,7 @@ public class PointMatrix
 			}
 		}
 		if(positions[0] == -1 || positions[1] == -1)
-			System.out.println("bla");
+			System.err.println("Bad positionning in PointMatrix");
 		return positions;
 	}
 	

@@ -200,8 +200,8 @@ public class TileListManager
 		tileMatrix = new TileMatrix(nextTileMatrix);
 		nextTileMatrix.setDirection(d);
 		
-		
-		//Computation using nextTileMatrix !!
+
+		//Computation on the nextMatrix 
 		int size = nextTileMatrix.getMatrixSize();
 		
 		if(d == Direction.Right || d == Direction.Left)
@@ -213,14 +213,12 @@ public class TileListManager
 			}
 			for(int y=0;y<lineList.size();y++)
 			{
-				System.out.println("--");
 				ArrayList<Tile> line = lineList.get(y);
 				Tile curTile = null, prevTile = null;
 				boolean prevTileFus = false;
 				
 				if(d == Direction.Right)
 					Collections.reverse(line);
-				System.out.println(line);
 				for(int x = 0; x<line.size();x++)
 				{		
 					curTile = line.get(x);
@@ -255,8 +253,6 @@ public class TileListManager
 								int xPoint = goodPositions.getPositionsOf(prevTilePoint)[0];
 								int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
 								
-								if(yPoint == -1)
-									System.out.println("error");
 								Point ArrPoint = null;
 								if(xPoint+1>size)
 									ArrPoint = goodPositions.getAt(xPoint, yPoint);
@@ -289,12 +285,9 @@ public class TileListManager
 				if(d == Direction.Right)
 					Collections.reverse(line);
 			}
-			System.out.println("___");
 		}
-		System.out.println(nextTileMatrix);
-		System.out.println(tileMatrix);
-		//Computation on the nextMatrix (no sort, add methods to the matrix if necessary, avoid using method with "(useless)" comment above it)
-		//END
+		//System.out.println(nextTileMatrix);
+		//System.out.println(tileMatrix);	//END
 		/**
 					curTile.setDirection(d);//On défini la direction
 					//Si on obtient null pour precTile c'est que c'est la première tuile
@@ -420,7 +413,6 @@ public class TileListManager
 				Tile currentTile = tileMatrix.get(j, i);
 				if(currentTile != null)
 				{
-					System.out.println(currentTile + " " + j + ","+ i + " " + currentTile.getArrivedPoint());
 					Direction currentDirection = currentTile.getDirection();
 				
 					//if the tile has to move
