@@ -209,15 +209,16 @@ public class TileListManager
 			{
 				lineList.add(tileMatrix.getLine(i));
 			}
-			
 			for(int i=0;i<lineList.size();i++)
 			{
+				System.out.println("--");
 				ArrayList<Tile> line = lineList.get(i);
 				Tile curTile = null, prevTile = null;
 				boolean prevTileFus = false;
 				int deltaX = 1;
 				if(d == Direction.Right)
 					Collections.reverse(line);
+				System.out.println(line);
 				for(int x = 0; x<line.size();x++)
 				{		
 					curTile = line.get(x);
@@ -227,6 +228,9 @@ public class TileListManager
 						{
 							curTile.setArrivedPoint(goodPositions.getAt(0,i));
 							curTile.setArrivedTile(null);
+							line.set(0, curTile);
+							if(x != 0)
+								line.set(x, null);
 						}
 						else 
 						{
@@ -245,7 +249,7 @@ public class TileListManager
 									Point prevTilePoint = prevTile.getArrivedPoint();
 									int xPoint = goodPositions.getPositionsOf(prevTilePoint)[0];
 									int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
-									Point ArrPoint = goodPositions.getAt(x-1, i);
+									Point ArrPoint = goodPositions.getAt(xPoint+1, yPoint);
 									curTile.setArrivedPoint(ArrPoint);
 									
 								}
@@ -254,7 +258,9 @@ public class TileListManager
 						prevTile = curTile;
 					}
 				}
+				System.out.println(line);
 			}
+			System.out.println("___");
 		}
 		
 		//Computation on the nextMatrix (no sort, add methods to the matrix if necessary, avoid using method with "(useless)" comment above it)
