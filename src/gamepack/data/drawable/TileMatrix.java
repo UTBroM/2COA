@@ -23,6 +23,7 @@ public class TileMatrix implements DrawableObject
 			matrix.add(t);
 		}
 		this.tileSize = tileSize;
+		
 	}
 		
 	//Constructor by copy
@@ -134,7 +135,8 @@ public class TileMatrix implements DrawableObject
 	{
 		for(int i =0 ;i < matrix.size(); i++)
 			for(int j =0 ;j < matrix.size();j++)
-				matrix.get(i).get(j).beDrawn(g);
+				if(matrix.get(i).get(j) != null)
+					matrix.get(i).get(j).beDrawn(g);
 	}	
 	
 	//return the number of non-null tile 

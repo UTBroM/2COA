@@ -26,7 +26,7 @@ public class TileListManager
 	public TileListManager(int tileSize, ArrayList<Rectangle> rectangleList)
 	{
 		tileMatrix = new TileMatrix((int) Math.sqrt(rectangleList.size()), tileSize);
-		nextTileMatrix = new TileMatrix(tileMatrix);
+		//nextTileMatrix = new TileMatrix(tileMatrix);
 		rand = new Random();
 		this.tileSize = tileSize;
 		this.score = 0;
@@ -202,7 +202,7 @@ public class TileListManager
 		int x_init, y_init, x_end, y_end, x_delta, y_delta;
 		boolean prevTileFus;
 		int size = tileMatrix.getMatrixSize();
-
+		/*
 		// Compute how to parse the matrix :
 		if(d == Direction.Left)
 		{
@@ -271,12 +271,12 @@ public class TileListManager
 					curTile.setArrivedTile(null);
 					//On récupère le point de la tuile précédente dans la liste des X possibles et on prend le suivant
 					curTile.setArrivedPoint(new Point(listX.get(listX.indexOf(precTile.getArrivedPoint().getX()) + 1), (int) curTile.getY()));/***********/
-					prevTilefus = false;
+					/*prevTilefus = false;
 					collumn++;
 				}
 				prevTile = curTile;
 			}
-		}
+		}*/
 		
 		//Computation on the nextMatrix (no sort, add methods to the matrix if necessary, avoid using method with "(useless)" comment above it)
 		//END
