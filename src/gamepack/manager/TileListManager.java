@@ -225,6 +225,7 @@ public class TileListManager
 				{
 					lineOrColumnList.add(nextTileMatrix.getColumn(i));
 				}
+			System.out.println(lineOrColumnList);
 				
 			for(int y=0;y<lineOrColumnList.size();y++)
 			{
@@ -245,10 +246,20 @@ public class TileListManager
 					{
 						if(prevTile == null)
 						{
-							if(!revert)
-								curTile.setArrivedPoint(goodPositions.getAt(0,y));
-							else 
-								curTile.setArrivedPoint(goodPositions.getAt(size-1,y));
+							if(line)
+							{
+								if(!revert)
+									curTile.setArrivedPoint(goodPositions.getAt(0,y));
+								else 
+									curTile.setArrivedPoint(goodPositions.getAt(size-1,y));
+							}
+							else
+							{
+								if(!revert)
+									curTile.setArrivedPoint(goodPositions.getAt(y,0));
+								else 
+									curTile.setArrivedPoint(goodPositions.getAt(y,size-1));
+							}
 							curTile.setArrivedTile(null);
 							lineOrColumn.set(0, curTile);
 							if(x != 0)
@@ -264,7 +275,8 @@ public class TileListManager
 								curTile.setArrivedPoint(new Point((int) prevTile.getArrivedPointX(), (int) prevTile.getArrivedPointY()));
 								curTile.setArrivedTile(prevTile);
 								lineOrColumn.set(x, null);
-							}//otherwise
+							}
+							//otherwise
 							else
 							{
 									
@@ -273,29 +285,57 @@ public class TileListManager
 								int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
 								
 								Point ArrPoint = null;
-								if(xPoint+1>size)
-									ArrPoint = goodPositions.getAt(xPoint, yPoint);
+								if(line)
+								{
+									if(xPoint+1>size)
+										ArrPoint = goodPositions.getAt(xPoint, yPoint);
+									else
+									{
+										if(!revert)
+											ArrPoint = goodPositions.getAt(xPoint+1, yPoint);
+										else
+											ArrPoint = goodPositions.getAt(xPoint-1, yPoint);
+											
+									}
+								}
+								else
+								{
+									if(yPoint+1>size)
+										ArrPoint = goodPositions.getAt(xPoint, yPoint);
+									else
+									{
+										if(!revert)
+											ArrPoint = goodPositions.getAt(xPoint, yPoint+1);
+										else
+											ArrPoint = goodPositions.getAt(xPoint, yPoint-1);
+											
+									}
+								}
+								
+								
+								curTile.setArrivedPoint(ArrPoint);
+								boolean changeSet = false;
+								if(line)
+								{
+									if(!revert)
+										changeSet = xPoint+1 != x;
+									else
+										changeSet = size-1-xPoint+1 != x;
+								}
 								else
 								{
 									if(!revert)
-										ArrPoint = goodPositions.getAt(xPoint+1, yPoint);
+										changeSet = yPoint+1 != x;
 									else
-										ArrPoint = goodPositions.getAt(xPoint-1, yPoint);
-										
+										changeSet = size-1-yPoint+1 != x;
 								}
-								curTile.setArrivedPoint(ArrPoint);
-								boolean changeSet = false;
-								if(!revert)
-									changeSet = xPoint+1 != x;
-								else
-									changeSet = size-1-xPoint+1 != x;
 								if(changeSet)
 								{
 									lineOrColumn.set(x, null);
 									if(!revert)
-										lineOrColumn.set(xPoint+1, curTile);
+										lineOrColumn.set(yPoint+1, curTile);
 									else
-										lineOrColumn.set(size-1-xPoint+1, curTile);
+										lineOrColumn.set(size-1-yPoint+1, curTile);
 							
 								}
 									
@@ -431,7 +471,7 @@ public class TileListManager
 		
 		//init
 		boolean trueIfMovement = false; //For the state modification in WindowGame
-		final float pixelPerSecond = 100.0f;
+		final float pixelPerSecond = 2000.0f;
 		float pixelPerFrame = 0; //Speed of the tile
 		
 		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
