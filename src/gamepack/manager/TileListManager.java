@@ -164,9 +164,11 @@ public class TileListManager
 			int yNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[1];
 						
 			if (rand.nextInt(20) != 0) {
-				tileMatrix.setAt(xNewTile, yNewTile, new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue(),tileSize));
+				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue(),tileSize); 
+				tileMatrix.setAt(xNewTile, yNewTile, newBomb);
 			} else {
-				tileMatrix.setAt(xNewTile, yNewTile, new Tile(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue(),tileSize));
+				Tile newTile = new Tile(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue(),tileSize);
+				tileMatrix.setAt(xNewTile, yNewTile, newTile);
 			}
 			return true;
 		}
