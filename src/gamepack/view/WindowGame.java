@@ -3,7 +3,7 @@ package gamepack.view;
 import gamepack.data.drawable.Grid;
 import gamepack.data.drawable.TileMatrix;
 import gamepack.manager.GameSaver;
-import gamepack.manager.TileListManager;
+import gamepack.manager.TileMatrixManager;
 import gamepack.utility.Direction;
 
 import org.newdawn.slick.AppGameContainer;
@@ -28,7 +28,7 @@ public class WindowGame extends BasicGame
 						 */
 	
 	private Grid grid;
-	private TileListManager gameManager;
+	private TileMatrixManager gameManager;
 	private int gameFPS;
 	private int numberOfFrameWithMovement;		//in order to generate a new tile only if there is movement
 	private GameSaver gSave;
@@ -49,8 +49,7 @@ public class WindowGame extends BasicGame
 		windowSizeY = 600;
 		grid = new Grid(windowSizeX, windowSizeY);
 		//    Get the new size of the size depending on the resolution (80% of the grid rectangle size)
-		int tileSize = (int) (1 * grid.squareSize());
-		gameManager = new TileListManager(tileSize, grid.getRectangles());
+		gameManager = new TileMatrixManager(grid.getRectangles());
 		state = 0;
 		gameFPS = 100;
 		
@@ -79,9 +78,9 @@ public class WindowGame extends BasicGame
 	{
 		grid.beDrawn(g);
 		if(state == 0)
-			gameManager.getNextTileList().beDrawn(g);
+			gameManager.getNextTileMatrix().beDrawn(g);
 		else
-			gameManager.getTileList().beDrawn(g);
+			gameManager.getTileMatrix().beDrawn(g);
 		g.setColor(Color.white);
 		g.drawString("score : " + this.gameManager.getScore(), container.getWidth() -150, 10);
 		

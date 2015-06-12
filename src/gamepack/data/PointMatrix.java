@@ -1,6 +1,5 @@
 package gamepack.data;
 
-import gamepack.data.drawable.TileList;
 
 import java.util.ArrayList;
 
@@ -11,6 +10,7 @@ public class PointMatrix
 	private ArrayList<ArrayList<Point>> matrix;
 	private int matrixSize;
 	
+	//Create the null PointMatrix with the specified size (must not be used outside)
 	private PointMatrix(int matrixSize)
 	{
 		matrix = new ArrayList<ArrayList<Point>>();
@@ -19,6 +19,7 @@ public class PointMatrix
 			matrix.add(new ArrayList<Point>(matrixSize));
 	}
 	
+	//Create the PointMatrix depending on a rectangle list (take the top-left coordinates of rectangles)
 	public PointMatrix(ArrayList<Rectangle> rectList)
 	{
 		this((int) Math.sqrt(rectList.size()));
@@ -26,26 +27,30 @@ public class PointMatrix
 		for(int y = 0 ; y< matrixSize; y++)
 			for(int x = 0; x < matrixSize; x++)
 			{
-				addAt(x, y, new Point((int)rectList.get(i).getX(),(int)rectList.get(i).getY()));
+				set(x, y, new Point((int)rectList.get(i).getX(),(int)rectList.get(i).getY()));
 				i++;
 			}
 	}
 
-	public void addAt(int x, int y,Point point)
+	//set the point at the x and y coordinates
+	private void set(int x, int y,Point point)
 	{
 		matrix.get(y).add(x, point);
 	}
 	
+	//get the point at the x and y coordinates
 	public Point getAt(int x, int y)
 	{
 		return matrix.get(y).get(x);
 	}
 	
+	//return the width / height of the square matrix
 	public int size()
 	{
 		return matrixSize;
 	}
 	
+	//write the matrix
 	public String toString()
 	{
 		String s="";
@@ -54,6 +59,7 @@ public class PointMatrix
 		return s;
 	}
 
+	//get the position of the point in the matrix
 	public int[] getPositionsOf(Point point)
 	{
 		int[] positions = {-1,-1};
@@ -73,11 +79,4 @@ public class PointMatrix
 		return positions;
 	}
 	
-	public int[] getReversePositionsOf(Point point)
-	{
-		int[] positions = getPositionsOf(point);
-		positions[0] = size()-1-positions[0];
-		positions[1] = size()-1-positions[1];
-		return positions;
-	}
 }

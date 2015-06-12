@@ -1,7 +1,7 @@
 package gamepack.manager;
 
 import gamepack.data.Point;
-import gamepack.data.drawable.TileList;
+import gamepack.data.drawable.TileMatrix;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,18 +51,18 @@ public class GameSaver
 		return file;
 	}
 	
-	public TileList getSavedTileList()
+	public TileMatrix getSavedTileList(int tileSize)
 	{
 		String savedFile = readFile();
-		TileList list = new TileList();
 		
 	
 		
-		
-		return list;
+
+		TileMatrix tMatrix = new TileMatrix(0,tileSize);
+		return tMatrix;
 	}
 	
-	public void save(TileList tileMatrix)
+	public void save(TileMatrix tMatrix)
 	{
 		String file = "";
 		

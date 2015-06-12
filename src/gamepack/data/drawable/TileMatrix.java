@@ -3,7 +3,6 @@ package gamepack.data.drawable;
 import gamepack.utility.Direction;
 
 import java.util.ArrayList;
-
 import org.newdawn.slick.Graphics;
 
 public class TileMatrix implements DrawableObject
@@ -56,6 +55,7 @@ public class TileMatrix implements DrawableObject
 		
 	}
 	
+	//Set the specified direction to every tile
 	public void setDirection(Direction d)
 	{
 		for(ArrayList<Tile> line : matrix)
@@ -96,26 +96,13 @@ public class TileMatrix implements DrawableObject
 		return matrix.get(y).get(x);
 	}
 	
-	//add a tile at the end of the matrix,(useless)
-	public void add(Tile t)
-	{
-		for(int i = 0; i < matrix.size(); i++)
-		{
-			if(matrix.get(i).size() != matrixSize)
-				matrix.get(i).add(t);
-		}
-	}
-	
-	//add a new tile at the end of the matrix (useless)
-	/*public void addNewTile(int x, int y, int value, int size)
-	{
-		add(new Tile(x, y, value, size));
-	}*/
-	
 	//add a tile at the x, y coordinates in the matrix
 	public void setAt(int x, int y, Tile t)
 	{
+		if(t != null)
+			t.setSize(tileSize);
 		matrix.get(y).set(x, t);
+	
 	}
 	
 	//remove a tile at the end of the matrix
@@ -169,42 +156,13 @@ public class TileMatrix implements DrawableObject
 		return matrixSize;
 	}
 	
-	public ArrayList<Integer> getLineValue(int y)
-	{
-		ArrayList<Tile> l = matrix.get(y);
-		ArrayList<Integer> lineValue = new ArrayList<Integer>();
-		for(int i =0; i < l.size(); i++)
-		{
-			if(l.get(i) == null)
-				lineValue.add(null);
-			else
-				lineValue.add(l.get(i).getValue());
-		}
-		
-		return lineValue;
-	}
-	
-	public ArrayList<Integer> getColumnValue(int x)
-	{
-		ArrayList<Integer> columnValue = new ArrayList<Integer>();
-		for(int i =0; i < matrixSize; i++)
-		{
-			Tile t = matrix.get(i).get(x);
-			if(t != null)
-				columnValue.add(t.getValue());
-			else
-				columnValue.add(null);
-		}
-				
-		
-		return columnValue;
-	}
-	
+	//return the line at the specefied position
 	public ArrayList<Tile> getLine(int y)
 	{
 		return matrix.get(y);
 	}
 	
+	//return the column at the specified position
 	public ArrayList<Tile> getColumn(int x)
 	{
 		ArrayList<Tile> col = new ArrayList<Tile>();
@@ -213,6 +171,7 @@ public class TileMatrix implements DrawableObject
 		return col;
 	}
 	
+	//write the matrix
 	public String toString()
 	{
 		String s= "----Matrix\n";
@@ -226,17 +185,20 @@ public class TileMatrix implements DrawableObject
 		return s + "----\n";
 	}
 	
+	//set the line arr at the specified position
 	public void setLine(int y, ArrayList<Tile> arr)
 	{
 		matrix.set(y,arr); // technically useless but useful for symetry with the setColumn (which is needed)
 	}
 	
+	//set the column arr at the specified position
 	public void setColumn(int x, ArrayList<Tile> arr)
 	{
 		for(int i = 0; i< matrixSize; i++)
 			matrix.get(i).set(x, arr.get(i));
 	}
 	
+	//operator of equality
 	public boolean equals(TileMatrix tm2)
 	{
 		boolean eq = true;

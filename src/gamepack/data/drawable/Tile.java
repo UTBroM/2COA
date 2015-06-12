@@ -25,15 +25,10 @@ public class Tile implements DrawableObject
 	private Point prevPosition;
 	private Tile mergedTile;
 	
-	public Tile(int x, int y, int size)
-	{
-		this(x, y, 2, size); //changer  le 2 en random value entre 2 ou 4 ou bombe
-
-	}
 	
-	public Tile(int x, int y, int value, int size)
+	public Tile(int x, int y, int value)
 	{
-		this.rectangle = new Rectangle(x, y, size, size);
+		this.rectangle = new Rectangle(x, y, 50, 50);
 		this.value = value;
 		powerOfTwo = ProjectMethods.powerOfTwo(value);
 		tileDirection = Direction.None;
@@ -136,6 +131,11 @@ public class Tile implements DrawableObject
 	public void setDirection(Direction tileDirection)
 	{
 		this.tileDirection = tileDirection;
+	}
+	
+	public void setSize(int size)
+	{
+		rectangle.setSize(size, size);
 	}
 	
 	
