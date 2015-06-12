@@ -9,7 +9,6 @@ import gamepack.data.drawable.TileMatrix;
 import gamepack.utility.Direction;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 import org.newdawn.slick.geom.Rectangle;
@@ -83,11 +82,10 @@ public class TileListManager
 			}
 		}
 	}
-
+	
 	//Let's BOOOOOOOOM !
 	public void explosion(int x, int y, int explosionRadius)
 	{
-	
 		for (int i = -explosionRadius; i <= explosionRadius; i++) {
 			for (int j = -explosionRadius; j < -explosionRadius; j++) {
 				int adjPosX = x + j;
@@ -100,6 +98,7 @@ public class TileListManager
 		}
 		
 	}
+	
 	//Return the TileList of the TileListManager to display it and to save it
 	public TileMatrix getTileList()
 	{
@@ -194,82 +193,92 @@ public class TileListManager
 	public void initMovement(Direction d)
 	{
 		//Initialization of the next matrice to compute on it the next state of the grid
-		nextTileMatrix = new TileMatrix(tileMatrix);
-		TileMatrix mainMatrix = nextTileMatrix;
+		nextTileMatrix = tileMatrix;
+		//TileMatrix mainMatrix = nextTileMatrix;
+		
+		Tile curTile, prevTile;
+		int x_init, y_init, x_end, y_end, x_delta, y_delta;
+		boolean prevTileFus;
+		int size = tileMatrix.getMatrixSize();
+
+		// Compute how to parse the matrix :
+		if(d == Direction.Left)
+		{
+			x_init = 0;
+			x_end = size;
+			y_init = 0;
+			y_end = size;
+			x_delta = 1;
+			y_delta = 1;
+		}
+		else if(d == Direction.Right)
+		{
+			x_init = size-1;
+			x_end = 0;
+			y_init = 0;
+			y_end = size;
+			x_delta = -1;
+			y_delta = 1;
+		}
+		else if(d == Direction.Up)
+		{
+			x_init = 0;
+			x_end = size;
+			y_init = 
+			y_end = 
+			x_delta = 
+			y_delta = 
+		}
+		else if(d == Direction.Down)
+		{
+			x_init = 
+			x_end = 
+			y_init = 
+			y_end = 
+			x_delta = 
+			y_delta = 
+		}
+		
+		
+		for(int y = y_init;y!=y_end;y++)
+		{
+			prevTile = null;
+			for(int x = x_init;x<x_end;x++)
+			{
+
+				
+				curTile = this.nextTileMatrix.get(x, y);
+				if(prevTile == null)
+				{
+					curTile.setPrev();
+					curTile.setArrivedTile(null);
+					curTile.setArrivedPoint(prevTile.getArrivedPoint());
+					prevTilefus = false;
+				}
+				else if(curTile.getValue() == prevTile.getValue() && !prevTilefus)
+				{
+					curTile.setMergedPrev(prevTile);
+					curTile.setArrivedTile(prevTile);
+					curTile.setArrivedPoint(prevTile.getArrivedPoint());
+					precTilefus = true;
+					this.score += curTile.getValue()* 2;
+				}
+				else
+				{
+					curTile.setPrev();
+					curTile.setArrivedTile(null);
+					//On récupère le point de la tuile précédente dans la liste des X possibles et on prend le suivant
+					curTile.setArrivedPoint(new Point(listX.get(listX.indexOf(precTile.getArrivedPoint().getX()) + 1), (int) curTile.getY()));/***********/
+					prevTilefus = false;
+					collumn++;
+				}
+				prevTile = curTile;
+			}
+		}
 		
 		//Computation on the nextMatrix (no sort, add methods to the matrix if necessary, avoid using method with "(useless)" comment above it)
-		
-		
 		//END
-		
-		
-		/*ArrayList<TileList> mainMatrix = new ArrayList<TileList>();
-		/*ArrayList<Integer> listX = new ArrayList<Integer>();
-		ArrayList<Integer> listY = new ArrayList<Integer>();*/
-		
-		//Generation des listes de X et de Y (comme la liste goodPositions mais ordonnée);
-		/*
-		int curX = 0;
-		int curY = 0;
-		
-		for(int i = 0 ; i < this.goodPositions.size(); i++)
-			for (Point curPoint : this.goodPositions.getAt(i))
-			{
-				int xOfCurPoint = curPoint.getX();
-				int yOfCurPoint = curPoint.getY();
-				
-				if (xOfCurPoint > curX)
-				{
-					listX.add(xOfCurPoint);
-					curX = xOfCurPoint;
-				}
-				if (yOfCurPoint > curY)
-				{
-					listY.add(yOfCurPoint);
-					curY = yOfCurPoint;
-				}
-			}
-		if (d == Direction.Right)
-			Collections.reverse(listX);
-		else if (d == Direction.Down)
-			Collections.reverse(listY);
-		*/
-		//Gestion de l'appui sur la touche droite et gauche
-		
-		/*if (d == Direction.Left || d == Direction.Right)
-		{
-			this.tileMatrix.sortY(); //Tri sur Y de la liste de tuiles afin de les regrouper par lignes
-			
-			int i = 0;
-			curY = (int) this.tileMatrix.getTile(0).getY();
-			mainMatrix.add(new TileList());
-			
-			//On trie toutes les tuiles par ligne
-			for (Tile curTile : this.tileMatrix.gettList())
-			{
-				if (curY != curTile.getY())
-				{
-					i++;
-					mainMatrix.add(new TileList());
-					curY = (int) curTile.getY();
-				}
-				mainMatrix.get(i).add(curTile);
-			}
-			
-			//On veut maintenant gérer le déplacement à proprement parler
-			for (TileList curTileList : mainMatrix)// Pour chaque ligne 
-			{
-				curTileList.sortX();//Tri de chaque ligne
-				if (d == Direction.Right)
-					Collections.reverse(curTileList.gettList());
-				
-				Tile precTile = null;//La tuile précédente qui sert aux fusions
-				boolean precTilefus = false;//un booléen qui évite de faire des fusions en chaine
-				int collumn = 0;
-				
-				//On condidère chaque tuile
-				for (Tile curTile : curTileList.gettList())//pour chaque colonne
-				{
+		/**
 					curTile.setDirection(d);//On défini la direction
 					//Si on obtient null pour precTile c'est que c'est la première tuile
 					if (precTile == null)
