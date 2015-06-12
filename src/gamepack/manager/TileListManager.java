@@ -276,7 +276,6 @@ public class TileListManager
 			}
 		}
 		
-		
 		//Computation on the nextMatrix (no sort, add methods to the matrix if necessary, avoid using method with "(useless)" comment above it)
 		//END
 		/**
