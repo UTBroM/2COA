@@ -261,7 +261,13 @@ public class TileListManager
 								if(xPoint+1>size)
 									ArrPoint = goodPositions.getAt(xPoint, yPoint);
 								else
-									ArrPoint = goodPositions.getAt(xPoint+1, yPoint);
+								{
+									if(d != Direction.Right)
+										ArrPoint = goodPositions.getAt(xPoint+1, yPoint);
+									else
+										ArrPoint = goodPositions.getAt(xPoint-1, yPoint);
+										
+								}
 								curTile.setArrivedPoint(ArrPoint);
 								if(xPoint+1 != x)
 								{
