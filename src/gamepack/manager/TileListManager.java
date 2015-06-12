@@ -228,7 +228,10 @@ public class TileListManager
 					{
 						if(prevTile == null)
 						{
-							curTile.setArrivedPoint(goodPositions.getAt(0,y));
+							if(d != Direction.Right)
+								curTile.setArrivedPoint(goodPositions.getAt(0,y));
+							else 
+								curTile.setArrivedPoint(goodPositions.getAt(size-1,y));
 							curTile.setArrivedTile(null);
 							line.set(0, curTile);
 							if(x != 0)
@@ -246,11 +249,18 @@ public class TileListManager
 							}
 							else
 							{
-								
 									
 								Point prevTilePoint = prevTile.getArrivedPoint();
 								int xPoint = goodPositions.getPositionsOf(prevTilePoint)[0];
 								int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
+								if(d == Direction.Right)
+								{
+									xPoint = goodPositions.getReversePositionsOf(prevTilePoint)[0];
+									yPoint = goodPositions.getReversePositionsOf(prevTilePoint)[1];
+								}
+								System.out.println(yPoint);
+								if(yPoint == -1)
+									System.out.println("error");
 								Point ArrPoint = null;
 								if(xPoint+1>size)
 									ArrPoint = goodPositions.getAt(xPoint, yPoint);
@@ -269,7 +279,9 @@ public class TileListManager
 						prevTile = curTile;
 					}
 				}
-				System.out.println(line);
+
+				if(d == Direction.Right)
+					Collections.reverse(line);
 			}
 			System.out.println("___");
 		}

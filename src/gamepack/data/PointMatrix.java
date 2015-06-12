@@ -61,14 +61,23 @@ public class PointMatrix
 		{
 			for (int j = 0; j < matrixSize; j++)
 			{
-				if(getAt(i, j) == point)
+				if(getAt(i, j).getX() == point.getX() && getAt(i, j).getY() == point.getY())
 				{
 					positions[0] = i;
 					positions[1] = j;
 				}
 			}
 		}
-		
+		if(positions[0] == -1 || positions[1] == -1)
+			System.out.println("bla");
+		return positions;
+	}
+	
+	public int[] getReversePositionsOf(Point point)
+	{
+		int[] positions = getPositionsOf(point);
+		positions[0] = size()-1-positions[0];
+		positions[1] = size()-1-positions[1];
 		return positions;
 	}
 }

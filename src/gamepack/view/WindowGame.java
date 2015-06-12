@@ -92,7 +92,7 @@ public class WindowGame extends BasicGame
 			if (state == 2)
 			{
 
-				if(numberOfFrameWithMovement != 1)	//if there was a movement, we generate a new tile
+				if(numberOfFrameWithMovement != 1 || true)	//if there was a movement, we generate a new tile
 				{
 					gameManager.refreshBomb();
 					gameManager.generateNewTile();
