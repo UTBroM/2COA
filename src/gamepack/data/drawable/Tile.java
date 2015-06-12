@@ -254,4 +254,9 @@ public class Tile implements DrawableObject
 		prevValue = 0;
 		mergedTile = null;
 	}
+	
+	public String toString()
+	{
+		return ""+value;
+	}
 }
