@@ -74,7 +74,12 @@ public class Grid implements DrawableObject
 		g.setColor(interiorColor);
 		for (Rectangle rectangle : rectangleList)
 		{
-			g.fill(rectangle);
+			//g.fill(rectangle);
+			g.fillRoundRect(rectangle.getX(),
+					rectangle.getY(), 
+					rectangle.getWidth(), 
+					rectangle.getHeight(), 
+					4);
 		}
 	}
 }

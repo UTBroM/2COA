@@ -216,7 +216,12 @@ public class Tile implements DrawableObject
 	{
 		//Couleur mise
 		gr.setColor(rectangleColor);
-		gr.fill(rectangle);
+		//gr.fill(rectangle);
+		gr.fillRoundRect(rectangle.getX(),
+				rectangle.getY(), 
+				rectangle.getWidth(), 
+				rectangle.getHeight(), 
+				4);
 		
 		gr.setColor(Color.white);
 		gr.drawString("" + value, getTextX(), getTextY());

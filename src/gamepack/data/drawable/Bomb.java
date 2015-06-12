@@ -44,7 +44,12 @@ public class Bomb extends Tile{
 	{
 		//Color
 		gr.setColor(rectangleColor);
-		gr.fill(rectangle);
+		//gr.fill(rectangle);
+		gr.fillRoundRect(rectangle.getX(),
+				rectangle.getY(), 
+				rectangle.getWidth(), 
+				rectangle.getHeight(), 
+				4);
 		
 		gr.setColor(Color.black);
 		gr.drawString("" + getValue() + "\n\n"+ getRemainingMovement() + " move", getTextX()-5, getTextY()-5);
