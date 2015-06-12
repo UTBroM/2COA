@@ -119,7 +119,7 @@ public class WindowGame extends BasicGame
 	public void refreshFPS(int fps)
 	{
 		if(fps == 0)
-			fps = 60;
+			fps = 20;
 
 		gameFPS = fps;
 	}

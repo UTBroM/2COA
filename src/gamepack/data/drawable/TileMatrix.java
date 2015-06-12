@@ -225,4 +225,15 @@ public class TileMatrix implements DrawableObject
 		}
 		return s + "----\n";
 	}
+	
+	public void setLine(int y, ArrayList<Tile> arr)
+	{
+		matrix.set(y,arr); // technically useless but useful for symetry with the setColumn (which is needed)
+	}
+	
+	public void setColumn(int x, ArrayList<Tile> arr)
+	{
+		for(int i = 0; i< matrixSize; i++)
+			matrix.get(i).set(x, arr.get(i));
+	}
 }

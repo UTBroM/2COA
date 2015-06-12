@@ -204,36 +204,55 @@ public class TileListManager
 		//Computation on the nextMatrix 
 		int size = nextTileMatrix.getMatrixSize();
 		
-		if(d == Direction.Right || d == Direction.Left)
+		
+		if(d == Direction.Right || d == Direction.Left || d == Direction.Up || d == Direction.Down)
 		{
-			ArrayList<ArrayList<Tile>> lineList = new ArrayList<ArrayList<Tile>>();
-			for(int i=0;i<nextTileMatrix.getMatrixSize();i++)
-			{
-				lineList.add(nextTileMatrix.getLine(i));
-			}
-			for(int y=0;y<lineList.size();y++)
-			{
-				ArrayList<Tile> line = lineList.get(y);
-				Tile curTile = null, prevTile = null;
-				boolean prevTileFus = false;
+			//Initialization of the list of column on line
+			ArrayList<ArrayList<Tile>> lineOrColumnList = new ArrayList<ArrayList<Tile>>();
+			boolean line = false;
+			
+			//if left or right, we make the line list
+			if(d == Direction.Right || d == Direction.Left)
+				for(int i=0;i<nextTileMatrix.getMatrixSize();i++)
+				{
+					lineOrColumnList.add(nextTileMatrix.getLine(i));
+					line = true;
+				}
+			
+			//if up or down, we make the column list
+			if(d == Direction.Down || d== Direction.Up)
+				for(int i=0;i<nextTileMatrix.getMatrixSize();i++)
+				{
+					lineOrColumnList.add(nextTileMatrix.getColumn(i));
+				}
 				
-				if(d == Direction.Right)
-					Collections.reverse(line);
-				for(int x = 0; x<line.size();x++)
+			for(int y=0;y<lineOrColumnList.size();y++)
+			{
+				//Initializations
+				ArrayList<Tile> lineOrColumn = lineOrColumnList.get(y);
+				Tile curTile = null, prevTile = null;
+				
+				//Revert the line/column if we go right or down (simplify computation)
+				boolean revert = d == Direction.Right || d == Direction.Down;
+				if(revert)
+					Collections.reverse(lineOrColumn);	//O(n)
+				
+				//
+				for(int x = 0; x<lineOrColumn.size();x++)
 				{		
-					curTile = line.get(x);
+					curTile = lineOrColumn.get(x);
 					if(curTile != null)
 					{
 						if(prevTile == null)
 						{
-							if(d != Direction.Right)
+							if(!revert)
 								curTile.setArrivedPoint(goodPositions.getAt(0,y));
 							else 
 								curTile.setArrivedPoint(goodPositions.getAt(size-1,y));
 							curTile.setArrivedTile(null);
-							line.set(0, curTile);
+							lineOrColumn.set(0, curTile);
 							if(x != 0)
-								line.set(x, null);
+								lineOrColumn.set(x, null);
 						}
 						else 
 						{
@@ -244,7 +263,7 @@ public class TileListManager
 							{
 								curTile.setArrivedPoint(new Point((int) prevTile.getArrivedPointX(), (int) prevTile.getArrivedPointY()));
 								curTile.setArrivedTile(prevTile);
-								line.set(x, null);
+								lineOrColumn.set(x, null);
 							}//otherwise
 							else
 							{
@@ -258,20 +277,25 @@ public class TileListManager
 									ArrPoint = goodPositions.getAt(xPoint, yPoint);
 								else
 								{
-									if(d != Direction.Right)
+									if(!revert)
 										ArrPoint = goodPositions.getAt(xPoint+1, yPoint);
 									else
 										ArrPoint = goodPositions.getAt(xPoint-1, yPoint);
 										
 								}
 								curTile.setArrivedPoint(ArrPoint);
-								if(xPoint+1 != x)
+								boolean changeSet = false;
+								if(!revert)
+									changeSet = xPoint+1 != x;
+								else
+									changeSet = size-1-xPoint+1 != x;
+								if(changeSet)
 								{
-									line.set(x, null);
-									if(d != Direction.Right)
-										line.set(xPoint+1, curTile);
+									lineOrColumn.set(x, null);
+									if(!revert)
+										lineOrColumn.set(xPoint+1, curTile);
 									else
-										line.set(size-1-xPoint+1, curTile);
+										lineOrColumn.set(size-1-xPoint+1, curTile);
 							
 								}
 									
@@ -281,9 +305,14 @@ public class TileListManager
 						prevTile = curTile;
 					}
 				}
-
-				if(d == Direction.Right)
-					Collections.reverse(line);
+				//revert again if we have reverted only for computation
+				if(revert)
+					Collections.reverse(lineOrColumn);
+				
+				if(line)
+					nextTileMatrix.setLine(y, lineOrColumn);
+				else
+					nextTileMatrix.setColumn(y, lineOrColumn);
 			}
 		}
 		//System.out.println(nextTileMatrix);
@@ -402,7 +431,7 @@ public class TileListManager
 		
 		//init
 		boolean trueIfMovement = false; //For the state modification in WindowGame
-		final float pixelPerSecond = 2000.0f;
+		final float pixelPerSecond = 100.0f;
 		float pixelPerFrame = 0; //Speed of the tile
 		
 		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
