@@ -236,4 +236,17 @@ public class TileMatrix implements DrawableObject
 		for(int i = 0; i< matrixSize; i++)
 			matrix.get(i).set(x, arr.get(i));
 	}
+	
+	public boolean equals(TileMatrix tm2)
+	{
+		boolean eq = true;
+		if(tm2.getMatrixSize() == getMatrixSize())
+		{
+			for(int i =0 ; i < getMatrixSize(); i++)
+				for(int j = 0 ; j < getMatrixSize(); j++)
+					if(tm2.get(j,i).getValue() == get(j,i).getValue())
+						eq =false;
+		}
+		return eq;
+	}
 }

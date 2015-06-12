@@ -78,7 +78,10 @@ public class WindowGame extends BasicGame
 	public void render(GameContainer container, Graphics g) throws SlickException
 	{
 		grid.beDrawn(g);
-		gameManager.getTileList().beDrawn(g);
+		if(state == 0)
+			gameManager.getNextTileList().beDrawn(g);
+		else
+			gameManager.getTileList().beDrawn(g);
 		g.setColor(Color.white);
 		g.drawString("score : " + this.gameManager.getScore(), container.getWidth() -150, 10);
 		
@@ -96,7 +99,6 @@ public class WindowGame extends BasicGame
 				if(numberOfFrameWithMovement != 1)	//if there was a movement, we generate a new tile
 				{
 					gameManager.refreshBomb();
-					gameManager.generateNewTile();
 				}
 				state = 0;
 				numberOfFrameWithMovement = 0;
@@ -119,7 +121,7 @@ public class WindowGame extends BasicGame
 	public void refreshFPS(int fps)
 	{
 		if(fps == 0)
-			fps = 20;
+			fps = 60;
 
 		gameFPS = fps;
 	}
@@ -140,6 +142,8 @@ public class WindowGame extends BasicGame
 				gameManager.initMovement(Direction.Up);
 			else
 				state = 0; //if no interesting event were encoutered
+			if(state != 0)
+				gameManager.generateNewTile();
 		}
 		else
 			gameManager.manageMovement(1);

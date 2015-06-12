@@ -107,6 +107,12 @@ public class TileListManager
 	}
 		
 	//Return the TileList of the TileListManager to display it and to save it
+	public TileMatrix getNextTileList()
+	{
+		return nextTileMatrix;
+	}
+		
+	//Return the TileList of the TileListManager to display it and to save it
 	public PointMatrix getPointMatrix()
 	{
 		return goodPositions;
@@ -125,33 +131,19 @@ public class TileListManager
 		Tile currentTile;
 		ArrayList<Point> goodFreePoint = new ArrayList<Point>();
 		
-		//Construction of a new TileList which contain only free space for new Tile
+		//Construction of a new List of point which contain only free point for new Tile
 		for (int i = 0; i < goodPositions.size(); i++)
 		{
-			for(int k = 0; k < goodPositions.size();k ++)
+			for(int j = 0; j < goodPositions.size();j ++)
 			{
-				currentGoodPosition = goodPositions.getAt(i,k);
-				isFree = true;
-				
-				
-				for (int j = 0; j < nextTileMatrix.getLinearSize(); j++)
+				if(nextTileMatrix.get(j,i) == null)
 				{
-	
-					currentTile = nextTileMatrix.getAtLinear(j);
-					if(currentTile != null)
-						if (currentGoodPosition.getX() == currentTile.getX() && currentGoodPosition.getY() == currentTile.getY())
-						{
-							isFree = false;
-						}
-				}
-				if (isFree)
-				{ //If any Tile in tileMatrix is equal to the current goodPosition so it's a free tile
+					
+					currentGoodPosition = goodPositions.getAt(j, i);
 					goodFreePoint.add(currentGoodPosition);
-					isFree = true;
 				}
 			}
 		}
-		
 		//If after traversing all the goodPosition any Tile is free so we return an error
 		if (goodFreePoint.isEmpty()) {
 			return false;
@@ -164,8 +156,8 @@ public class TileListManager
 			int xNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[0];
 			//Variable which contain the y position in the matrix
 			int yNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[1];
-						
-			if (rand.nextInt(20) == 0) {
+			//System.out.println(nextTileMatrix);
+			if (rand.nextInt(100000) == 0) {
 				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue(),tileSize); 
 				nextTileMatrix.setAt(xNewTile, yNewTile, newBomb);
 			} else {
