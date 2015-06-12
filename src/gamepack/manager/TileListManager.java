@@ -241,24 +241,20 @@ public class TileListManager
 						{
 							
 						
+							//if the tile will fusion
 							if(curTile.getValue() == prevTile.getValue() && prevTile.getArrivedTile() == null)
 							{
-								curTile.setArrivedPoint(new Point((int) prevTile.getX(), (int) prevTile.getY()));
+								curTile.setArrivedPoint(new Point((int) prevTile.getArrivedPointX(), (int) prevTile.getArrivedPointY()));
 								curTile.setArrivedTile(prevTile);
 								line.set(x, null);
-							}
+							}//otherwise
 							else
 							{
 									
 								Point prevTilePoint = prevTile.getArrivedPoint();
 								int xPoint = goodPositions.getPositionsOf(prevTilePoint)[0];
 								int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
-								if(d == Direction.Right)
-								{
-									xPoint = goodPositions.getReversePositionsOf(prevTilePoint)[0];
-									yPoint = goodPositions.getReversePositionsOf(prevTilePoint)[1];
-								}
-								System.out.println(yPoint);
+								
 								if(yPoint == -1)
 									System.out.println("error");
 								Point ArrPoint = null;
@@ -270,7 +266,11 @@ public class TileListManager
 								if(xPoint+1 != x)
 								{
 									line.set(x, null);
-									line.set(xPoint+1, curTile);
+									if(d != Direction.Right)
+										line.set(xPoint+1, curTile);
+									else
+										line.set(size-1-xPoint+1, curTile);
+							
 								}
 									
 								
@@ -414,8 +414,8 @@ public class TileListManager
 				Tile currentTile = tileMatrix.get(j, i);
 				if(currentTile != null)
 				{
-					
-				Direction currentDirection = currentTile.getDirection();
+					System.out.println(currentTile + " " + j + ","+ i + " " + currentTile.getArrivedPoint());
+					Direction currentDirection = currentTile.getDirection();
 				
 					//if the tile has to move
 					if (currentDirection != Direction.None)

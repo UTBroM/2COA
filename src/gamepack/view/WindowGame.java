@@ -86,6 +86,7 @@ public class WindowGame extends BasicGame
 	
 	public void update(GameContainer gc, int delta) throws SlickException
 	{
+		
 		if(state != 0)
 		{
 			//Once the movement is done, we generate new tiles
