@@ -134,10 +134,10 @@ public class TileListManager
 				isFree = true;
 				
 				
-				for (int j = 0; j < tileMatrix.getLinearSize(); j++)
+				for (int j = 0; j < nextTileMatrix.getLinearSize(); j++)
 				{
 	
-					currentTile = tileMatrix.getAtLinear(j);
+					currentTile = nextTileMatrix.getAtLinear(j);
 					if(currentTile != null)
 						if (currentGoodPosition.getX() == currentTile.getX() && currentGoodPosition.getY() == currentTile.getY())
 						{
@@ -167,10 +167,10 @@ public class TileListManager
 						
 			if (rand.nextInt(20) == 0) {
 				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue(),tileSize); 
-				tileMatrix.setAt(xNewTile, yNewTile, newBomb);
+				nextTileMatrix.setAt(xNewTile, yNewTile, newBomb);
 			} else {
 				Tile newTile = new Tile(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue(),tileSize);
-				tileMatrix.setAt(xNewTile, yNewTile, newTile);
+				nextTileMatrix.setAt(xNewTile, yNewTile, newTile);
 			}
 			return true;
 		}
@@ -200,14 +200,16 @@ public class TileListManager
 		tileMatrix = new TileMatrix(nextTileMatrix);
 		nextTileMatrix.setDirection(d);
 		
-		int size = tileMatrix.getMatrixSize();
+		
+		//Computation using nextTileMatrix !!
+		int size = nextTileMatrix.getMatrixSize();
 		
 		if(d == Direction.Right || d == Direction.Left)
 		{
 			ArrayList<ArrayList<Tile>> lineList = new ArrayList<ArrayList<Tile>>();
-			for(int i=0;i<tileMatrix.getMatrixSize();i++)
+			for(int i=0;i<nextTileMatrix.getMatrixSize();i++)
 			{
-				lineList.add(tileMatrix.getLine(i));
+				lineList.add(nextTileMatrix.getLine(i));
 			}
 			for(int y=0;y<lineList.size();y++)
 			{
@@ -249,7 +251,11 @@ public class TileListManager
 								Point prevTilePoint = prevTile.getArrivedPoint();
 								int xPoint = goodPositions.getPositionsOf(prevTilePoint)[0];
 								int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
-								Point ArrPoint = goodPositions.getAt(xPoint+1, yPoint);
+								Point ArrPoint = null;
+								if(xPoint+1>size)
+									ArrPoint = goodPositions.getAt(xPoint, yPoint);
+								else
+									ArrPoint = goodPositions.getAt(xPoint+1, yPoint);
 								curTile.setArrivedPoint(ArrPoint);
 								if(xPoint+1 != x)
 								{
