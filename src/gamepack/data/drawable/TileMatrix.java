@@ -28,7 +28,7 @@ public class TileMatrix implements DrawableObject
 		
 	}
 		
-	//Constructor by copy
+	//Constructor by copy (create new arraylist, conserve tile references)
 	public TileMatrix(TileMatrix tMatrix)
 	{
 		this.tileSize = tMatrix.tileSize;
@@ -38,21 +38,18 @@ public class TileMatrix implements DrawableObject
 		matrix = new ArrayList<ArrayList<Tile>>();
 		for(int i = 0 ; i < matrixSize;i ++)
 		{
-			ArrayList<Tile> t = new ArrayList<Tile>(matrixSize);
-			matrix.add( t);
+			ArrayList<Tile> t = new ArrayList<Tile>();
+			for(int j =0 ; j < matrixSize; j++)
+				t.add(null);
+			matrix.add(t);
 		}
+		
 		for(int i = 0 ; i < matrixSize;i ++)
 		{
 			for(int j = 0 ; j < matrixSize;j ++)
 			{
-				Tile beCopied = tMatrix.get(j, i);
-				if(beCopied != null)
-				{
-					Tile t = new Tile(beCopied);
-					setAt(j, i, t);
-				}
-				else
-					setAt(j, i, null);
+				Tile tileRef = tMatrix.get(j, i);
+				matrix.get(i).set(j, tileRef);
 			}
 		}
 		
@@ -214,5 +211,18 @@ public class TileMatrix implements DrawableObject
 		for(int i = 0; i< matrixSize; i++)
 			col.add(get(x,i));
 		return col;
+	}
+	
+	public String toString()
+	{
+		String s= "----Matrix\n";
+		for(int i = 0 ; i < matrixSize; i++)
+		{
+			for(int j = 0 ; j < matrixSize; j++)
+				s += "(" + get(j,i) + ")\t";
+			s+="\n";
+				
+		}
+		return s + "----\n";
 	}
 }

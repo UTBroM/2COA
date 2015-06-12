@@ -197,7 +197,7 @@ public class TileListManager
 	public void initMovement(Direction d)
 	{
 		//Initialization of the next matrice to compute on it the next state of the grid
-		tileMatrix = nextTileMatrix;
+		tileMatrix = new TileMatrix(nextTileMatrix);
 		nextTileMatrix.setDirection(d);
 		
 		int size = tileMatrix.getMatrixSize();
@@ -209,13 +209,13 @@ public class TileListManager
 			{
 				lineList.add(tileMatrix.getLine(i));
 			}
-			for(int i=0;i<lineList.size();i++)
+			for(int y=0;y<lineList.size();y++)
 			{
 				System.out.println("--");
-				ArrayList<Tile> line = lineList.get(i);
+				ArrayList<Tile> line = lineList.get(y);
 				Tile curTile = null, prevTile = null;
 				boolean prevTileFus = false;
-				int deltaX = 1;
+				
 				if(d == Direction.Right)
 					Collections.reverse(line);
 				System.out.println(line);
@@ -226,7 +226,7 @@ public class TileListManager
 					{
 						if(prevTile == null)
 						{
-							curTile.setArrivedPoint(goodPositions.getAt(0,i));
+							curTile.setArrivedPoint(goodPositions.getAt(0,y));
 							curTile.setArrivedTile(null);
 							line.set(0, curTile);
 							if(x != 0)
@@ -240,19 +240,24 @@ public class TileListManager
 							{
 								curTile.setArrivedPoint(new Point((int) prevTile.getX(), (int) prevTile.getY()));
 								curTile.setArrivedTile(prevTile);
+								line.set(x, null);
 							}
 							else
 							{
-								if(curTile.getValue() != prevTile.getValue())
+								
+									
+								Point prevTilePoint = prevTile.getArrivedPoint();
+								int xPoint = goodPositions.getPositionsOf(prevTilePoint)[0];
+								int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
+								Point ArrPoint = goodPositions.getAt(xPoint+1, yPoint);
+								curTile.setArrivedPoint(ArrPoint);
+								if(xPoint+1 != x)
 								{
-									
-									Point prevTilePoint = prevTile.getArrivedPoint();
-									int xPoint = goodPositions.getPositionsOf(prevTilePoint)[0];
-									int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
-									Point ArrPoint = goodPositions.getAt(xPoint+1, yPoint);
-									curTile.setArrivedPoint(ArrPoint);
-									
+									line.set(x, null);
+									line.set(xPoint+1, curTile);
 								}
+									
+								
 							}
 						}
 						prevTile = curTile;
@@ -262,7 +267,8 @@ public class TileListManager
 			}
 			System.out.println("___");
 		}
-		
+		System.out.println(nextTileMatrix);
+		System.out.println(tileMatrix);
 		//Computation on the nextMatrix (no sort, add methods to the matrix if necessary, avoid using method with "(useless)" comment above it)
 		//END
 		/**
