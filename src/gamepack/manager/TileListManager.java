@@ -27,7 +27,7 @@ public class TileListManager
 	public TileListManager(int tileSize, ArrayList<Rectangle> rectangleList)
 	{
 		tileMatrix = new TileMatrix((int) Math.sqrt(rectangleList.size()), tileSize);
-		//nextTileMatrix = new TileMatrix(tileMatrix);
+		nextTileMatrix = tileMatrix;
 		rand = new Random();
 		this.tileSize = tileSize;
 		this.score = 0;
@@ -228,35 +228,28 @@ public class TileListManager
 							curTile.setArrivedPoint(goodPositions.getAt(0,i));
 							curTile.setArrivedTile(null);
 						}
-						if(curTile.getValue() == prevTile.getValue() && prevTile.getArrivedTile() == null)
+						else 
 						{
-							curTile.setArrivedPoint(new Point((int) prevTile.getX(), (int) prevTile.getY()));
-							curTile.setArrivedTile(prevTile);
-						}
-						else
-						{
-							if(curTile.getValue() != prevTile.getValue())
+							
+						
+							if(curTile.getValue() == prevTile.getValue() && prevTile.getArrivedTile() == null)
 							{
-								if(prevTile.getArrivedPoint() == null)
-								{// Si la prevTile ne bouge pas :
-									//curTile.setArrivedPoint(goodPositions.getAt((int) prevTile.get²,i));
-									;
-								}
-								else
-								{// Si la prev tile bouge :
+								curTile.setArrivedPoint(new Point((int) prevTile.getX(), (int) prevTile.getY()));
+								curTile.setArrivedTile(prevTile);
+							}
+							else
+							{
+								if(curTile.getValue() != prevTile.getValue())
+								{
+									
 									Point prevTilePoint = prevTile.getArrivedPoint();
 									int xPoint = goodPositions.getPositionsOf(prevTilePoint)[0];
 									int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
-									Point curArrPoint = goodPositions.getAt(x, i);
-									curTile.setArrivedPoint(goodPositions.getAt((int) prevTile.get-1,i));
+									Point ArrPoint = goodPositions.getAt(x-1, i);
+									curTile.setArrivedPoint(ArrPoint);
+									
 								}
 							}
-						}
-						// 
-						if (prevTile == null)
-						{
-							curTile.setArrivedTile(null);
-							curTile.setArrivedPoint();
 						}
 						prevTile = curTile;
 					}
