@@ -6,19 +6,21 @@ import org.newdawn.slick.Graphics;
 
 public class TileMatrix implements DrawableObject
 {
-	private ArrayList<TileList> matrix;
+	private ArrayList<ArrayList<Tile>> matrix;
 	private int matrixSize;
 	private int tileSize;
 	
 	//Constructor of a tile matrix, it already knows his size and all the tile are initialized to null
 	public TileMatrix(int matrixSize, int tileSize)
 	{
-		matrix = new ArrayList<TileList>();
+		matrix = new ArrayList<ArrayList<Tile>>();
 		this.matrixSize = matrixSize;
 		for(int i = 0 ; i < matrixSize;i ++)
 		{
-			TileList t = new TileList(matrixSize);
-			matrix.add( t);
+			ArrayList<Tile> t = new ArrayList<Tile>(matrixSize);
+			for(int j =0 ; j < matrixSize; j++)
+				t.add(null);
+			matrix.add(t);
 		}
 		this.tileSize = tileSize;
 	}
@@ -30,10 +32,10 @@ public class TileMatrix implements DrawableObject
 		this.matrixSize = tMatrix.matrixSize;
 		
 
-		matrix = new ArrayList<TileList>();
+		matrix = new ArrayList<ArrayList<Tile>>();
 		for(int i = 0 ; i < matrixSize;i ++)
 		{
-			TileList t = new TileList(matrixSize);
+			ArrayList<Tile> t = new ArrayList<Tile>(matrixSize);
 			matrix.add( t);
 		}
 		for(int i = 0 ; i < matrixSize;i ++)
@@ -77,7 +79,7 @@ public class TileMatrix implements DrawableObject
 	//get the tile at coordinates x and y in the matrix, may be null
 	public Tile get(int x, int y)
 	{
-		return matrix.get(y).getTile(x);
+		return matrix.get(y).get(x);
 	}
 	
 	//add a tile at the end of the matrix,(useless)
@@ -85,7 +87,7 @@ public class TileMatrix implements DrawableObject
 	{
 		for(int i = 0; i < matrix.size(); i++)
 		{
-			if(matrix.get(i).getSize() != matrixSize)
+			if(matrix.get(i).size() != matrixSize)
 				matrix.get(i).add(t);
 		}
 	}
@@ -99,7 +101,7 @@ public class TileMatrix implements DrawableObject
 	//add a tile at the x, y coordinates in the matrix
 	public void setAt(int x, int y, Tile t)
 	{
-		matrix.get(y).addAt(x, t);
+		matrix.get(y).set(x, t);
 	}
 	
 	//remove a tile at the end of the matrix
@@ -117,7 +119,7 @@ public class TileMatrix implements DrawableObject
 	//remove the tile at the x and y coordinates in the matrix
 	public void deleteAt(int x, int y)
 	{
-		matrix.get(y).setTile(x, null);
+		matrix.get(y).set(x, null);
 	}
 	
 	//remove the tile which has the positions tileX and tileY
@@ -131,8 +133,9 @@ public class TileMatrix implements DrawableObject
 	public void beDrawn(Graphics g)
 	{
 		for(int i =0 ;i < matrix.size(); i++)
-			matrix.get(i).beDrawn(g);
-	}
+			for(int j =0 ;j < matrix.size();j++)
+				matrix.get(i).get(j).beDrawn(g);
+	}	
 	
 	//return the number of non-null tile 
 	public int getNumberOfTile()
@@ -153,14 +156,14 @@ public class TileMatrix implements DrawableObject
 	
 	public ArrayList<Integer> getLineValue(int y)
 	{
-		TileList l = matrix.get(y);
+		ArrayList<Tile> l = matrix.get(y);
 		ArrayList<Integer> lineValue = new ArrayList<Integer>();
-		for(int i =0; i < l.getSize(); i++)
+		for(int i =0; i < l.size(); i++)
 		{
-			if(l.getTile(i) == null)
+			if(l.get(i) == null)
 				lineValue.add(null);
 			else
-				lineValue.add(l.getTile(i).getValue());
+				lineValue.add(l.get(i).getValue());
 		}
 		
 		return lineValue;
@@ -171,7 +174,7 @@ public class TileMatrix implements DrawableObject
 		ArrayList<Integer> columnValue = new ArrayList<Integer>();
 		for(int i =0; i < matrixSize; i++)
 		{
-			Tile t = matrix.get(i).getTile(x);
+			Tile t = matrix.get(i).get(x);
 			if(t != null)
 				columnValue.add(t.getValue());
 			else
