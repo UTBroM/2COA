@@ -170,6 +170,7 @@ public class Tile implements DrawableObject
 	{
 		if (this.equals(this.arrivedTile)) {
 			this.arrivedTile.doubleValue();
+			this.arrivedTile = null;
 			return true;
 		}else{
 			return false;
@@ -255,6 +256,7 @@ public class Tile implements DrawableObject
 		mergedTile = null;
 	}
 	
+	//draw the tile
 	public String toString()
 	{
 		return ""+value;
