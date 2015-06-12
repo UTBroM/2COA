@@ -131,6 +131,7 @@ public class TileMatrix implements DrawableObject
 				removeLinear(i);
 	}
 	
+	//draw the matrice
 	public void beDrawn(Graphics g)
 	{
 		for(int i =0 ;i < matrix.size(); i++)
