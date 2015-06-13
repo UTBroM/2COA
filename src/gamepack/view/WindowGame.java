@@ -39,6 +39,7 @@ public class WindowGame extends BasicGame
 	{
 		//Parent Constructor
 		super("2C0A");
+	
 		
 		//Attributes initialization
 		gSave = new GameSaver("save.txt", "score.txt");
@@ -51,6 +52,12 @@ public class WindowGame extends BasicGame
 		gameFPS = 100;
 
 
+		generateGameManager();
+		
+	}
+	
+	private void generateGameManager()
+	{
 		//If there is no save
 		if(!gSave.areFilesAvailable())
 		{
@@ -59,13 +66,14 @@ public class WindowGame extends BasicGame
 			//The game starts with the generation of new tiles
 			gameManager.generateNewTile();
 			gameManager.generateNewTile();
+			
+			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
 		}
 		//otherwise, we load the save
 		else
 		{
 			gameManager = new TileMatrixManager(grid.getRectangles(), gSave.getSavedTileList(), gSave.getScore());
 		}
-		
 	}
 	
 	//Slick2D method which start when the game container start
@@ -93,7 +101,7 @@ public class WindowGame extends BasicGame
 		grid.beDrawn(g);
 		
 		//Draw the next tile matrix if movements have been done, otherwise draw the tile matrix
-		if(state == 0)
+		if(state == 0 || state == 2)
 			gameManager.getNextTileMatrix().beDrawn(g);
 		else
 			gameManager.getTileMatrix().beDrawn(g);
@@ -109,21 +117,22 @@ public class WindowGame extends BasicGame
 		//if we're not waiting for an event
 		if(state != 0)
 		{
-			//Once the movement is done, we generate new tiles
-			if (state == 2)
+			//if we press a key, we manage the movement and the fusions of tiles
+			if(state == 2)
 			{
-
-				if(numberOfFrameWithMovement != 1)	//if there was a movement, we generate a new tile
+				//If there was a movement 
+				//(one movement is always done to check if the tile are arrived and to reset their arrived point)
+				if(numberOfFrameWithMovement != 1)
 				{
+					gameManager.generateNewTile();
 					gameManager.refreshBomb();
+					state = 0;
 				}
-				state = 0;
 			}
-			
-			//if we press a touch, we manage the movement and the fusions of tiles
+			//if a movement has been initialized
 			if (state == 1)
 			{
-				if(!gameManager.manageMovement(gameFPS))	//if there is no movement
+				if(!gameManager.manageMovement(gameFPS))	//if there is no movement (all tiles have their arrivedPoint equal to null)
 					state = 2;
 				else 										//if there is a movement
 					numberOfFrameWithMovement++;			//we notice that there was a movement
@@ -157,44 +166,53 @@ public class WindowGame extends BasicGame
 	//when a key is pressed
 	public void keyPressed(int key, char c)
 	{
-		//If we are waiting for an event
-		if (state == 0)
+		//If we are waiting for an event or if the movement has been done
+		if (state == 0 || state == 2)
 		{
 			state = 1;
-			if (key == Input.KEY_LEFT)
-				gameManager.initMovement(Direction.Left);
-			else if (key == Input.KEY_RIGHT)
-				gameManager.initMovement(Direction.Right);
-			else if (key == Input.KEY_DOWN)
-				gameManager.initMovement(Direction.Down);
-			else if (key == Input.KEY_UP)
-				gameManager.initMovement(Direction.Up);
-			else
-				state = 0; 
 			
-			//if no interesting event were encoutered, we generate a new Tile
-			if(state != 0 && numberOfFrameWithMovement != 1)
+			//if we press a direction
+			Direction directionPressed = Direction.None;
+			if (key == Input.KEY_LEFT || key == Input.KEY_Q)
+				directionPressed = Direction.Left;
+			else if (key == Input.KEY_RIGHT || key == Input.KEY_D)
+				directionPressed = Direction.Right;
+			else if (key == Input.KEY_DOWN || key == Input.KEY_S)
+				directionPressed = Direction.Down;
+			else if (key == Input.KEY_UP || key == Input.KEY_Z)
+				directionPressed = Direction.Up;
+			//if we press a command
+			else 
 			{
-				//System.out.println(numberOfFrameWithMovement); // à corriger
-				gameManager.generateNewTile();
-				numberOfFrameWithMovement = 0;
+				state=0; 
+				if (key == Input.KEY_F1)	//F1 save the game
+					gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
+				else if (key == Input.KEY_F2)	//F2 load the game
+					gameManager = new TileMatrixManager(grid.getRectangles(), gSave.getSavedTileList(), gSave.getScore());
+				else if (key == Input.KEY_F3)	//F3 make a new game
+				{
+					gSave.deleteSave();
+					generateGameManager();
+				}
+			}
+			
+			
+			//If we are saving, we do not generate tile
+			if(state == 1)
+			{
+				//if the key we have pressed is a direction
+				if(directionPressed != directionPressed.None)
+				{
+					numberOfFrameWithMovement = 0;	//set the number of frame with movement at 0
+					gameManager.initMovement(directionPressed);	//launch the movement for all tiles
+					
+				}
 			}
 		}
 		//If we press a touch while there is a movement, we accelerate the movement
 		else
 			gameManager.manageMovement(1);
 		
-	}
-	
-	//Register the game when we quit the game
-	//maybe add a "do you want to save, yes no"
-	public boolean closeRequested()
-	{
-		gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
-		
-		
-		
-		return true;
 	}
 	
 	//Main methods, create the window

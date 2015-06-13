@@ -59,8 +59,7 @@ public class TileMatrixManager
 		
 		nextTileMatrix = tileMatrix;
 	}
-
-
+	
 	// refresh the number of deplacement possible for a bomb and maybe ...
 	// BOOOOOMM !
 	public void refreshBomb()
@@ -411,8 +410,7 @@ public class TileMatrixManager
 	{
 
 		// init
-		boolean trueIfMovement = false; // For the state modification in
-										// WindowGame
+		boolean trueIfMovement = false; // For the state modification in WindowGame
 		final float pixelPerSecond = 2000.0f;
 		float pixelPerFrame = 0; // Speed of the tile
 

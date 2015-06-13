@@ -185,4 +185,11 @@ public class GameSaver
 			e.printStackTrace();
 		}
 	}
+	
+	//delete the save
+	public void deleteSave()
+	{
+		writeInFile(pathScore, "");
+		writeInFile(pathData, "");
+	}
 }
