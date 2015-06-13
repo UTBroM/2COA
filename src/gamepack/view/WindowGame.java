@@ -117,13 +117,14 @@ public class WindowGame extends BasicGame
 		//if we're not waiting for an event
 		if(state != 0)
 		{
-			//if we press a key, we manage the movement and the fusions of tiles
+			//Once tiles have finished their movement
 			if(state == 2)
 			{
-				//If there was a movement 
+				//If there was a movement (so if each tiles are not stuck in a corner for example)
 				//(one movement is always done to check if the tile are arrived and to reset their arrived point)
 				if(numberOfFrameWithMovement != 1)
 				{
+					//We generate a new tile
 					gameManager.generateNewTile();
 					gameManager.refreshBomb();
 					state = 0;
