@@ -15,12 +15,15 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class TileMatrixManager
 {
+	//ATTRIBUTES
 	private TileMatrix tileMatrix;
 	private TileMatrix nextTileMatrix;
 	private final PointMatrix goodPositions;
 	private final Random rand;
 	private int score;
 
+	
+	//METHODS
 	// Will compute the goodPositins where Tiles will be
 	public TileMatrixManager(ArrayList<Rectangle> rectangleList)
 	{
@@ -34,13 +37,29 @@ public class TileMatrixManager
 		this.goodPositions = new PointMatrix(rectangleList);
 
 	}
-
-	// receive the tileMatrix with bad coordinates and compute the good
-	// positions
-	public void loadGame(TileMatrix fakeMatrix)
+		
+	// Constructor by save
+	public TileMatrixManager(ArrayList<Rectangle> rectangleList, ArrayList<Tile> savedTileList, int savedScore)
 	{
-
+		this(rectangleList);
+		score = savedScore;
+		//create the tile matrix
+		for(int y=0; y < tileMatrix.getMatrixSize(); y++)
+			for(int x=0; x < tileMatrix.getMatrixSize(); x++)
+			{
+				Tile currentTile = savedTileList.get(y*tileMatrix.getMatrixSize()+x);
+				if(currentTile != null)
+				{
+					tileMatrix.setAt(x, y, currentTile);
+					currentTile.setX(goodPositions.get(x,y).getX());
+					tileMatrix.get(x, y).setY(goodPositions.get(x,y).getY());
+				}
+			}
+		
+		
+		nextTileMatrix = tileMatrix;
 	}
+
 
 	// refresh the number of deplacement possible for a bomb and maybe ...
 	// BOOOOOMM !
@@ -129,7 +148,7 @@ public class TileMatrixManager
 				// then this position is free
 				if (nextTileMatrix.get(j, i) == null)
 				{
-					currentGoodPosition = goodPositions.getAt(j, i);
+					currentGoodPosition = goodPositions.get(j, i);
 					goodFreePoint.add(currentGoodPosition);
 				}
 			}
@@ -251,16 +270,16 @@ public class TileMatrixManager
 						if (line)
 						{
 							if (!revert)
-								curTile.setArrivedPoint(goodPositions.getAt(0, y));
+								curTile.setArrivedPoint(goodPositions.get(0, y));
 							else
-								curTile.setArrivedPoint(goodPositions.getAt(size - 1, y));
+								curTile.setArrivedPoint(goodPositions.get(size - 1, y));
 						}
 						else
 						{
 							if (!revert)
-								curTile.setArrivedPoint(goodPositions.getAt(y, 0));
+								curTile.setArrivedPoint(goodPositions.get(y, 0));
 							else
-								curTile.setArrivedPoint(goodPositions.getAt(y, size - 1));
+								curTile.setArrivedPoint(goodPositions.get(y, size - 1));
 						}
 						curTile.setArrivedTile(null);
 						lineOrColumn.set(0, curTile);
@@ -290,14 +309,14 @@ public class TileMatrixManager
 							if (line)
 							{
 								if (xPoint + 1 > size)
-									ArrPoint = goodPositions.getAt(xPoint, yPoint);
+									ArrPoint = goodPositions.get(xPoint, yPoint);
 								else
 								{
 									if (!revert)
-										ArrPoint = goodPositions.getAt(
+										ArrPoint = goodPositions.get(
 												xPoint + 1, yPoint);
 									else
-										ArrPoint = goodPositions.getAt(
+										ArrPoint = goodPositions.get(
 												xPoint - 1, yPoint);
 
 								}
@@ -305,13 +324,13 @@ public class TileMatrixManager
 							else
 							{
 								if (yPoint + 1 > size)
-									ArrPoint = goodPositions.getAt(xPoint, yPoint);
+									ArrPoint = goodPositions.get(xPoint, yPoint);
 								else
 								{
 									if (!revert)
-										ArrPoint = goodPositions.getAt(xPoint, yPoint + 1);
+										ArrPoint = goodPositions.get(xPoint, yPoint + 1);
 									else
-										ArrPoint = goodPositions.getAt(xPoint, yPoint - 1);
+										ArrPoint = goodPositions.get(xPoint, yPoint - 1);
 
 								}
 							}

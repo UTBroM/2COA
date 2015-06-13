@@ -39,57 +39,74 @@ public class WindowGame extends BasicGame
 	{
 		//Parent Constructor
 		super("2C0A");
-
-
-		
 		
 		//Attributes initialization
-		gSave = new GameSaver("save.txt");
+		gSave = new GameSaver("save.txt", "score.txt");
 		numberOfFrameWithMovement = 0;
 		windowSizeX  = 800;
 		windowSizeY = 600;
 		grid = new Grid(windowSizeX, windowSizeY);
 		//    Get the new size of the size depending on the resolution (80% of the grid rectangle size)
-		gameManager = new TileMatrixManager(grid.getRectangles());
 		state = 0;
 		gameFPS = 100;
+
+
+		//If there is no save
+		if(!gSave.areFilesAvailable())
+		{
+			gameManager = new TileMatrixManager(grid.getRectangles());
+			
+			//The game starts with the generation of new tiles
+			gameManager.generateNewTile();
+			gameManager.generateNewTile();
+		}
+		//otherwise, we load the save
+		else
+		{
+			gameManager = new TileMatrixManager(grid.getRectangles(), gSave.getSavedTileList(), gSave.getScore());
+		}
 		
-		//The game starts with the generation of new tiles
-		gameManager.generateNewTile();
-		gameManager.generateNewTile();
-		
 	}
 	
-	public int getWindowSizeX()
-	{
-		return windowSizeX;
-	}
-	
-	public int getWindowSizeY()
-	{
-		return windowSizeY;
-	}
-	
+	//Slick2D method which start when the game container start
 	public void init(GameContainer container) throws SlickException
 	{
 		this.container = container;
 	}
 	
+	//Size methods for the container
+	public int getWindowSizeX()
+	{
+		return windowSizeX;
+	}
+
+	//Size methods for the container
+	public int getWindowSizeY()
+	{
+		return windowSizeY;
+	}
+	
+	//Refresh the screen
 	public void render(GameContainer container, Graphics g) throws SlickException
 	{
+		//Draw the grid
 		grid.beDrawn(g);
+		
+		//Draw the next tile matrix if movements have been done, otherwise draw the tile matrix
 		if(state == 0)
 			gameManager.getNextTileMatrix().beDrawn(g);
 		else
 			gameManager.getTileMatrix().beDrawn(g);
-		g.setColor(Color.white);
-		g.drawString("score : " + this.gameManager.getScore(), container.getWidth() -150, 10);
+		
+		//Draw the score
+		this.drawScore(g);
 		
 	}
 	
+	//Do computation
 	public void update(GameContainer gc, int delta) throws SlickException
 	{
-		
+		//if we're not waiting for an event
 		if(state != 0)
 		{
 			//Once the movement is done, we generate new tiles
@@ -117,6 +134,9 @@ public class WindowGame extends BasicGame
 		
 	}
 	
+	
+	
+	//check if the FPS is correct (the default function to manage FPS is not really good)
 	public void refreshFPS(int fps)
 	{
 		if(fps == 0)
@@ -125,6 +145,16 @@ public class WindowGame extends BasicGame
 		gameFPS = fps;
 	}
 	
+	//Draw the score
+	public void drawScore(Graphics g)
+	{
+		g.setColor(Color.white);
+		g.drawString("score : " + this.gameManager.getScore(), container.getWidth() -150, 10);
+		
+	}
+	
+	
+	//when a key is pressed
 	public void keyPressed(int key, char c)
 	{
 		//If we are waiting for an event
@@ -140,7 +170,9 @@ public class WindowGame extends BasicGame
 			else if (key == Input.KEY_UP)
 				gameManager.initMovement(Direction.Up);
 			else
-				state = 0; //if no interesting event were encoutered
+				state = 0; 
+			
+			//if no interesting event were encoutered, we generate a new Tile
 			if(state != 0 && numberOfFrameWithMovement != 1)
 			{
 				//System.out.println(numberOfFrameWithMovement); // à corriger
@@ -148,28 +180,32 @@ public class WindowGame extends BasicGame
 				numberOfFrameWithMovement = 0;
 			}
 		}
+		//If we press a touch while there is a movement, we accelerate the movement
 		else
 			gameManager.manageMovement(1);
 		
 	}
 	
+	//Register the game when we quit the game
+	//maybe add a "do you want to save, yes no"
 	public boolean closeRequested()
 	{
-		gSave.save(gameManager.getTileMatrix());
+		gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
 		
 		
 		
 		return true;
 	}
 	
+	//Main methods, create the window
 	public static void main(String[] args) throws SlickException
 	{
 		AppGameContainer appgc;
 		WindowGame wGame = new WindowGame();
-		appgc = new AppGameContainer(wGame);
-		appgc.setDisplayMode(wGame.getWindowSizeX(), wGame.getWindowSizeY(), false);
-		appgc.setShowFPS(false);
-		appgc.setTargetFrameRate(100);
-		appgc.start();
+		appgc = new AppGameContainer(wGame); //set our game in the container
+		appgc.setDisplayMode(wGame.getWindowSizeX(), wGame.getWindowSizeY(), false); //the container & the game have the same dimensions
+		appgc.setShowFPS(false); //don't show the FPS
+		appgc.setTargetFrameRate(100); //default frame rate
+		appgc.start(); //Launch the game
 	}
 }

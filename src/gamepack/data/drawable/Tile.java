@@ -139,6 +139,7 @@ public class Tile implements DrawableObject
 	}
 	
 	
+	
 	//OTHER
 	
 	//Double the value of the tile, increment the powerOfTwo and refresh the color

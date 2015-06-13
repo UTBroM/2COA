@@ -39,7 +39,7 @@ public class PointMatrix
 	}
 	
 	//get the point at the x and y coordinates
-	public Point getAt(int x, int y)
+	public Point get(int x, int y)
 	{
 		return matrix.get(y).get(x);
 	}
@@ -67,7 +67,7 @@ public class PointMatrix
 		{
 			for (int j = 0; j < matrixSize; j++)
 			{
-				if(getAt(i, j).getX() == point.getX() && getAt(i, j).getY() == point.getY())
+				if(get(i, j).getX() == point.getX() && get(i, j).getY() == point.getY())
 				{
 					positions[0] = i;
 					positions[1] = j;
