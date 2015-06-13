@@ -104,23 +104,18 @@ public class TileMatrixManager
 
 	}
 
-	// Return the TileList of the TileListManager to display it and to save it
+	// Return the TileMatrix of the TileMatrixManager to display it and to save it
 	public TileMatrix getTileMatrix()
 	{
 		return tileMatrix;
 	}
 
-	// Return the TileList of the TileListManager to display it and to save it
+	// Return the TileMatrix of the TileMatrixManager to display it and to save it
 	public TileMatrix getNextTileMatrix()
 	{
 		return nextTileMatrix;
 	}
 
-	// Return the TileList of the TileListManager to display it and to save it
-	public PointMatrix getPointMatrix()
-	{
-		return goodPositions;
-	}
 
 	// return the score
 	public int getScore()
