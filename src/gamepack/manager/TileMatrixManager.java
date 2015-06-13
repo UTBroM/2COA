@@ -427,10 +427,10 @@ public class TileMatrixManager
 					// if the tile has to move
 					if (currentDirection != Direction.None)
 					{
-						trueIfMovement = true;
 						// if the tile is not arrived
 						if (!currentTile.isArrived())
 						{
+							trueIfMovement = true;
 							// move the tile depending on the FPS
 							pixelPerFrame = pixelPerSecond / FPS;
 							if (currentDirection == Direction.Left)

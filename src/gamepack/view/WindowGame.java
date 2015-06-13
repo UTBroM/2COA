@@ -122,7 +122,7 @@ public class WindowGame extends BasicGame
 			{
 				//If there was a movement (so if each tiles are not stuck in a corner for example)
 				//(one movement is always done to check if the tile are arrived and to reset their arrived point)
-				if(numberOfFrameWithMovement != 1)
+				if(numberOfFrameWithMovement != 0)
 				{
 					//We generate a new tile
 					gameManager.generateNewTile();
