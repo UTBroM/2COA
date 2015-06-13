@@ -169,7 +169,6 @@ public class WindowGame extends BasicGame
 		//If we are waiting for an event or if the movement has been done
 		if (state == 0 || state == 2)
 		{
-			state = 1;
 			
 			//if we press a direction
 			Direction directionPressed = Direction.None;
@@ -184,7 +183,6 @@ public class WindowGame extends BasicGame
 			//if we press a command
 			else 
 			{
-				state=0; 
 				if (key == Input.KEY_F1)	//F1 save the game
 					gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
 				else if (key == Input.KEY_F2)	//F2 load the game
@@ -197,9 +195,10 @@ public class WindowGame extends BasicGame
 			}
 			
 			
-			//If we are saving, we do not generate tile
-			if(state == 1)
+			//If we have press a key for a movement
+			if(directionPressed != Direction.None)
 			{
+				state = 1;
 				numberOfFrameWithMovement = 0;	//set the number of frame with movement at 0
 				gameManager.initMovement(directionPressed);	//launch the movement for all tiles
 				
