@@ -5,6 +5,7 @@ import gamepack.data.drawable.TileMatrix;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -56,7 +57,13 @@ public class GameSaver
 		String savedFile = readFile();
 		
 	
-		
+		PrintWriter writer = new PrintWriter("dicWiki.txt");
+		for(String n : Dic.keySet())
+		{
+			String s = Dic.get(n).toStringForFile();
+			writer.println(s + " x");
+		}
+		writer.close();
 
 		TileMatrix tMatrix = new TileMatrix(0,tileSize);
 		return tMatrix;
@@ -65,7 +72,20 @@ public class GameSaver
 	public void save(TileMatrix tMatrix)
 	{
 		String file = "";
+		for(int i = 0 ; i < tMatrix.getMatrixSize(); i++)
+		{
+			for(int j = 0 ; j < tMatrix.getMatrixSize(); j++)
+			{
+				if(tMatrix.get(j, i) != null)
+					file += tMatrix.get(j, i) + " ";
+				else
+					file += "0" + " ";
+			}
+			
+			file += "\n";
+		}
 		
+		fileScanner.
 	
 	}
 }

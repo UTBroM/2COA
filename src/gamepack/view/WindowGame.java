@@ -39,7 +39,8 @@ public class WindowGame extends BasicGame
 	{
 		//Parent Constructor
 		super("2C0A");
-		
+
+
 		
 		
 		//Attributes initialization
@@ -154,7 +155,7 @@ public class WindowGame extends BasicGame
 	
 	public boolean closeRequested()
 	{
-		//gSave.save(gameManager.getTileList());
+		gSave.save(gameManager.getTileMatrix());
 		
 		
 		
