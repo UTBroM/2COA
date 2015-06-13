@@ -8,25 +8,28 @@ public abstract class ProjectMethods
 	public static int powerOfTwo(int v)
 	{
 		int r = 0;
-		while(v % 2 == 0)
-		{
-			v = v/2;
-			r++;
-		}
-		return r+1;
+		if(v > 0)
+			while(v % 2 == 0)
+			{
+				v = v/2;
+				r++;
+			}
+		if(v == 1)
+			return r;
+		return 0;
 	}
 	
 	//Give the color of the tile in an array depending of its value
 	public static int[] getRGBColor(int power)
 	{
 		int r=0,g=0,b=0;
-		if(power <= 7) //jusqu'� 64
+		if(power <= 6) //jusqu'� 64
 		{
 			r = 230;
 			g = 210-power*20;
 			b = 200-power*20;
 		}
-		else if(power <= 12) //jusqu'� 2048
+		else if(power <= 11) //jusqu'� 2048
 		{
 			r = 230-(power-7)*3;
 			g = 210-(power-7)*5;

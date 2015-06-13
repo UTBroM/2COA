@@ -42,16 +42,17 @@ public class WindowGame extends BasicGame
 	
 		
 		//Attributes initialization
-		gSave = new GameSaver("save.txt", "score.txt");
-		numberOfFrameWithMovement = 0;
 		windowSizeX  = 800;
 		windowSizeY = 600;
-		grid = new Grid(windowSizeX, windowSizeY);
-		//    Get the new size of the size depending on the resolution (80% of the grid rectangle size)
 		state = 0;
 		gameFPS = 100;
+		numberOfFrameWithMovement = 0;
+		
+		//Object initialization
+		grid = new Grid(windowSizeX, windowSizeY);
+		gSave = new GameSaver("save.txt", "score.txt");
 
-
+		//Matrix Manager Initialization
 		generateGameManager();
 		
 	}
@@ -108,7 +109,6 @@ public class WindowGame extends BasicGame
 		
 		//Draw the score
 		this.drawScore(g);
-		
 	}
 	
 	//Do computation
@@ -117,6 +117,7 @@ public class WindowGame extends BasicGame
 		//if we're not waiting for an event
 		if(state != 0)
 		{
+			System.out.println("bla");
 			//if we press a key, we manage the movement and the fusions of tiles
 			if(state == 2)
 			{
