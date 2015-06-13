@@ -21,9 +21,6 @@ public class Tile implements DrawableObject
 	private Tile		arrivedTile;	//If the tile has an arrived Tile
 	private Point		arrivedPoint;	//If the tile has an arrived Point
 	
-	private int prevValue;
-	private Point prevPosition;
-	private Tile mergedTile;
 	
 	
 	public Tile(int x, int y, int value)
@@ -235,32 +232,6 @@ public class Tile implements DrawableObject
 		rectangleColor = new Color(rgb[0],rgb[1],rgb[2]);
 	}
 
-	public void setMergedPrev(Tile prevTile)
-	{
-		this.setPrev();
-		mergedTile = prevTile;
-	}
-	
-	public void setPrev()
-	{
-		prevPosition = new Point((int) rectangle.getX(), (int) rectangle.getY());
-		prevValue = value;
-		mergedTile = null;
-	}
-	
-	public Tile getMergedTile()
-	{
-		return this.mergedTile;
-	}
-	
-	public void undo()
-	{
-		this.setArrivedTile(null);
-		this.setArrivedPoint(this.prevPosition);
-		prevPosition = null;
-		prevValue = 0;
-		mergedTile = null;
-	}
 	
 	//draw the tile
 	public String toString()

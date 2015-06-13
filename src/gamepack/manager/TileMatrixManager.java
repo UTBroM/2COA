@@ -477,11 +477,5 @@ public class TileMatrixManager
 			}
 		}
 	}
-	/*
-	 * public void undo() 
-	 * { for (int i = 0; i < tileMatrix.getMatrixSize(); i++) 
-	 * { for(int j = 0 ; j < tileMatrix.getMatrixSize(); j++) 
-	 * { Tile t = this.tileMatrix.get(i, j); 
-	 * if(t != null) { if(t.getMergedTile() != null) { tileMatrix.add(t.getMergedTile()); } t.undo(); } } } }
-	 */
+
 }
