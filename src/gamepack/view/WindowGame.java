@@ -117,7 +117,6 @@ public class WindowGame extends BasicGame
 		//if we're not waiting for an event
 		if(state != 0)
 		{
-			System.out.println("bla");
 			//if we press a key, we manage the movement and the fusions of tiles
 			if(state == 2)
 			{
@@ -201,16 +200,12 @@ public class WindowGame extends BasicGame
 			//If we are saving, we do not generate tile
 			if(state == 1)
 			{
-				//if the key we have pressed is a direction
-				if(directionPressed != directionPressed.None)
-				{
-					numberOfFrameWithMovement = 0;	//set the number of frame with movement at 0
-					gameManager.initMovement(directionPressed);	//launch the movement for all tiles
-					
-				}
+				numberOfFrameWithMovement = 0;	//set the number of frame with movement at 0
+				gameManager.initMovement(directionPressed);	//launch the movement for all tiles
+				
 			}
 		}
-		//If we press a touch while there is a movement, we accelerate the movement
+		//If we press a key while there is a movement, we accelerate the movement
 		else
 			gameManager.manageMovement(1);
 		
