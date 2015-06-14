@@ -64,18 +64,22 @@ public class TileMatrixManager
 	// BOOOOOMM !
 	public void refreshBomb()
 	{
+		//set tileMatrix at null as it will not be usefull anymore and can contains unusefull references
+		tileMatrix = null;
+		
 		boolean isExplosed;
-		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
+		for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
 		{
-			for (int j = 0; j < tileMatrix.getMatrixSize(); j++)
+			for (int j = 0; j < nextTileMatrix.getMatrixSize(); j++)
 			{
-				Tile currentTile = this.tileMatrix.get(i, j);
+				Tile currentTile = this.nextTileMatrix.get(i, j);
 				if (currentTile instanceof Bomb)
 				{
 					isExplosed = ((Bomb) currentTile).minusRemainingMovement();
 					if (isExplosed)
 					{
 						this.explosion(j, i, ((Bomb) currentTile).getExplosionRadius());
+						currentTile = null;
 					}
 				}
 			}
@@ -87,21 +91,22 @@ public class TileMatrixManager
 	{
 		for (int i = -explosionRadius; i <= explosionRadius; i++)
 		{
-			for (int j = -explosionRadius; j < -explosionRadius; j++)
+			for (int j = -explosionRadius; j <= explosionRadius; j++)
 			{
+				System.out.println(i + " " + j);
 				int adjPosX = x + j;
 				int adjPosY = y + i;
 				boolean notOut = (0 <= adjPosX 
-									&& adjPosX < this.tileMatrix.getMatrixSize() 
+									&& adjPosX < this.nextTileMatrix.getMatrixSize() 
 									&& 0 <= adjPosY 
-									&& adjPosY < this.tileMatrix.getMatrixSize());
+									&& adjPosY < this.nextTileMatrix.getMatrixSize());
 				if (notOut)
 				{
-					this.tileMatrix.deleteAt(adjPosX, adjPosY);
+						
+					this.nextTileMatrix.deleteAt(adjPosX, adjPosY);
 				}
 			}
 		}
-
 	}
 
 	// Return the TileMatrix of the TileMatrixManager to display it and to save it
@@ -126,6 +131,7 @@ public class TileMatrixManager
 	// Create new tiles at the right positions
 	public boolean generateNewTile()
 	{
+		
 		// Initializations
 		boolean isFree;
 		Point currentGoodPosition;
@@ -458,11 +464,13 @@ public class TileMatrixManager
 		{
 			for (int j = 0; j < tileMatrix.getMatrixSize(); j++)
 			{
-				Tile t = this.tileMatrix.get(i, j);
+				Tile t = this.tileMatrix.get(j, i);
 				if (t != null)
 				{
 					if(t.refreshFusion())
+					{
 						score += t.getValue();
+					}
 					//if there is a fusion, the tile double its value, and the arrivedTile will be deleted
 					//when the tileMatrix will be deleted, at the beginning of the initMovement
 				}
