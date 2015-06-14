@@ -13,7 +13,6 @@ public class Grid implements DrawableObject
 	private int sizeX;
 	private int sizeY;
 	
-	private Color bgColor = new Color(0xC1B8B0);
 	private Color interiorColor = new Color(0xD6CDC4);
 	
 	private ArrayList<Rectangle> rectangleList;
@@ -66,10 +65,6 @@ public class Grid implements DrawableObject
 	
 	public void beDrawn(Graphics g)
 	{
-		/* BackGround */
-		g.setColor(bgColor);
-		g.fillRect(0, 0, sizeX, sizeY);
-		
 		/* Rectangles */
 		g.setColor(interiorColor);
 		for (Rectangle rectangle : rectangleList)
