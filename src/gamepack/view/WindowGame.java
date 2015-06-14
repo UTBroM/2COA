@@ -1,10 +1,12 @@
 package gamepack.view;
 
 import gamepack.data.drawable.Grid;
-import gamepack.data.drawable.TileMatrix;
 import gamepack.manager.GameSaver;
 import gamepack.manager.TileMatrixManager;
 import gamepack.utility.Direction;
+import gamepack.utility.GameState;
+
+import java.awt.Font;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -13,6 +15,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 
 public class WindowGame extends BasicGame
 {
@@ -21,37 +24,31 @@ public class WindowGame extends BasicGame
 	private final int windowSizeX;
 	private final int windowSizeY;
 	
-	private int state; /*
-						 * 0 = wait for input
-						 * 1 = keep calm it's moving (input isn't possible)
-						 * 2 = end of moving & generation of a new tile
-						 */
+	private GameState state;
 	
 	private Grid grid;
 	private TileMatrixManager gameManager;
 	private int gameFPS;
-	private int numberOfFrameWithMovement;		//in order to generate a new tile only if there is movement
+	private int numberOfFrameWithMovement; //in order to generate a new tile only if there is movement
 	private GameSaver gSave;
-	
 	
 	//		METHODS
 	public WindowGame()
 	{
 		//Parent Constructor
 		super("2C0A");
-	
 		
 		//Attributes initialization
-		windowSizeX  = 800;
+		windowSizeX = 800;
 		windowSizeY = 600;
-		state = 0;
+		state = GameState.Ongoing;
 		gameFPS = 100;
 		numberOfFrameWithMovement = 0;
 		
 		//Object initialization
 		grid = new Grid(windowSizeX, windowSizeY);
 		gSave = new GameSaver("save.txt", "score.txt");
-
+		
 		//Matrix Manager Initialization
 		generateGameManager();
 		
@@ -60,7 +57,7 @@ public class WindowGame extends BasicGame
 	private void generateGameManager()
 	{
 		//If there is no save
-		if(!gSave.areFilesAvailable())
+		if (!gSave.areFilesAvailable())
 		{
 			gameManager = new TileMatrixManager(grid.getRectangles());
 			
@@ -88,7 +85,7 @@ public class WindowGame extends BasicGame
 	{
 		return windowSizeX;
 	}
-
+	
 	//Size methods for the container
 	public int getWindowSizeY()
 	{
@@ -98,45 +95,59 @@ public class WindowGame extends BasicGame
 	//Refresh the screen
 	public void render(GameContainer container, Graphics g) throws SlickException
 	{
+		g.setBackground(new Color(0xC1B8B0));
 		//Draw the grid
-		grid.beDrawn(g);
-		
-		//Draw the next tile matrix if movements have been done, otherwise draw the tile matrix
-		if(state == 0 || state == 2)
-			gameManager.getNextTileMatrix().beDrawn(g);
+		if (state == GameState.Win)
+		{
+			this.drawWin(g);
+		}
+		else if (state == GameState.Lose)
+		{
+			this.drawLose(g);
+		}
 		else
-			gameManager.getTileMatrix().beDrawn(g);
-		
-		//Draw the score
-		this.drawScore(g);
+		{
+			grid.beDrawn(g);
+			
+			//Draw the next tile matrix if movements have been done, otherwise draw the tile matrix
+			if (state == GameState.Ongoing || state == GameState.DoneMoving)
+				gameManager.getNextTileMatrix().beDrawn(g);
+			else
+				gameManager.getTileMatrix().beDrawn(g);
+			
+			//Draw the score
+			this.drawScore(g);
+		}
 	}
 	
 	//Do computation
 	public void update(GameContainer gc, int delta) throws SlickException
 	{
 		//if we're not waiting for an event
-		if(state != 0)
+		
+		if (state != GameState.Ongoing)
 		{
 			//Once tiles have finished their movement
-			if(state == 2)
+			if (state == GameState.DoneMoving)
 			{
 				//If there was a movement (so if each tiles are not stuck in a corner for example)
 				//(one movement is always done to check if the tile are arrived and to reset their arrived point)
-				if(numberOfFrameWithMovement != 0)
+				if (numberOfFrameWithMovement != 0)
 				{
 					//We generate a new tile
 					gameManager.generateNewTile();
 					gameManager.refreshBomb();
-					state = 0;
+					state = gameManager.isOver();
 				}
 			}
 			//if a movement has been initialized
-			if (state == 1)
+			if (state == GameState.Moving)
 			{
-				if(!gameManager.manageMovement(gameFPS))	//if there is no movement (all tiles have their arrivedPoint equal to null)
-					state = 2;
-				else 										//if there is a movement
-					numberOfFrameWithMovement++;			//we notice that there was a movement
+				if (!gameManager.manageMovement(gameFPS)) //if there is no movement (all tiles have their arrivedPoint equal to null)
+					state = GameState.DoneMoving;
+				else
+					//if there is a movement
+					numberOfFrameWithMovement++; //we notice that there was a movement
 				gameManager.manageFusion();
 			}
 			refreshFPS(gc.getFPS());
@@ -144,14 +155,12 @@ public class WindowGame extends BasicGame
 		
 	}
 	
-	
-	
 	//check if the FPS is correct (the default function to manage FPS is not really good)
 	public void refreshFPS(int fps)
 	{
-		if(fps == 0)
+		if (fps == 0)
 			fps = 60;
-
+		
 		gameFPS = fps;
 	}
 	
@@ -159,18 +168,51 @@ public class WindowGame extends BasicGame
 	public void drawScore(Graphics g)
 	{
 		g.setColor(Color.white);
-		g.drawString("score : " + this.gameManager.getScore(), container.getWidth() -150, 10);
-		
+		g.drawString("score : " + this.gameManager.getScore(), container.getWidth() - 150, 10);
 	}
 	
+	public void drawWin(Graphics g)
+	{
+		Color transparentbg = new Color(0x88C1B8B0); // Create a new color, more transparent than the bgColor
+		Color prevColor;
+		Font font = new Font("Times New Roman", Font.BOLD, 32);
+		TrueTypeFont ttf = new TrueTypeFont(font, true);
+		String str1 = new String("Congratulation !");
+		String str2 = new String("You won with a score of " + this.gameManager.getScore());
+		grid.beDrawn(g);
+		gameManager.getTileMatrix().beDrawn(g);
+		prevColor = g.getColor();
+		g.setColor(transparentbg);
+		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(str1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(str1)*1.5), str1, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(str2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(str2)+ttf.getHeight(str1)), str2, Color.black);
+		g.setColor(prevColor);
+	}
+	
+	public void drawLose(Graphics g)
+	{
+		Color transparentbg = new Color(0x88C1B8B0); // Create a new color, more transparent than the bgColor
+		Color prevColor;
+		Font font = new Font("Times New Roman", Font.BOLD, 32);
+		TrueTypeFont ttf = new TrueTypeFont(font, true);
+		String str1 = new String("You lost ...");
+		String str2 = new String("But try again and beat your score of " + this.gameManager.getScore()+ " !");
+		grid.beDrawn(g);
+		gameManager.getNextTileMatrix().beDrawn(g);
+		prevColor = g.getColor();
+		g.setColor(transparentbg);
+		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(str1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(str1)*1.5), str1, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(str2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(str2)+ttf.getHeight(str1)), str2, Color.black);
+		g.setColor(prevColor);
+	}
 	
 	//when a key is pressed
 	public void keyPressed(int key, char c)
 	{
 		//If we are waiting for an event or if the movement has been done
-		if (state == 0 || state == 2)
+		if (state == GameState.Ongoing || state == GameState.DoneMoving)
 		{
-			
 			//if we press a direction
 			Direction directionPressed = Direction.None;
 			if (key == Input.KEY_LEFT || key == Input.KEY_Q)
@@ -182,26 +224,25 @@ public class WindowGame extends BasicGame
 			else if (key == Input.KEY_UP || key == Input.KEY_Z)
 				directionPressed = Direction.Up;
 			//if we press a command
-			else 
+			else
 			{
-				if (key == Input.KEY_F1)	//F1 save the game
+				if (key == Input.KEY_F1) //F1 save the game
 					gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
-				else if (key == Input.KEY_F2)	//F2 load the game
+				else if (key == Input.KEY_F2) //F2 load the game
 					gameManager = new TileMatrixManager(grid.getRectangles(), gSave.getSavedTileList(), gSave.getScore());
-				else if (key == Input.KEY_F3)	//F3 make a new game
+				else if (key == Input.KEY_F3) //F3 make a new game
 				{
 					gSave.deleteSave();
 					generateGameManager();
 				}
 			}
 			
-			
 			//If we have press a key for a movement
-			if(directionPressed != Direction.None)
+			if (directionPressed != Direction.None)
 			{
-				state = 1;
-				numberOfFrameWithMovement = 0;	//set the number of frame with movement at 0
-				gameManager.initMovement(directionPressed);	//launch the movement for all tiles
+				state = GameState.Moving;
+				numberOfFrameWithMovement = 0; //set the number of frame with movement at 0
+				gameManager.initMovement(directionPressed); //launch the movement for all tiles
 				
 			}
 		}
