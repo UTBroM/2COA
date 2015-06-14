@@ -6,6 +6,7 @@ import gamepack.data.drawable.Bomb;
 import gamepack.data.drawable.Tile;
 import gamepack.data.drawable.TileMatrix;
 import gamepack.utility.Direction;
+import gamepack.utility.GameState;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,44 +19,43 @@ public class TileMatrixManager
 	//ATTRIBUTES
 	private TileMatrix tileMatrix;
 	private TileMatrix nextTileMatrix;
+	private TileMatrix prevTileMatrix;
 	private final PointMatrix goodPositions;
 	private final Random rand;
 	private int score;
-
 	
 	//METHODS
 	// Will compute the goodPositins where Tiles will be
 	public TileMatrixManager(ArrayList<Rectangle> rectangleList)
 	{
-		tileMatrix = new TileMatrix((int) Math.sqrt(rectangleList.size()),(int) rectangleList.get(0).getWidth());
+		tileMatrix = new TileMatrix((int) Math.sqrt(rectangleList.size()), (int) rectangleList.get(0).getWidth());
 		nextTileMatrix = tileMatrix;
 		rand = new Random();
 		this.score = 0;
-
+		
 		// Create the point matrix with the top-left positions of the rectangles
 		// computed in the Grid
 		this.goodPositions = new PointMatrix(rectangleList);
-
-	}
 		
+	}
+	
 	// Constructor by save
 	public TileMatrixManager(ArrayList<Rectangle> rectangleList, ArrayList<Tile> savedTileList, int savedScore)
 	{
 		this(rectangleList);
 		score = savedScore;
 		//create the tile matrix
-		for(int y=0; y < tileMatrix.getMatrixSize(); y++)
-			for(int x=0; x < tileMatrix.getMatrixSize(); x++)
+		for (int y = 0; y < tileMatrix.getMatrixSize(); y++)
+			for (int x = 0; x < tileMatrix.getMatrixSize(); x++)
 			{
-				Tile currentTile = savedTileList.get(y*tileMatrix.getMatrixSize()+x);
-				if(currentTile != null)
+				Tile currentTile = savedTileList.get(y * tileMatrix.getMatrixSize() + x);
+				if (currentTile != null)
 				{
 					tileMatrix.setAt(x, y, currentTile);
-					currentTile.setX(goodPositions.get(x,y).getX());
-					tileMatrix.get(x, y).setY(goodPositions.get(x,y).getY());
+					currentTile.setX(goodPositions.get(x, y).getX());
+					tileMatrix.get(x, y).setY(goodPositions.get(x, y).getY());
 				}
 			}
-		
 		
 		nextTileMatrix = tileMatrix;
 	}
@@ -81,7 +81,7 @@ public class TileMatrixManager
 			}
 		}
 	}
-
+	
 	// Let's BOOOOOOOOM ! #bingbadaboum boum bim boum boum
 	public void explosion(int x, int y, int explosionRadius)
 	{
@@ -91,38 +91,34 @@ public class TileMatrixManager
 			{
 				int adjPosX = x + j;
 				int adjPosY = y + i;
-				boolean notOut = (0 <= adjPosX 
-									&& adjPosX < this.tileMatrix.getMatrixSize() 
-									&& 0 <= adjPosY 
-									&& adjPosY < this.tileMatrix.getMatrixSize());
+				boolean notOut = (0 <= adjPosX && adjPosX < this.tileMatrix.getMatrixSize() && 0 <= adjPosY && adjPosY < this.tileMatrix.getMatrixSize());
 				if (notOut)
 				{
 					this.tileMatrix.deleteAt(adjPosX, adjPosY);
 				}
 			}
 		}
-
+		
 	}
-
+	
 	// Return the TileMatrix of the TileMatrixManager to display it and to save it
 	public TileMatrix getTileMatrix()
 	{
 		return tileMatrix;
 	}
-
+	
 	// Return the TileMatrix of the TileMatrixManager to display it and to save it
 	public TileMatrix getNextTileMatrix()
 	{
 		return nextTileMatrix;
 	}
-
-
+	
 	// return the score
 	public int getScore()
 	{
 		return score;
 	}
-
+	
 	// Create new tiles at the right positions
 	public boolean generateNewTile()
 	{
@@ -131,7 +127,7 @@ public class TileMatrixManager
 		Point currentGoodPosition;
 		Tile currentTile;
 		ArrayList<Point> goodFreePoint = new ArrayList<Point>();
-
+		
 		// Construction of a new List of point which contain only free point for
 		// new Tile
 		for (int i = 0; i < goodPositions.size(); i++)
@@ -158,11 +154,9 @@ public class TileMatrixManager
 			// Choose randomly a free space and add the new Tile
 			int randInt = rand.nextInt(goodFreePoint.size());
 			// Variable which contain the x position in the matrix
-			int xNewTile = goodPositions.getPositionsOf(goodFreePoint
-					.get(randInt))[0];
+			int xNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[0];
 			// Variable which contain the y position in the matrix
-			int yNewTile = goodPositions.getPositionsOf(goodFreePoint
-					.get(randInt))[1];
+			int yNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[1];
 			// System.out.println(nextTileMatrix);
 			if (rand.nextInt(20) == 0)
 			{
@@ -177,25 +171,25 @@ public class TileMatrixManager
 			return true;
 		}
 	}
-
+	
 	// Give a random tile value for a Tile
 	public int getRandomTileValue()
 	{
 		int value;
 		switch (rand.nextInt(4))
 		{
-		case 0:
-			value = 4;
-			break;
-
-		default:
-			value = 2;
-			break;
+			case 0:
+				value = 4;
+				break;
+			
+			default:
+				value = 2;
+				break;
 		}
-
+		
 		return value;
 	}
-
+	
 	// Give each tile his direction and his arrived Tile(null if no arrived tile, None if no Direction)
 	// Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
@@ -204,14 +198,14 @@ public class TileMatrixManager
 		// the grid
 		tileMatrix = new TileMatrix(nextTileMatrix);
 		nextTileMatrix.setDirection(d);
-
+		
 		// Computation on the nextMatrix
 		int size = nextTileMatrix.getMatrixSize();
-
+		
 		// Initialization of the list of column on line
 		ArrayList<ArrayList<Tile>> lineOrColumnList = new ArrayList<ArrayList<Tile>>();
 		boolean line = false;
-
+		
 		// if left or right, we make the line list
 		if (d == Direction.Right || d == Direction.Left)
 			for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
@@ -219,30 +213,30 @@ public class TileMatrixManager
 				lineOrColumnList.add(nextTileMatrix.getLine(i));
 				line = true;
 			}
-
+		
 		// if up or down, we make the column list
 		if (d == Direction.Down || d == Direction.Up)
 			for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
 			{
 				lineOrColumnList.add(nextTileMatrix.getColumn(i));
 			}
-
+		
 		for (int y = 0; y < lineOrColumnList.size(); y++)
 		{
 			// Initializations
 			ArrayList<Tile> lineOrColumn = lineOrColumnList.get(y);
 			Tile curTile = null, prevTile = null;
-
+			
 			// Revert the line/column if we go right or down (simplify
 			// computation)
 			boolean revert = d == Direction.Right || d == Direction.Down;
 			if (revert)
 				Collections.reverse(lineOrColumn); // O(n)
-
+				
 			// we go through the line or the column
 			for (int x = 0; x < lineOrColumn.size(); x++)
 			{
-
+				
 				// Ok so from here it will get more complicated
 				// The goal from now is to go through the column or the line of
 				// tile from the left to the right
@@ -283,7 +277,7 @@ public class TileMatrixManager
 					//If we are not at the first tile
 					else
 					{
-
+						
 						// if the tile will fusion
 						if (curTile.getValue() == prevTile.getValue() && prevTile.getArrivedTile() == null)
 						{
@@ -294,11 +288,11 @@ public class TileMatrixManager
 						// otherwise
 						else
 						{
-
+							
 							Point prevTilePoint = prevTile.getArrivedPoint();
 							int xPoint = goodPositions.getPositionsOf(prevTilePoint)[0];
 							int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
-
+							
 							Point ArrPoint = null;
 							if (line)
 							{
@@ -307,12 +301,10 @@ public class TileMatrixManager
 								else
 								{
 									if (!revert)
-										ArrPoint = goodPositions.get(
-												xPoint + 1, yPoint);
+										ArrPoint = goodPositions.get(xPoint + 1, yPoint);
 									else
-										ArrPoint = goodPositions.get(
-												xPoint - 1, yPoint);
-
+										ArrPoint = goodPositions.get(xPoint - 1, yPoint);
+									
 								}
 							}
 							else
@@ -325,23 +317,23 @@ public class TileMatrixManager
 										ArrPoint = goodPositions.get(xPoint, yPoint + 1);
 									else
 										ArrPoint = goodPositions.get(xPoint, yPoint - 1);
-
+									
 								}
 							}
-
-							curTile.setArrivedPoint(ArrPoint);
 							
+							curTile.setArrivedPoint(ArrPoint);
 							
 							//Change the tile position in the list
 							
 							// utiliser pour simplifier plus tard
 							/*
-							 * lineOrColumn.set(x, null); 
-							 * int newX = goodPositions.getPositionsOf(ArrPoint)[0]; 
+							 * lineOrColumn.set(x, null);
+							 * int newX =
+							 * goodPositions.getPositionsOf(ArrPoint)[0];
 							 * lineOrColumn.set(newX, curTile);
 							 */
 							boolean changeSet = false;
-
+							
 							if (line)
 							{
 								if (!revert)
@@ -364,8 +356,7 @@ public class TileMatrixManager
 									if (!revert)
 										lineOrColumn.set(xPoint + 1, curTile);
 									else
-										lineOrColumn.set(size - 1 - xPoint + 1,
-												curTile);
+										lineOrColumn.set(size - 1 - xPoint + 1, curTile);
 								}
 								else
 								{
@@ -373,12 +364,11 @@ public class TileMatrixManager
 									if (!revert)
 										lineOrColumn.set(yPoint + 1, curTile);
 									else
-										lineOrColumn.set(size - 1 - yPoint + 1,
-												curTile);
+										lineOrColumn.set(size - 1 - yPoint + 1, curTile);
 								}
-
+								
 							}
-
+							
 						}
 					}
 					//if the current Tile is not null
@@ -388,27 +378,28 @@ public class TileMatrixManager
 			// revert again if we have reverted only for computation
 			if (revert)
 				Collections.reverse(lineOrColumn);
-
+			
 			//re-add the line or the column to the matrix
 			if (line) //O(1)
 				nextTileMatrix.setLine(y, lineOrColumn);
-			else	//O(n)
+			else
+				//O(n)
 				nextTileMatrix.setColumn(y, lineOrColumn);
-
+			
 		}
 	}
-
+	
 	// Move each Tile in the right direction and set them at the good position
 	// if they passe their good position
 	// return true if there is movement, false otherwise
 	public boolean manageMovement(int FPS)
 	{
-
+		
 		// init
 		boolean trueIfMovement = false; // For the state modification in WindowGame
 		final float pixelPerSecond = 2000.0f;
 		float pixelPerFrame = 0; // Speed of the tile
-
+		
 		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
 		{
 			for (int j = 0; j < tileMatrix.getMatrixSize(); j++)
@@ -418,7 +409,7 @@ public class TileMatrixManager
 				if (currentTile != null)
 				{
 					Direction currentDirection = currentTile.getDirection();
-
+					
 					// if the tile has to move
 					if (currentDirection != Direction.None)
 					{
@@ -436,7 +427,7 @@ public class TileMatrixManager
 								currentTile.move(0, +pixelPerFrame);
 							else if (currentDirection == Direction.Up)
 								currentTile.move(0, -pixelPerFrame);
-
+							
 							// if the tile has gone too far (because of low
 							// framerate etc..)
 							currentTile.improvePosition();
@@ -445,15 +436,15 @@ public class TileMatrixManager
 						// set to None
 						else
 							currentTile.setDirection(Direction.None);
-
+						
 					}
 				}
 			}
 		}
-
+		
 		return trueIfMovement;
 	}
-
+	
 	// call the function refreshFusion for each tile
 	public void manageFusion()
 	{
@@ -464,7 +455,7 @@ public class TileMatrixManager
 				Tile t = this.tileMatrix.get(i, j);
 				if (t != null)
 				{
-					if(t.refreshFusion())
+					if (t.refreshFusion())
 						score += t.getValue();
 					//if there is a fusion, the tile double its value, and the arrivedTile will be deleted
 					//when the tileMatrix will be deleted, at the beginning of the initMovement
@@ -472,5 +463,47 @@ public class TileMatrixManager
 			}
 		}
 	}
-
+	
+	public GameState isOver()
+	{
+		boolean win = false, lose = true;
+		for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
+			for (int j = 0; j < nextTileMatrix.getMatrixSize(); j++)
+			{
+				Tile t = this.nextTileMatrix.get(i, j);
+				if (t == null)
+				{
+					lose = false;
+				}
+				else if (t.getValue() >= 2048)// Win value
+					win = true;
+			}
+		if (win)
+			return GameState.Win;
+		else if (lose)
+		{
+			for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
+				for (int j = 0; j < nextTileMatrix.getMatrixSize(); j++)
+				{
+					Tile t, t2, t3;
+					t = this.nextTileMatrix.get(i, j);
+					if (t != null)
+					{
+						if (i < tileMatrix.getMatrixSize() - 1 && (t2 = this.nextTileMatrix.get(i + 1, j)) != null)
+						{
+							if (t.getValue() == t2.getValue())
+								lose = false;
+						}
+						if (j < nextTileMatrix.getMatrixSize() - 1 && (t3 = this.nextTileMatrix.get(i, j + 1)) != null)
+						{
+							if (t.getValue() == t3.getValue())
+								lose = false;
+						}
+					}
+				}
+			if (lose)
+				return GameState.Lose;
+		}
+		return GameState.Ongoing;
+	}
 }
