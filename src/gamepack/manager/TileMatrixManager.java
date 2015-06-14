@@ -307,11 +307,9 @@ public class TileMatrixManager
 								else
 								{
 									if (!revert)
-										ArrPoint = goodPositions.get(
-												xPoint + 1, yPoint);
+										ArrPoint = goodPositions.get(xPoint + 1, yPoint);
 									else
-										ArrPoint = goodPositions.get(
-												xPoint - 1, yPoint);
+										ArrPoint = goodPositions.get(xPoint - 1, yPoint);
 
 								}
 							}
@@ -407,7 +405,7 @@ public class TileMatrixManager
 		// init
 		boolean trueIfMovement = false; // For the state modification in WindowGame
 		final float pixelPerSecond = 2000.0f;
-		float pixelPerFrame = 0; // Speed of the tile
+		float pixelPerFrame =  pixelPerSecond / FPS; // Speed of the tile
 
 		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
 		{
@@ -427,7 +425,6 @@ public class TileMatrixManager
 						{
 							trueIfMovement = true;
 							// move the tile depending on the FPS
-							pixelPerFrame = pixelPerSecond / FPS;
 							if (currentDirection == Direction.Left)
 								currentTile.move(-pixelPerFrame, 0);
 							else if (currentDirection == Direction.Right)
