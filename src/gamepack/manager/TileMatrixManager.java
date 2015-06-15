@@ -65,9 +65,9 @@ public class TileMatrixManager
 	public void refreshBomb()
 	{
 		boolean isExplosed;
-		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
+		for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
 		{
-			for (int j = 0; j < tileMatrix.getMatrixSize(); j++)
+			for (int j = 0; j < nextTileMatrix.getMatrixSize(); j++)
 			{
 				Tile currentTile = this.tileMatrix.get(i, j);
 				if (currentTile instanceof Bomb)
@@ -91,7 +91,7 @@ public class TileMatrixManager
 			{
 				int adjPosX = x + j;
 				int adjPosY = y + i;
-				boolean notOut = (0 <= adjPosX && adjPosX < this.tileMatrix.getMatrixSize() && 0 <= adjPosY && adjPosY < this.tileMatrix.getMatrixSize());
+				boolean notOut = (0 <= adjPosX && adjPosX < this.nextTileMatrix.getMatrixSize() && 0 <= adjPosY && adjPosY < this.nextTileMatrix.getMatrixSize());
 				if (notOut)
 				{
 					this.nextTileMatrix.deleteAt(adjPosX, adjPosY);
@@ -452,7 +452,7 @@ public class TileMatrixManager
 		{
 			for (int j = 0; j < tileMatrix.getMatrixSize(); j++)
 			{
-				Tile t = this.tileMatrix.get(i, j);
+				Tile t = this.tileMatrix.get(j, i);
 				if (t != null)
 				{
 					if (t.refreshFusion())
