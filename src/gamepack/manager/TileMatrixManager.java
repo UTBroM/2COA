@@ -87,7 +87,7 @@ public class TileMatrixManager
 	{
 		for (int i = -explosionRadius; i <= explosionRadius; i++)
 		{
-			for (int j = -explosionRadius; j < -explosionRadius; j++)
+			for (int j = -explosionRadius; j <= explosionRadius; j++)
 			{
 				int adjPosX = x + j;
 				int adjPosY = y + i;
