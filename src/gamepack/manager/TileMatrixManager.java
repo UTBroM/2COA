@@ -71,7 +71,7 @@ public class TileMatrixManager
 		{
 			for (int j = 0; j < nextTileMatrix.getMatrixSize(); j++)
 			{
-				Tile currentTile = this.nextTileMatrix.get(i, j);
+				Tile currentTile = this.nextTileMatrix.get(j, i);
 				if (currentTile instanceof Bomb)
 				{
 					isExplosed = ((Bomb) currentTile).minusRemainingMovement();
