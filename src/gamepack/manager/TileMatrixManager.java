@@ -94,7 +94,7 @@ public class TileMatrixManager
 				boolean notOut = (0 <= adjPosX && adjPosX < this.tileMatrix.getMatrixSize() && 0 <= adjPosY && adjPosY < this.tileMatrix.getMatrixSize());
 				if (notOut)
 				{
-					this.tileMatrix.deleteAt(adjPosX, adjPosY);
+					this.nextTileMatrix.deleteAt(adjPosX, adjPosY);
 				}
 			}
 		}
