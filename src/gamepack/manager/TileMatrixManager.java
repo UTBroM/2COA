@@ -65,11 +65,13 @@ public class TileMatrixManager
 	public void refreshBomb()
 	{
 		boolean isExplosed;
+		tileMatrix = null;
+		
 		for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
 		{
 			for (int j = 0; j < nextTileMatrix.getMatrixSize(); j++)
 			{
-				Tile currentTile = this.tileMatrix.get(i, j);
+				Tile currentTile = this.nextTileMatrix.get(i, j);
 				if (currentTile instanceof Bomb)
 				{
 					isExplosed = ((Bomb) currentTile).minusRemainingMovement();
