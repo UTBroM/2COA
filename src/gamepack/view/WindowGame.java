@@ -32,6 +32,10 @@ public class WindowGame extends BasicGame
 	private int numberOfFrameWithMovement; //in order to generate a new tile only if there is movement
 	private GameSaver gSave;
 	
+	public Color transparentbg;
+	public Font font;
+	TrueTypeFont ttf;
+	
 	//		METHODS
 	public WindowGame()
 	{
@@ -48,6 +52,9 @@ public class WindowGame extends BasicGame
 		//Object initialization
 		grid = new Grid(windowSizeX, windowSizeY);
 		gSave = new GameSaver("save.txt", "score.txt");
+		
+		transparentbg = new Color(0x88C1B8B0);
+		font = new Font("Times New Roman", Font.BOLD, 32);
 		
 		//Matrix Manager Initialization
 		generateGameManager();
@@ -96,6 +103,8 @@ public class WindowGame extends BasicGame
 	public void render(GameContainer container, Graphics g) throws SlickException
 	{
 		g.setBackground(new Color(0xC1B8B0));
+		if(ttf == null)
+			ttf = new TrueTypeFont(font, true);
 		//Draw the grid
 		if (state == GameState.Win)
 		{
@@ -170,40 +179,35 @@ public class WindowGame extends BasicGame
 		g.setColor(Color.white);
 		g.drawString("score : " + this.gameManager.getScore(), container.getWidth() - 150, 10);
 	}
+
 	
 	public void drawWin(Graphics g)
 	{
-		Color transparentbg = new Color(0x88C1B8B0); // Create a new color, more transparent than the bgColor
 		Color prevColor;
-		Font font = new Font("Times New Roman", Font.BOLD, 32);
-		TrueTypeFont ttf = new TrueTypeFont(font, true);
-		String str1 = new String("Congratulation !");
-		String str2 = new String("You won with a score of " + this.gameManager.getScore());
+		String strWin1 = new String("Congratulation !");
+		String strWin2 = new String("You won with a score of " + this.gameManager.getScore());
 		grid.beDrawn(g);
 		gameManager.getTileMatrix().beDrawn(g);
 		prevColor = g.getColor();
 		g.setColor(transparentbg);
 		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(str1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(str1)*1.5), str1, Color.black);
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(str2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(str2)+ttf.getHeight(str1)), str2, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin1)*1.5), strWin1, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin2)+ttf.getHeight(strWin1)), strWin2, Color.black);
 		g.setColor(prevColor);
 	}
 	
 	public void drawLose(Graphics g)
 	{
-		Color transparentbg = new Color(0x88C1B8B0); // Create a new color, more transparent than the bgColor
 		Color prevColor;
-		Font font = new Font("Times New Roman", Font.BOLD, 32);
-		TrueTypeFont ttf = new TrueTypeFont(font, true);
-		String str1 = new String("You lost ...");
-		String str2 = new String("But try again and beat your score of " + this.gameManager.getScore()+ " !");
+		String strLose1 = new String("You lost ...");
+		String strLose2 = new String("But try again and beat your score of " + this.gameManager.getScore()+ " !");
 		grid.beDrawn(g);
 		gameManager.getNextTileMatrix().beDrawn(g);
 		prevColor = g.getColor();
 		g.setColor(transparentbg);
 		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(str1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(str1)*1.5), str1, Color.black);
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(str2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(str2)+ttf.getHeight(str1)), str2, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose1)*1.5), strLose1, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose2)+ttf.getHeight(strLose1)), strLose2, Color.black);
 		g.setColor(prevColor);
 	}
 	
