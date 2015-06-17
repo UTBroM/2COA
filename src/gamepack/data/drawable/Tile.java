@@ -18,7 +18,7 @@ public class Tile implements DrawableObject
 	protected Color rectangleColor;
 	
 	private Direction	tileDirection;	//Give in which direction the tile goes
-	private Tile		arrivedTile;	//If the tile has an arrived Tile
+	protected Tile		arrivedTile;	//If the tile has an arrived Tile
 	private Point		arrivedPoint;	//If the tile has an arrived Point
 	
 	
