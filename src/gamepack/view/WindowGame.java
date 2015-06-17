@@ -256,6 +256,14 @@ public class WindowGame extends BasicGame
 		
 	}
 	
+	@Override
+    public boolean closeRequested() 
+	{
+		// Save the game when closing
+		gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
+		return true;
+    }
+	
 	//Main methods, create the window
 	public static void main(String[] args) throws SlickException
 	{
