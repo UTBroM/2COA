@@ -53,7 +53,7 @@ public class WindowGame extends BasicGame
 		grid = new Grid(windowSizeX, windowSizeY);
 		gSave = new GameSaver("save.txt", "score.txt");
 		
-		transparentbg = new Color(0x88C1B8B0);
+		transparentbg = new Color(193, 184, 176, 136);
 		font = new Font("Times New Roman", Font.BOLD, 32);
 		
 		//Matrix Manager Initialization
@@ -86,7 +86,7 @@ public class WindowGame extends BasicGame
 	{
 		this.container = container;
 		ttf = new TrueTypeFont(font, true);
-		container.getGraphics().setBackground(new Color(0xC1B8B0));
+		container.getGraphics().setBackground(new Color(193, 184, 176));
 	}
 	
 	//Size methods for the container
