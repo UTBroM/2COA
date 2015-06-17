@@ -491,7 +491,7 @@ public class TileMatrixManager
 					t = this.nextTileMatrix.get(i, j);
 					if (t != null)
 					{
-						if (i < tileMatrix.getMatrixSize() - 1 && (t2 = this.nextTileMatrix.get(i + 1, j)) != null)
+						if (i < nextTileMatrix.getMatrixSize() - 1 && (t2 = this.nextTileMatrix.get(i + 1, j)) != null)
 						{
 							if (t.getValue() == t2.getValue())
 								lose = false;
