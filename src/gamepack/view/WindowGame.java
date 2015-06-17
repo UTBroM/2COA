@@ -85,6 +85,8 @@ public class WindowGame extends BasicGame
 	public void init(GameContainer container) throws SlickException
 	{
 		this.container = container;
+		ttf = new TrueTypeFont(font, true);
+		container.getGraphics().setBackground(new Color(0xC1B8B0));
 	}
 	
 	//Size methods for the container
@@ -102,9 +104,6 @@ public class WindowGame extends BasicGame
 	//Refresh the screen
 	public void render(GameContainer container, Graphics g) throws SlickException
 	{
-		g.setBackground(new Color(0xC1B8B0));
-		if(ttf == null)
-			ttf = new TrueTypeFont(font, true);
 		//Draw the grid
 		if (state == GameState.Win)
 		{
