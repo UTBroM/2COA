@@ -38,10 +38,10 @@ public class Grid implements DrawableObject
 		padX *= min / 800;
 		padY *= min / 800;
 		marginY *= min / 800;
-		leftMarginX *= min/800;
-		rightMarginX *= min/800;
-		rectSizeX = (min - (leftMarginX + rightMarginX) - (gridSize-1)*padX)/(gridSize);
-		rectSizeY = (min - (2*marginY) - (gridSize-1)*padY)/(gridSize);
+		leftMarginX *= min / 800;
+		rightMarginX *= min / 800;
+		rectSizeX = (min - (leftMarginX + rightMarginX) - (gridSize - 1) * padX) / (gridSize);
+		rectSizeY = (min - (2 * marginY) - (gridSize - 1) * padY) / (gridSize);
 		minRectSize = (float) Math.floor((rectSizeX < rectSizeY ? rectSizeX : rectSizeY));
 		rectangleList = new ArrayList<Rectangle>();
 		for (int i = 0; i < gridSize; i++)
@@ -60,7 +60,7 @@ public class Grid implements DrawableObject
 	
 	public int squareSize()
 	{
-		return (int) ((Rectangle)rectangleList.get(0)).getWidth();
+		return (int) ((Rectangle) rectangleList.get(0)).getWidth();
 	}
 	
 	public void beDrawn(Graphics g)
@@ -70,11 +70,13 @@ public class Grid implements DrawableObject
 		for (Rectangle rectangle : rectangleList)
 		{
 			//g.fill(rectangle);
-			g.fillRoundRect(rectangle.getX(),
-					rectangle.getY(), 
-					rectangle.getWidth(), 
-					rectangle.getHeight(), 
-					4);
+			g.fillRoundRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight(), 4);
 		}
+		// Menu 
+		g.setColor(Color.white);
+		g.drawString("Options :", sizeX - 150, sizeY/2);
+		g.drawString("F1 : Save game",sizeX - 150, sizeY/2 + 30 );
+		g.drawString("F2 : load game", sizeX - 150, sizeY/2 + 60);
+		g.drawString("F3 : New game", sizeX - 150, sizeY/2 + 90);
 	}
 }
