@@ -19,7 +19,6 @@ public class Grid implements DrawableObject
 	public Grid(int x, int y)
 	{
 		//Compute such that there is enough place for the score at the right of the screen
-		x*=0.8;
 		final float sizeOnLeft = 120;
 		if((float)x * 0.2 < sizeOnLeft)
 		{
