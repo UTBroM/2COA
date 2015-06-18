@@ -17,7 +17,7 @@ public class TextArea implements MouseListener, DrawableObject, KeyListener
 	private Rectangle textArea;
 	private Color background;
 	private Color foreground;
-	private Color foregroundBlock;
+	private Color foregroundBlock; //not able to enter text
 	private boolean enteringText;
 	
 	//constructor with the rectangle parameters
