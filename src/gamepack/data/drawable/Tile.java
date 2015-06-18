@@ -97,7 +97,7 @@ public class Tile implements DrawableObject
 	
 	protected int getTextX()
 	{
-		return getCenterX();
+		return (int) (getCenterX() - (ProjectMethods.getLength(value)*6.0)/2.0);
 	}
 	
 	protected int getTextY()

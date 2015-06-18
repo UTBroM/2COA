@@ -58,4 +58,10 @@ public abstract class ProjectMethods
 		return value;
 	}
 	
+	// Get the length of an integer
+	public static int getLength(int i)
+	{
+		return Integer.toString(i).length();
+	}
+	
 }

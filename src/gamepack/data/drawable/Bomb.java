@@ -52,6 +52,6 @@ public class Bomb extends Tile{
 				4);
 		
 		gr.setColor(Color.black);
-		gr.drawString("" + getValue() + "\n\n"+ getRemainingMovement() + " move", getTextX()-5, getTextY()-5);
+		gr.drawString("" + getValue() + "\n\n"+ getRemainingMovement() + " move", getTextX(), getTextY());
 	}
 }
