@@ -38,6 +38,8 @@ public class WindowGame extends BasicGame
 	private TrueTypeFont ttf;
 	private Image explosionImage1;
 	private Image explosionImage2;
+	private Image explosionImage3;
+	private Image explosionImage4;
 	private Animation explosionAnimation = new Animation();
 
 	private float tileSpeedMultiplicator = 1;
@@ -79,10 +81,14 @@ public class WindowGame extends BasicGame
 	public void init(GameContainer container) throws SlickException
 	{
 		//Initialisation of animation when BOOOOM !
-		explosionImage1 = new Image ("boom.gif");
+		explosionImage1 = new Image ("boom1.png");
 		explosionImage2 = new Image ("boom2.png");
-		explosionAnimation.addFrame(explosionImage1, 200);
-		explosionAnimation.addFrame(explosionImage2, 200);
+		explosionImage3 = new Image ("boom3.png");
+		explosionImage4 = new Image ("boom4.png");
+		explosionAnimation.addFrame(explosionImage1, 25);
+		explosionAnimation.addFrame(explosionImage2, 35);
+		explosionAnimation.addFrame(explosionImage3, 35);
+		explosionAnimation.addFrame(explosionImage4, 150);
 		explosionAnimation.setLooping(false);
 		
 		//Graphic aspect
