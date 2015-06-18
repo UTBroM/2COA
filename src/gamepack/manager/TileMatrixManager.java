@@ -95,6 +95,7 @@ public class TileMatrixManager
 		}
 		defusedBombs.clear();
 		
+		//Clear the positions of explosion
 		explosionPositions.clear();
 		for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
 		{
@@ -106,9 +107,12 @@ public class TileMatrixManager
 					isExplosed = ((Bomb) currentTile).minusRemainingMovement();
 					if (isExplosed)
 					{
+						//Add the position of the explosions
 						final int centerX = currentTile.getCenterX();
 						final int centerY = currentTile.getCenterY();
 						this.explosionPositions.add(new Point(centerX, centerY));
+						
+						//Start the BOOOM
 						this.explosion(j, i, ((Bomb) currentTile).getExplosionRadius());
 					}
 				}

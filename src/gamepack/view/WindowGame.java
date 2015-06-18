@@ -98,6 +98,7 @@ public class WindowGame extends BasicGame
 	//Slick2D method which start when the game container start
 	public void init(GameContainer container) throws SlickException
 	{
+		//Initialisation of animation when BOOOOM !
 		image1 = new Image ("boom.gif");
 		image2 = new Image ("boom2.png");
 		
@@ -105,6 +106,7 @@ public class WindowGame extends BasicGame
 		animation.addFrame(image2, 300);
 		animation.setLooping(false);
 		
+		//Graphic aspect
 		ttf = new TrueTypeFont(font, true);
 		container.getGraphics().setBackground(new Color(193, 184, 176)); 
 	}
