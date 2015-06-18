@@ -29,6 +29,7 @@ public class TileMatrixManager
 	private ArrayList<Bomb> defusedBombs;
 	
 	//METHODS
+	//________________ CONSTRUCTEUR ________________
 	// Will compute the goodPositins where Tiles will be
 	public TileMatrixManager(ArrayList<Rectangle> rectangleList)
 	{
@@ -65,7 +66,10 @@ public class TileMatrixManager
 		
 		nextTileMatrix = tileMatrix;
 	}
+
 	
+	
+	//________________ BOMBES ________________
 	public ArrayList<Point> getExplosionPositions() 
 	{
 		return explosionPositions;
@@ -74,26 +78,19 @@ public class TileMatrixManager
 	// BOOOOOMM !
 	public void refreshBomb()
 	{
-		boolean isExplosed;
+		//tileMatrix is not representative from here, so it's set to null
 		tileMatrix = null;
+		boolean isExplosed;
 		
+		//Take the bomb that launched the fusion in manageFusion and deleteIt from nextTileMatrix
 		for(int i = 0 ; i < defusedBombs.size();  i++)
-		{
 			for (int y = 0; y < nextTileMatrix.getMatrixSize(); y++)
-			{
 				for (int x = 0; x < nextTileMatrix.getMatrixSize(); x++)
-				{
 					if(nextTileMatrix.get(x,y) != null)
-					{
 						if(nextTileMatrix.get(x,y).equals(defusedBombs.get(i)))
-						{
 							nextTileMatrix.set(x, y, new Tile(defusedBombs.get(i)));
-						}
-					}
-				}
-			}
-		}
 		defusedBombs.clear();
+		
 		
 		//Clear the positions of explosion
 		for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
@@ -138,6 +135,10 @@ public class TileMatrixManager
 		
 	}
 	
+	
+	
+
+	//________________ GETTERS ________________
 	// Return the TileMatrix of the TileMatrixManager to display it and to save it
 	public TileMatrix getTileMatrix()
 	{
@@ -156,6 +157,9 @@ public class TileMatrixManager
 		return score;
 	}
 	
+	
+
+	//________________ TILE GENERATION ________________
 	// Create new tiles at the right positions
 	public boolean generateNewTile()
 	{
@@ -210,6 +214,9 @@ public class TileMatrixManager
 		}
 	}
 	
+	
+
+	//________________ MOVEMENT AND FUSION ________________
 	// Give each tile his direction and his arrived Tile(null if no arrived tile, None if no Direction)
 	// Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
@@ -345,8 +352,6 @@ public class TileMatrixManager
 							
 							curTile.setArrivedPoint(ArrPoint);
 							
-							//Change the tile position in the list
-							
 							// utiliser pour simplifier plus tard
 							/*
 							 * lineOrColumn.set(x, null);
@@ -354,41 +359,27 @@ public class TileMatrixManager
 							 * goodPositions.getPositionsOf(ArrPoint)[0];
 							 * lineOrColumn.set(newX, curTile);
 							 */
-							boolean changeSet = false;
-							
+
+							//Change the tile position in the list
+							int arrayX = 0;
 							if (line)
 							{
 								if (!revert)
-									changeSet = xPoint + 1 != x;
+									arrayX = xPoint + 1;
 								else
-									changeSet = size - 1 - xPoint + 1 != x;
+									arrayX = size - 1 - xPoint + 1;
 							}
 							else
 							{
 								if (!revert)
-									changeSet = yPoint + 1 != x;
+									arrayX = yPoint + 1;
 								else
-									changeSet = size - 1 - yPoint + 1 != x;
+									arrayX = size - 1 - yPoint + 1;
 							}
-							if (changeSet)
+							if (arrayX != x)
 							{
-								if (line)
-								{
-									lineOrColumn.set(x, null);
-									if (!revert)
-										lineOrColumn.set(xPoint + 1, curTile);
-									else
-										lineOrColumn.set(size - 1 - xPoint + 1, curTile);
-								}
-								else
-								{
-									lineOrColumn.set(x, null);
-									if (!revert)
-										lineOrColumn.set(yPoint + 1, curTile);
-									else
-										lineOrColumn.set(size - 1 - yPoint + 1, curTile);
-								}
-								
+								lineOrColumn.set(x, null);
+								lineOrColumn.set(arrayX, curTile);
 							}
 							
 						}
@@ -493,6 +484,9 @@ public class TileMatrixManager
 		}
 	}
 	
+
+	
+	//________________ END OF GAME ________________
 	//Test if the game is over (and say if it's won or not)
 	public GameState isOver()
 	{
@@ -537,6 +531,10 @@ public class TileMatrixManager
 		return GameState.Ongoing;
 	}
 	
+	
+
+	
+	//________________ UNDO CHANGES ________________
 	//Undo the last change
 	public void undo()
 	{
