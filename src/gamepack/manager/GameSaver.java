@@ -177,7 +177,6 @@ public class GameSaver
 	//Write $data in $path (not necessarily optimized as we create a new PrintWriter but better for clarity)
 	private void writeInFile(String path, String data, boolean append)
 	{
-		System.out.println(path + "  " + data);
 		//Initialization
 		PrintWriter writer;
 		try
