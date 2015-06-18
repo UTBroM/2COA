@@ -35,6 +35,7 @@ public class WindowGame extends BasicGame
 	private  Color transparentbg;
 	private  Font font;
 	private TrueTypeFont ttf;
+	private float tileSpeedMultiplicator = 1;
 	
 	//INTERFACE
 	private String strWin1 = new String("Congratulation !");
@@ -154,12 +155,13 @@ public class WindowGame extends BasicGame
 					gameManager.generateNewTile();
 					gameManager.refreshBomb();
 					state = gameManager.isOver();
+					tileSpeedMultiplicator = 1;
 				}
 			}
 			//if a movement has been initialized
 			if (state == GameState.Moving)
 			{
-				if (!gameManager.manageMovement(gameFPS)) //if there is no movement (all tiles have their arrivedPoint equal to null)
+				if (!gameManager.manageMovement(gameFPS,tileSpeedMultiplicator)) //if there is no movement (all tiles have their arrivedPoint equal to null)
 					state = GameState.DoneMoving;
 				else
 					//if there is a movement
@@ -190,6 +192,7 @@ public class WindowGame extends BasicGame
 		g.drawString("F1 : Save game",grid.getRightPosition(), commandsTopPositon+15*1);
 		g.drawString("F2 : load game",grid.getRightPosition(), commandsTopPositon+15*2);
 		g.drawString("F3 : New game", grid.getRightPosition(), commandsTopPositon+15*3);
+		g.drawString("F4 : Slow Motion", grid.getRightPosition(), commandsTopPositon+15*4);
 		
 		g.setColor(Color.white);
 		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), scoreTopPositon);
@@ -251,6 +254,12 @@ public class WindowGame extends BasicGame
 			gSave.deleteSave();
 			generateGameManager();
 		}
+		else if (key == Input.KEY_F4 ) //F4 Slow Motion (for the next movement)
+		{
+			tileSpeedMultiplicator /= 10.0;
+		}
+		
+		
 		//If it wasn't a command
 		else
 		{
@@ -280,7 +289,7 @@ public class WindowGame extends BasicGame
 			}
 			//If we press a key while there is a movement, we accelerate the movement
 			else if(state != GameState.Win && state != GameState.Lose)
-				gameManager.manageMovement(1);
+				gameManager.manageMovement(gameFPS,5);
 		}
 	}
 	

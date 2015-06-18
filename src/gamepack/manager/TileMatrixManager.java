@@ -396,13 +396,14 @@ public class TileMatrixManager
 	// Move each Tile in the right direction and set them at the good position
 	// if they passe their good position
 	// return true if there is movement, false otherwise
-	public boolean manageMovement(int FPS)
+	public boolean manageMovement(int FPS, float multiplicatorOfSpeed)
 	{
 		
 		// init
 		boolean trueIfMovement = false; // For the state modification in WindowGame
 		final float pixelPerSecond = 2000.0f;
-		float pixelPerFrame = 0; // Speed of the tile
+		float pixelPerFrame = pixelPerSecond / FPS; // Speed of the tile
+		pixelPerFrame *= multiplicatorOfSpeed;
 		
 		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
 		{
@@ -422,7 +423,6 @@ public class TileMatrixManager
 						{
 							trueIfMovement = true;
 							// move the tile depending on the FPS
-							pixelPerFrame = pixelPerSecond / FPS;
 							if (currentDirection == Direction.Left)
 								currentTile.move(-pixelPerFrame, 0);
 							else if (currentDirection == Direction.Right)
