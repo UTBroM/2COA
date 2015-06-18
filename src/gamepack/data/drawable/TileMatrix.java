@@ -48,7 +48,12 @@ public class TileMatrix implements DrawableObject
 				{
 					Tile tileRef = tMatrix.get(j, i);
 					if(tileRef != null)
+					{
+						if(tileRef instanceof Bomb)
+							matrix.get(i).set(j, new Bomb((Bomb)tileRef));
+						else
 							matrix.get(i).set(j, new Tile(tileRef));
+					}
 				}
 		else // copy existent tiles
 			for(int i = 0 ; i < matrixSize;i ++)

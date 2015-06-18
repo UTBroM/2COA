@@ -22,6 +22,13 @@ public class Bomb extends Tile{
 		this(x, y, value, 10, 1);
 	}
 	
+	public Bomb(Bomb b)
+	{
+		super(b);
+		this.remainingMovement = b.getRemainingMovement();
+		this.explosionRadius = b.getExplosionRadius();
+	}
+	
 	public int getRemainingMovement()
 	{
 		return this.remainingMovement;
