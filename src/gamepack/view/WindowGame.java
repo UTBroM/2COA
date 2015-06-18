@@ -256,7 +256,10 @@ public class WindowGame extends BasicGame
 		{
 			tileSpeedMultiplicator /= 10.0;
 		}
-		
+		else if (key == Input.KEY_BACK) //Undo the previous movement
+		{
+			gameManager.undo();
+		}
 		
 		//If it wasn't a command
 		else
@@ -274,9 +277,7 @@ public class WindowGame extends BasicGame
 					directionPressed = Direction.Down;
 				else if (key == Input.KEY_UP || key == Input.KEY_Z)
 					directionPressed = Direction.Up;
-				else if(key == Input.KEY_BACK)
-					gameManager.undo();
-
+				
 				//If we have press a key for a movement
 				if (directionPressed != Direction.None)
 				{

@@ -203,9 +203,10 @@ public class TileMatrixManager
 	// Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
+		// Save the previous state of the game
+		tileMatrix = new TileMatrix(nextTileMatrix, false);
 		// Initialization of the next matrix to compute on it the next state of
 		// the grid
-		tileMatrix = new TileMatrix(nextTileMatrix, false);
 		prevTileMatrix = new TileMatrix(nextTileMatrix, true);
 		nextTileMatrix.setDirection(d);
 		
