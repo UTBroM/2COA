@@ -8,11 +8,13 @@ import gamepack.utility.GameState;
 
 import java.awt.Font;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
@@ -34,6 +36,10 @@ public class WindowGame extends BasicGame
 	private  Color transparentbg;
 	private  Font font;
 	private TrueTypeFont ttf;
+	private Image image1;
+	private Image image2;
+	private Animation animation = new Animation();
+
 	private float tileSpeedMultiplicator = 1;
 	
 	//INTERFACE
@@ -92,8 +98,15 @@ public class WindowGame extends BasicGame
 	//Slick2D method which start when the game container start
 	public void init(GameContainer container) throws SlickException
 	{
+		image1 = new Image ("boom.gif");
+		image2 = new Image ("boom2.png");
+		
+		animation.addFrame(image1, 300);
+		animation.addFrame(image2, 300);
+		animation.setLooping(false);
+		
 		ttf = new TrueTypeFont(font, true);
-		container.getGraphics().setBackground(new Color(193, 184, 176));
+		container.getGraphics().setBackground(new Color(193, 184, 176)); 
 	}
 	
 	//Size methods for the container
@@ -126,13 +139,22 @@ public class WindowGame extends BasicGame
 			
 			//Draw the next tile matrix if movements have been done, otherwise draw the tile matrix
 			if (state == GameState.Ongoing || state == GameState.DoneMoving)
+			{
 				gameManager.getNextTileMatrix().beDrawn(g);
+				if (!animation.isStopped())
+				{
+					for (int i = 0; i < ; i++) {
+						
+					}
+				}
+			}
 			else
 				gameManager.getTileMatrix().beDrawn(g);
 			
 			//Draw the score
 			this.drawRightPannel(g);
 		}
+
 	}
 	
 	//Do computation
