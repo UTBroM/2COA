@@ -36,9 +36,9 @@ public class WindowGame extends BasicGame
 	private  Color transparentbg;
 	private  Font font;
 	private TrueTypeFont ttf;
-	private Image image1;
-	private Image image2;
-	private Animation animation = new Animation();
+	private Image explosionImage1;
+	private Image explosionImage2;
+	private Animation explosionAnimation = new Animation();
 
 	private float tileSpeedMultiplicator = 1;
 	
@@ -99,12 +99,11 @@ public class WindowGame extends BasicGame
 	public void init(GameContainer container) throws SlickException
 	{
 		//Initialisation of animation when BOOOOM !
-		image1 = new Image ("boom.gif");
-		image2 = new Image ("boom2.png");
-		
-		animation.addFrame(image1, 300);
-		animation.addFrame(image2, 300);
-		animation.setLooping(false);
+		explosionImage1 = new Image ("boom.gif");
+		explosionImage2 = new Image ("boom2.png");
+		explosionAnimation.addFrame(explosionImage1, 200);
+		explosionAnimation.addFrame(explosionImage2, 200);
+		explosionAnimation.setLooping(false);
 		
 		//Graphic aspect
 		ttf = new TrueTypeFont(font, true);
@@ -143,13 +142,14 @@ public class WindowGame extends BasicGame
 			if (state == GameState.Ongoing || state == GameState.DoneMoving)
 			{
 				gameManager.getNextTileMatrix().beDrawn(g);
-				if (!animation.isStopped())
+				if (!explosionAnimation.isStopped())
 				{
 					for (int i = 0; i < gameManager.getExplosionPositions().size(); i++) 
 					{
-						final int x = gameManager.getExplosionPositions().get(i).getX() - animation.getWidth()/2;
-						final int y = gameManager.getExplosionPositions().get(i).getY() - animation.getHeight()/2;
-						animation.draw(x, y);
+						//Central Position
+						final int x = gameManager.getExplosionPositions().get(i).getX() - explosionAnimation.getWidth()/2;
+						final int y = gameManager.getExplosionPositions().get(i).getY() - explosionAnimation.getHeight()/2;
+						explosionAnimation.draw(x, y);
 					}
 				}
 			}
