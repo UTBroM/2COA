@@ -122,7 +122,6 @@ public class GameSaver
 			}
 
 			fileScanner.close();
-			Collections.sort(players);
 			return players;
 		}
 		
@@ -176,6 +175,10 @@ public class GameSaver
 	}
 	
 	//save the tile matrix in the file
+	public void save(TileMatrix tMatrix, Player p)
+	{
+		save(tMatrix, p.getScore(), p.getName());
+	}
 	public void save(TileMatrix tMatrix, int score, String pseudo)
 	{
 		//Initialization
@@ -211,6 +214,7 @@ public class GameSaver
 		//Save the pseudo if there is one
 		if(!pseudo.equals(""))
 		{
+
 			writeInFile(pathHighscores, pseudo+": "+score+'\n', true);
 		}
 		

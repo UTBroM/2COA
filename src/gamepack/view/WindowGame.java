@@ -10,6 +10,7 @@ import gamepack.utility.GameState;
 
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
@@ -79,9 +80,7 @@ public class WindowGame extends BasicGame
 		grid = new Grid(windowSizeX, windowSizeY, 4);
 		gSave = new GameSaver("save.txt", "score.txt","highscores.txt");
 		players = gSave.getHighscores();
-		playersString = "";
-		for(int i = 0; i < 10 && i < players.size(); i++)
-			playersString += ""+players.get(i) + '\n';
+		updatePlayerString(5);
 		currentPlayer = null;
 		
 		transparentbg = new Color(193, 184, 176, 136);
@@ -93,6 +92,15 @@ public class WindowGame extends BasicGame
 		
 	}
 	
+	//update the string to show the top n
+	private void updatePlayerString(int n)
+	{
+		Collections.sort(players);
+		playersString = "";
+		for(int i = 0; i < n && i < players.size(); i++)	//TOP 5
+			playersString += ""+players.get(i) + '\n';
+	}
+
 	//Slick2D method which start when the game container start
 	public void init(GameContainer container) throws SlickException
 	{
@@ -176,18 +184,28 @@ public class WindowGame extends BasicGame
 		pseudoEntry.beDrawn(g);
 		
 		//Right Pannel
-
+		//space
 		g.setColor(Color.white);
-		g.drawString("Options :", grid.getRightPosition(), getNextCommandPosition(1));
+		g.drawString("___________", grid.getRightPosition(), getNextCommandPosition(3));
+		
+		//commands
+		g.setColor(Color.white);
+		g.drawString("Options :", grid.getRightPosition(), getNextCommandPosition(2));
 		g.drawString("F1 : Save game",grid.getRightPosition(), getNextCommandPosition(1));
 		g.drawString("F2 : load game",grid.getRightPosition(), getNextCommandPosition(1));
 		g.drawString("F3 : New game", grid.getRightPosition(), getNextCommandPosition(1));
 		g.drawString("F4 : Slow Motion", grid.getRightPosition(),getNextCommandPosition(1));
 		g.drawString("Back : Rewind", grid.getRightPosition(), getNextCommandPosition(1));
 		
+		//score
 		g.setColor(Color.white);
 		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), getNextCommandPosition(3));
 		
+		//space
+		g.setColor(Color.white);
+		g.drawString("___________", grid.getRightPosition(), getNextCommandPosition(3));
+		
+		//top 5
 		g.setColor(Color.white);
 		g.drawString(playersString, grid.getRightPosition(), getNextCommandPosition(3));
 		
@@ -229,7 +247,10 @@ public class WindowGame extends BasicGame
 			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore(), "");
 		else //if we lose/win & then leave: register score, delete save
 		{
-			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore(), pseudoEntry.getText());
+			currentPlayer = new Player(pseudoEntry.getText(), gameManager.getScore());
+			players.add(currentPlayer);
+			updatePlayerString(5);
+			gSave.save(gameManager.getNextTileMatrix(), currentPlayer);
 			gSave.deleteSave();
 			
 		}
@@ -246,7 +267,9 @@ public class WindowGame extends BasicGame
 			if (key == Input.KEY_F1) //F1 save the game
 			{
 				if(state != GameState.Win && state != GameState.Lose)
-					gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore(), pseudoEntry.getText());
+				{
+					gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore(), "");
+				}
 			}
 			else if (key == Input.KEY_F2) //F2 load the game
 			{
@@ -258,7 +281,10 @@ public class WindowGame extends BasicGame
 
 				if(state == GameState.Win || state == GameState.Lose)
 				{
-					gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore(), pseudoEntry.getText());
+					currentPlayer = new Player(pseudoEntry.getText(), gameManager.getScore());
+					players.add(currentPlayer);
+					updatePlayerString(5);
+					gSave.save(gameManager.getNextTileMatrix(), currentPlayer);
 				}
 					
 				state = GameState.Ongoing;
