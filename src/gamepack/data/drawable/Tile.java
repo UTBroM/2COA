@@ -102,7 +102,7 @@ public class Tile implements DrawableObject
 	
 	protected int getTextY()
 	{
-		return getCenterY();
+		return getCenterY()-5;
 	}
 	
 	//SET

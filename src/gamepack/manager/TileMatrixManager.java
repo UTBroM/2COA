@@ -7,6 +7,7 @@ import gamepack.data.drawable.Tile;
 import gamepack.data.drawable.TileMatrix;
 import gamepack.utility.Direction;
 import gamepack.utility.GameState;
+import gamepack.utility.ProjectMethods;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -185,35 +186,18 @@ public class TileMatrixManager
 			final int chanceBomb = 1;
 			if (rand.nextInt(chanceBomb) == 0)
 			{
-				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue());
+				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue(rand));
 				nextTileMatrix.setAt(xNewTile, yNewTile, newBomb);
 			}
 			else
 			{
-				Tile newTile = new Tile(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue());
+				Tile newTile = new Tile(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue(rand));
 				nextTileMatrix.setAt(xNewTile, yNewTile, newTile);
 			}
 			return true;
 		}
 	}
-	
-	// Give a random tile value for a Tile
-	public int getRandomTileValue()
-	{
-		int value;
-		switch (rand.nextInt(4))
-		{
-			case 0:
-				value = 4;
-				break;
-			
-			default:
-				value = 2;
-				break;
-		}
-		
-		return value;
-	}
+
 	
 	// Give each tile his direction and his arrived Tile(null if no arrived tile, None if no Direction)
 	// Then it will set the arrived point (coordinates of the arrivedTile if there is one)

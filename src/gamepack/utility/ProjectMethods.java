@@ -39,4 +39,23 @@ public abstract class ProjectMethods
 		return new int[]{r,g,b};
 	}
 	
+	
+	// Give a random tile value for a Tile
+	public static int getRandomTileValue(Random rand)
+	{
+		int value;
+		switch (rand.nextInt(4))
+		{
+			case 0:
+				value = 4;
+				break;
+			
+			default:
+				value = 2;
+				break;
+		}
+		
+		return value;
+	}
+	
 }
