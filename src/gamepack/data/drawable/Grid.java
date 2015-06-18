@@ -71,6 +71,7 @@ public class Grid implements DrawableObject
 		return (int) ((Rectangle) rectangleList.get(0)).getWidth();
 	}
 	
+	//get the full right position of the grid
 	public int getRightPosition()
 	{
 		//20pixel at the right of the grid

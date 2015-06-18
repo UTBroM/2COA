@@ -20,6 +20,7 @@ public class TextArea implements MouseListener, DrawableObject, KeyListener
 	private Color foregroundBlock;
 	private boolean enteringText;
 	
+	//constructor with the rectangle parameters
 	public TextArea(int x, int y, int w, int h)
 	{
 		enteringText = false;
@@ -30,64 +31,48 @@ public class TextArea implements MouseListener, DrawableObject, KeyListener
 		foregroundBlock = new Color(200, 200, 200);
 	}
 	
-	
+	//check if the x & y are in the rectangle
 	private boolean isIn(int x, int y)
 	{
 		return x >= textArea.getX() && x <= textArea.getX()+textArea.getWidth() && 
 				y >= textArea.getY() && y <= textArea.getY()+textArea.getHeight();
 	}
 	
+	//set the position of the rectangle on the screen
 	public void setPosition(int x, int y)
 	{
 		textArea.setLocation(x,y);
 	}
-	
-	public void inputEnded()
-	{
-	}
 
-	public void inputStarted()
-	{
-	}
-
-	public boolean isAcceptingInput()
-	{
-		return true;
-	}
-
-	public void setInput(Input arg0)
-	{
-	}
-
+	//check if a key is pressed (arg0 = keyCode, arg1 = keyCharacter)
 	public void keyPressed(int arg0, char arg1)
 	{
+		//If we are entering a text, then add the text if it's a letter
 		if(enteringText)
 			if(textEntered.length() < 15)
 				if((arg1 >= 'a' && arg1 <= 'z') || (arg1 >= 'A' && arg1 <= 'Z') )
 					textEntered+= arg1;
 		
+		//if back, remove a letter
 		if(arg0 == Input.KEY_BACK)
 			if(textEntered.length() >= 1)
 				textEntered = textEntered.substring(0, textEntered.length()-1);
 		
+		//if enter, stop entering text
 		if(arg0 == Input.KEY_ENTER)
 			enteringText = false;
 		
 	}
 
-	public void keyReleased(int arg0, char arg1)
-	{
-	}
-
-
+	//draw the area & its text
 	public void beDrawn(Graphics g)
 	{
-		//profondeur
+		//relief on border
 		int relief = 0;
 		if(enteringText)
 		{
 			relief = -2;
-			g.setColor(new Color(50,50,50));
+			g.setColor(new Color(100,100,100));
 		}
 		else
 		{
@@ -109,29 +94,7 @@ public class TextArea implements MouseListener, DrawableObject, KeyListener
 		g.drawString(textEntered, getX(), getY());
 	}
 	
-	public int getX()
-	{
-		return (int) textArea.getX();
-	}
-	
-	public int getY()
-	{
-		return (int) textArea.getY();
-	}
-
-	public void mouseClicked(int arg0, int arg1, int arg2, int arg3)
-	{
-		
-	}
-
-	public void mouseDragged(int arg0, int arg1, int arg2, int arg3)
-	{
-	}
-
-	public void mouseMoved(int arg0, int arg1, int arg2, int arg3)
-	{
-	}
-
+	//check if we clicked in the area
 	public void mousePressed(int arg0, int arg1, int arg2)
 	{
 		final int mouseX = arg1;
@@ -144,6 +107,32 @@ public class TextArea implements MouseListener, DrawableObject, KeyListener
 			enteringText = false;
 	}
 
+	//return true if the area is active
+	public boolean isEnteringText()
+	{
+		return enteringText;
+	}
+	
+	//get the text in the text area
+	public String getText()
+	{
+		return textEntered;
+	}
+
+	public int getX()
+	{
+		return (int) textArea.getX();
+	}
+	
+	public int getY()
+	{
+		return (int) textArea.getY();
+	}
+
+	
+	
+	// not used listeners' methods
+	
 	public void mouseReleased(int arg0, int arg1, int arg2)
 	{
 	}
@@ -152,14 +141,40 @@ public class TextArea implements MouseListener, DrawableObject, KeyListener
 	{
 	}
 	
-	public boolean isEnteringText()
+	public void mouseClicked(int arg0, int arg1, int arg2, int arg3)
 	{
-		return enteringText;
+		
+	}
+
+	public void mouseDragged(int arg0, int arg1, int arg2, int arg3)
+	{
+	}
+
+	public void mouseMoved(int arg0, int arg1, int arg2, int arg3)
+	{
 	}
 	
-	public String getText()
+	public void keyReleased(int arg0, char arg1)
 	{
-		return textEntered;
 	}
+	
+	public void inputEnded()
+	{
+	}
+
+	public void inputStarted()
+	{
+	}
+
+	public boolean isAcceptingInput()
+	{
+		return true;
+	}
+
+	public void setInput(Input arg0)
+	{
+	}
+
+
 
 }
