@@ -186,12 +186,12 @@ public class TileMatrixManager
 			final int chanceBomb = 1;
 			if (rand.nextInt(chanceBomb) == 0)
 			{
-				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue(rand));
+				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue());
 				nextTileMatrix.setAt(xNewTile, yNewTile, newBomb);
 			}
 			else
 			{
-				Tile newTile = new Tile(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue(rand));
+				Tile newTile = new Tile(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue());
 				nextTileMatrix.setAt(xNewTile, yNewTile, newTile);
 			}
 			return true;

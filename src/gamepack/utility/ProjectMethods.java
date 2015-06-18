@@ -4,6 +4,7 @@ import java.util.Random;
 
 public abstract class ProjectMethods
 {
+	static private Random rand = new Random();
 	//return the power of two of the value
 	public static int powerOfTwo(int v)
 	{
@@ -41,7 +42,7 @@ public abstract class ProjectMethods
 	
 	
 	// Give a random tile value for a Tile
-	public static int getRandomTileValue(Random rand)
+	public static int getRandomTileValue()
 	{
 		int value;
 		switch (rand.nextInt(4))
@@ -64,4 +65,9 @@ public abstract class ProjectMethods
 		return Integer.toString(i).length();
 	}
 	
+	//Get random integer between a and b (inclusive)
+	public static int randInt(int a, int b)
+	{
+		return rand.nextInt(b-a+1)+a;
+	}
 }
