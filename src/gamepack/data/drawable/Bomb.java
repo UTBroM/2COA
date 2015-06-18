@@ -1,5 +1,7 @@
 package gamepack.data.drawable;
 
+import gamepack.utility.ProjectMethods;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -18,6 +20,13 @@ public class Bomb extends Tile{
 	public Bomb(int x, int y, int value)
 	{
 		this(x, y, value, 10, 1);
+	}
+	
+	public Bomb(Bomb b)
+	{
+		super(b);
+		this.remainingMovement = b.getRemainingMovement();
+		this.explosionRadius = b.getExplosionRadius();
 	}
 	
 	public int getRemainingMovement()
@@ -42,16 +51,30 @@ public class Bomb extends Tile{
 	//Draw the Bomb
 	public void beDrawn(Graphics gr)
 	{
-		//Color
+		//affichage bomb stylisé
+		int v = 11-remainingMovement;
+		boolean critical = false;
+		if(remainingMovement == 1)
+		{
+			critical = true;
+			v *= 2.5;
+		}
+		int dx = ProjectMethods.randInt(-v/2,+v/2);
+		int dy = ProjectMethods.randInt(-v/2,+v/2);
+
+		
+		//tile fond
 		gr.setColor(rectangleColor);
-		//gr.fill(rectangle);
-		gr.fillRoundRect(rectangle.getX(),
-				rectangle.getY(), 
+		gr.fillRoundRect(rectangle.getX()+dx,
+				rectangle.getY()+dy, 
 				rectangle.getWidth(), 
 				rectangle.getHeight(), 
 				4);
 		
+		//texte
 		gr.setColor(Color.black);
-		gr.drawString("" + getValue() + "\n\n"+ getRemainingMovement() + " move", getTextX()-5, getTextY()-5);
+		if(critical)
+			gr.setColor(Color.red);
+		gr.drawString("" + getValue(), getTextX()+dx, getTextY()+dy);
 	}
 }

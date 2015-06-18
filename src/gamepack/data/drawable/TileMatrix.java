@@ -27,13 +27,12 @@ public class TileMatrix implements DrawableObject
 		
 	}
 		
-	//Constructor by copy (create new arraylist, conserve tile references)
-	public TileMatrix(TileMatrix tMatrix)
+	//Constructor by copy (create new arraylist, conserve tile references if b = true, reatenew one otherwise)
+	public TileMatrix(TileMatrix tMatrix, boolean b)
 	{
 		this.tileSize = tMatrix.tileSize;
 		this.matrixSize = tMatrix.matrixSize;
 		
-
 		matrix = new ArrayList<ArrayList<Tile>>();
 		for(int i = 0 ; i < matrixSize;i ++)
 		{
@@ -43,16 +42,23 @@ public class TileMatrix implements DrawableObject
 			matrix.add(t);
 		}
 		
-		for(int i = 0 ; i < matrixSize;i ++)
-		{
-			for(int j = 0 ; j < matrixSize;j ++)
-			{
-				Tile tileRef = tMatrix.get(j, i);
-				matrix.get(i).set(j, tileRef);
-			}
-		}
-		
-		
+		if(b) // Create new tiles
+			for(int i = 0 ; i < matrixSize;i ++)
+				for(int j = 0 ; j < matrixSize;j ++)
+				{
+					Tile tileRef = tMatrix.get(j, i);
+					if(tileRef != null)
+					{
+						if(tileRef instanceof Bomb)
+							matrix.get(i).set(j, new Bomb((Bomb)tileRef));
+						else
+							matrix.get(i).set(j, new Tile(tileRef));
+					}
+				}
+		else // copy existent tiles
+			for(int i = 0 ; i < matrixSize;i ++)
+				for(int j = 0 ; j < matrixSize;j ++)
+					matrix.get(i).set(j, tMatrix.get(j, i));
 	}
 	
 	//Set the specified direction to every tile

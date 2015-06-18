@@ -194,12 +194,12 @@ public class TileMatrixManager
 			final int chanceBomb = 1;
 			if (rand.nextInt(chanceBomb) == 0)
 			{
-				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue(rand));
+				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue());
 				nextTileMatrix.setAt(xNewTile, yNewTile, newBomb);
 			}
 			else
 			{
-				Tile newTile = new Tile(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue(rand));
+				Tile newTile = new Tile(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue());
 				nextTileMatrix.setAt(xNewTile, yNewTile, newTile);
 			}
 			return true;
@@ -211,9 +211,11 @@ public class TileMatrixManager
 	// Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
-		// Initialization of the next matrice to compute on it the next state of
+		// Save the previous state of the game
+		tileMatrix = new TileMatrix(nextTileMatrix, false);
+		// Initialization of the next matrix to compute on it the next state of
 		// the grid
-		tileMatrix = new TileMatrix(nextTileMatrix);
+		prevTileMatrix = new TileMatrix(nextTileMatrix, true);
 		nextTileMatrix.setDirection(d);
 		
 		// Computation on the nextMatrix
@@ -529,5 +531,11 @@ public class TileMatrixManager
 				return GameState.Lose;
 		}
 		return GameState.Ongoing;
+	}
+	
+	public void undo()
+	{
+		if(prevTileMatrix != null)
+			nextTileMatrix = new TileMatrix(prevTileMatrix, false);
 	}
 }

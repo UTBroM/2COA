@@ -209,13 +209,14 @@ public class WindowGame extends BasicGame
 	public void drawRightPannel(Graphics g)
 	{
 		int commandsTopPositon = 20;
-		int scoreTopPositon = commandsTopPositon+15*6;
+		int scoreTopPositon = commandsTopPositon+15*8;
 		g.setColor(Color.white);
 		g.drawString("Options :", grid.getRightPosition(), commandsTopPositon);
 		g.drawString("F1 : Save game",grid.getRightPosition(), commandsTopPositon+15*1);
 		g.drawString("F2 : load game",grid.getRightPosition(), commandsTopPositon+15*2);
 		g.drawString("F3 : New game", grid.getRightPosition(), commandsTopPositon+15*3);
 		g.drawString("F4 : Slow Motion", grid.getRightPosition(), commandsTopPositon+15*4);
+		g.drawString("Back : Rewind", grid.getRightPosition(), commandsTopPositon+15*5);
 		
 		g.setColor(Color.white);
 		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), scoreTopPositon);
@@ -281,7 +282,10 @@ public class WindowGame extends BasicGame
 		{
 			tileSpeedMultiplicator /= 10.0;
 		}
-		
+		else if (key == Input.KEY_BACK) //Undo the previous movement
+		{
+			gameManager.undo();
+		}
 		
 		//If it wasn't a command
 		else
@@ -300,7 +304,6 @@ public class WindowGame extends BasicGame
 				else if (key == Input.KEY_UP || key == Input.KEY_Z)
 					directionPressed = Direction.Up;
 				
-				
 				//If we have press a key for a movement
 				if (directionPressed != Direction.None)
 				{
@@ -315,7 +318,6 @@ public class WindowGame extends BasicGame
 				gameManager.manageMovement(gameFPS,5);
 		}
 	}
-	
 	
 	//Main methods, create the window
 	public static void main(String[] args) throws SlickException
