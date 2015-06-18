@@ -45,7 +45,7 @@ public class Bomb extends Tile{
 	public void beDrawn(Graphics gr)
 	{
 		//affichage bomb stylisé
-		int v = 10-remainingMovement;
+		int v = 11-remainingMovement;
 		boolean critical = false;
 		if(remainingMovement == 1)
 		{
