@@ -224,45 +224,54 @@ public class WindowGame extends BasicGame
 	//when a key is pressed
 	public void keyPressed(int key, char c)
 	{
-		//If we are waiting for an event or if the movement has been done
-		if (state == GameState.Ongoing || state == GameState.DoneMoving)
+		//if we press a command
+		if (key == Input.KEY_F1) //F1 save the game
 		{
-			//if we press a direction
-			Direction directionPressed = Direction.None;
-			if (key == Input.KEY_LEFT || key == Input.KEY_Q)
-				directionPressed = Direction.Left;
-			else if (key == Input.KEY_RIGHT || key == Input.KEY_D)
-				directionPressed = Direction.Right;
-			else if (key == Input.KEY_DOWN || key == Input.KEY_S)
-				directionPressed = Direction.Down;
-			else if (key == Input.KEY_UP || key == Input.KEY_Z)
-				directionPressed = Direction.Up;
-			//if we press a command
-			else
+			if(state != GameState.Win && state != GameState.Lose)
+				gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
+		}
+		else if (key == Input.KEY_F2) //F2 load the game
+		{
+			state = GameState.Ongoing;
+			gameManager = new TileMatrixManager(grid.getRectangles(), gSave.getSavedTileList(), gSave.getScore());
+		}
+		else if (key == Input.KEY_F3) //F3 make a new game
+		{
+			state = GameState.Ongoing;
+			gSave.deleteSave();
+			generateGameManager();
+		}
+		//If it wasn't a command
+		else
+		{
+			//If we are waiting for an event or if the movement has been done
+			if (state == GameState.Ongoing || state == GameState.DoneMoving)
 			{
-				if (key == Input.KEY_F1) //F1 save the game
-					gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
-				else if (key == Input.KEY_F2) //F2 load the game
-					gameManager = new TileMatrixManager(grid.getRectangles(), gSave.getSavedTileList(), gSave.getScore());
-				else if (key == Input.KEY_F3) //F3 make a new game
+				//if we press a direction
+				Direction directionPressed = Direction.None;
+				if (key == Input.KEY_LEFT || key == Input.KEY_Q)
+					directionPressed = Direction.Left;
+				else if (key == Input.KEY_RIGHT || key == Input.KEY_D)
+					directionPressed = Direction.Right;
+				else if (key == Input.KEY_DOWN || key == Input.KEY_S)
+					directionPressed = Direction.Down;
+				else if (key == Input.KEY_UP || key == Input.KEY_Z)
+					directionPressed = Direction.Up;
+				
+				
+				//If we have press a key for a movement
+				if (directionPressed != Direction.None)
 				{
-					gSave.deleteSave();
-					generateGameManager();
+					state = GameState.Moving;
+					numberOfFrameWithMovement = 0; //set the number of frame with movement at 0
+					gameManager.initMovement(directionPressed); //launch the movement for all tiles
+					
 				}
 			}
-			
-			//If we have press a key for a movement
-			if (directionPressed != Direction.None)
-			{
-				state = GameState.Moving;
-				numberOfFrameWithMovement = 0; //set the number of frame with movement at 0
-				gameManager.initMovement(directionPressed); //launch the movement for all tiles
-				
-			}
+			//If we press a key while there is a movement, we accelerate the movement
+			else if(state != GameState.Win && state != GameState.Lose)
+				gameManager.manageMovement(1);
 		}
-		//If we press a key while there is a movement, we accelerate the movement
-		else if(state != GameState.Win && state != GameState.Lose)
-			gameManager.manageMovement(1);
 	}
 	
 	
