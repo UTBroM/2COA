@@ -1,6 +1,5 @@
 package gamepack.manager;
 
-import gamepack.data.Point;
 import gamepack.data.drawable.Bomb;
 import gamepack.data.drawable.Tile;
 import gamepack.data.drawable.TileMatrix;
@@ -169,7 +168,6 @@ public class GameSaver
 	private void writeInFile(String path, String data)
 	{
 		//Initialization
-		String file = "";
 		PrintWriter writer;
 		try
 		{

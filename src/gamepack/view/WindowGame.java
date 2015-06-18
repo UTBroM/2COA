@@ -20,7 +20,6 @@ import org.newdawn.slick.TrueTypeFont;
 public class WindowGame extends BasicGame
 {
 	//		ATTRIBUTES
-	private GameContainer container;
 	private final int windowSizeX;
 	private final int windowSizeY;
 	
@@ -93,7 +92,6 @@ public class WindowGame extends BasicGame
 	//Slick2D method which start when the game container start
 	public void init(GameContainer container) throws SlickException
 	{
-		this.container = container;
 		ttf = new TrueTypeFont(font, true);
 		container.getGraphics().setBackground(new Color(193, 184, 176));
 	}
