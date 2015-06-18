@@ -43,7 +43,7 @@ public class WindowGame extends BasicGame
 		super("2C0A");
 		
 		//Attributes initialization
-		windowSizeX = 800;
+		windowSizeX = 400;
 		windowSizeY = 600;
 		state = GameState.Ongoing;
 		gameFPS = 100;
@@ -124,7 +124,7 @@ public class WindowGame extends BasicGame
 				gameManager.getTileMatrix().beDrawn(g);
 			
 			//Draw the score
-			this.drawScore(g);
+			this.drawRightPannel(g);
 		}
 	}
 	
@@ -173,10 +173,19 @@ public class WindowGame extends BasicGame
 	}
 	
 	//Draw the score
-	public void drawScore(Graphics g)
+	public void drawRightPannel(Graphics g)
 	{
+		int commandsTopPositon = 20;
+		int scoreTopPositon = commandsTopPositon+15*6;
 		g.setColor(Color.white);
-		g.drawString("score : " + this.gameManager.getScore(), container.getWidth() - 150, 10);
+		g.drawString("Options :", grid.getRightPosition(), commandsTopPositon);
+		g.drawString("F1 : Save game",grid.getRightPosition(), commandsTopPositon+15*1);
+		g.drawString("F2 : load game",grid.getRightPosition(), commandsTopPositon+15*2);
+		g.drawString("F3 : New game", grid.getRightPosition(), commandsTopPositon+15*3);
+		
+		g.setColor(Color.white);
+		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), scoreTopPositon);
+		
 	}
 
 	
@@ -264,6 +273,7 @@ public class WindowGame extends BasicGame
 		appgc.setDisplayMode(wGame.getWindowSizeX(), wGame.getWindowSizeY(), false); //the container & the game have the same dimensions
 		appgc.setShowFPS(false); //don't show the FPS
 		appgc.setTargetFrameRate(100); //default frame rate
+
 		appgc.start(); //Launch the game
 	}
 }

@@ -10,17 +10,28 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Grid implements DrawableObject
 {
-	private int sizeX;
-	private int sizeY;
+	private float sizeX;
+	private float sizeY;
 	
 	private Color interiorColor = new Color(0xD6CDC4);
 	
 	private ArrayList<Rectangle> rectangleList;
+	private int gridSize;
 	
 	public Grid(int x, int y)
 	{
+		//Compute such that there is enough place for the score at the right of the screen
+		x*=0.8;
+		final float sizeOnLeft = 120;
+		if((float)x * 0.2 < sizeOnLeft)
+		{
+			float multiplX = sizeOnLeft / (float)x;
+
+			x *= (1-multiplX);
+		
+		}
 		// Initialization of the base attributes of the grid :
-		int gridSize = 4;
+		gridSize = 4;
 		
 		float padX = 20;
 		float padY = 20;
@@ -28,7 +39,7 @@ public class Grid implements DrawableObject
 		float marginY = 30;
 		float leftMarginX = 30;
 		float rightMarginX = 50;
-		float rectSizeX, rectSizeY, minRectSize;
+		float rectSizeX, rectSizeY, maxRectSize;
 		
 		this.sizeX = x;
 		this.sizeY = y;
@@ -42,13 +53,13 @@ public class Grid implements DrawableObject
 		rightMarginX *= min / 800;
 		rectSizeX = (min - (leftMarginX + rightMarginX) - (gridSize - 1) * padX) / (gridSize);
 		rectSizeY = (min - (2 * marginY) - (gridSize - 1) * padY) / (gridSize);
-		minRectSize = (float) Math.floor((rectSizeX < rectSizeY ? rectSizeX : rectSizeY));
+		maxRectSize = (float) Math.floor((rectSizeX > rectSizeY ? rectSizeX : rectSizeY));
 		rectangleList = new ArrayList<Rectangle>();
 		for (int i = 0; i < gridSize; i++)
 		{
 			for (int j = 0; j < gridSize; j++)
 			{
-				rectangleList.add(new Rectangle(leftMarginX + j * (minRectSize + padX), marginY + i * (minRectSize + padY), minRectSize, minRectSize));
+				rectangleList.add(new Rectangle(leftMarginX + j * (maxRectSize + padX), marginY + i * (maxRectSize + padY), maxRectSize, maxRectSize));
 			}
 		}
 	}
@@ -63,6 +74,13 @@ public class Grid implements DrawableObject
 		return (int) ((Rectangle) rectangleList.get(0)).getWidth();
 	}
 	
+	public int getRightPosition()
+	{
+		//20pixel at the right of the grid
+		return (int) (rectangleList.get(gridSize-1).getX()+rectangleList.get(gridSize-1).getWidth()+20);
+	
+	}
+	
 	public void beDrawn(Graphics g)
 	{
 		/* Rectangles */
@@ -74,9 +92,5 @@ public class Grid implements DrawableObject
 		}
 		// Menu 
 		g.setColor(Color.white);
-		g.drawString("Options :", sizeX - 150, sizeY/2);
-		g.drawString("F1 : Save game",sizeX - 150, sizeY/2 + 30 );
-		g.drawString("F2 : load game", sizeX - 150, sizeY/2 + 60);
-		g.drawString("F3 : New game", sizeX - 150, sizeY/2 + 90);
 	}
 }
