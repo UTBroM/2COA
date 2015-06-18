@@ -54,19 +54,4 @@ public class Bomb extends Tile{
 		gr.setColor(Color.black);
 		gr.drawString("" + getValue() + "\n\n"+ getRemainingMovement() + " move", getTextX()-5, getTextY()-5);
 	}
-	
-	//If the bomb and his arrivedTile has the same coordinates, return true
-	//then, double the value of the arrivedTile (use a method doubleValue())
-	public Boolean refreshFusion()
-	{
-		if (this.equals(this.arrivedTile)) {
-			this.arrivedTile.doubleValue();
-			this.arrivedTile = null;
-			this.remainingMovement = 0;
-			this.explosionRadius = 0;
-			return true;
-		}else{
-			return false;
-		}
-	}
 }
