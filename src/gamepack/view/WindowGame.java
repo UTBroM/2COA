@@ -184,13 +184,14 @@ public class WindowGame extends BasicGame
 	public void drawRightPannel(Graphics g)
 	{
 		int commandsTopPositon = 20;
-		int scoreTopPositon = commandsTopPositon+15*6;
+		int scoreTopPositon = commandsTopPositon+15*8;
 		g.setColor(Color.white);
 		g.drawString("Options :", grid.getRightPosition(), commandsTopPositon);
 		g.drawString("F1 : Save game",grid.getRightPosition(), commandsTopPositon+15*1);
 		g.drawString("F2 : load game",grid.getRightPosition(), commandsTopPositon+15*2);
 		g.drawString("F3 : New game", grid.getRightPosition(), commandsTopPositon+15*3);
 		g.drawString("F4 : Slow Motion", grid.getRightPosition(), commandsTopPositon+15*4);
+		g.drawString("Back : Rewind", grid.getRightPosition(), commandsTopPositon+15*5);
 		
 		g.setColor(Color.white);
 		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), scoreTopPositon);
