@@ -103,7 +103,7 @@ public class TileMatrix implements DrawableObject
 	}
 	
 	//add a tile at the x, y coordinates in the matrix
-	public void setAt(int x, int y, Tile t)
+	public void set(int x, int y, Tile t)
 	{
 		if(t != null)
 			t.setSize(tileSize);

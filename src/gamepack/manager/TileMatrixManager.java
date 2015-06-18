@@ -57,7 +57,7 @@ public class TileMatrixManager
 				Tile currentTile = savedTileList.get(y * tileMatrix.getMatrixSize() + x);
 				if (currentTile != null)
 				{
-					tileMatrix.setAt(x, y, currentTile);
+					tileMatrix.set(x, y, currentTile);
 					currentTile.setX(goodPositions.get(x, y).getX());
 					tileMatrix.get(x, y).setY(goodPositions.get(x, y).getY());
 				}
@@ -87,7 +87,7 @@ public class TileMatrixManager
 					{
 						if(nextTileMatrix.get(x,y).equals(defusedBombs.get(i)))
 						{
-							nextTileMatrix.setAt(x, y, new Tile(defusedBombs.get(i)));
+							nextTileMatrix.set(x, y, new Tile(defusedBombs.get(i)));
 						}
 					}
 				}
@@ -199,12 +199,12 @@ public class TileMatrixManager
 			if (rand.nextInt(chanceBomb) == 0)
 			{
 				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue());
-				nextTileMatrix.setAt(xNewTile, yNewTile, newBomb);
+				nextTileMatrix.set(xNewTile, yNewTile, newBomb);
 			}
 			else
 			{
 				Tile newTile = new Tile(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue());
-				nextTileMatrix.setAt(xNewTile, yNewTile, newTile);
+				nextTileMatrix.set(xNewTile, yNewTile, newTile);
 			}
 			return true;
 		}
