@@ -3,6 +3,7 @@ package gamepack.view;
 import gamepack.data.Player;
 import gamepack.data.drawable.Grid;
 import gamepack.data.drawable.TextArea;
+import gamepack.data.drawable.Tile;
 import gamepack.manager.GameSaver;
 import gamepack.manager.TileMatrixManager;
 import gamepack.utility.Direction;
@@ -89,7 +90,8 @@ public class WindowGame extends BasicGame
 		strongAutoMove = false;
 		
 		//Object initialization
-		grid = new Grid(windowSizeX, windowSizeY, 4);
+		final int sizeGrid = 4;
+		grid = new Grid(windowSizeX, windowSizeY, sizeGrid);
 		gSave = new GameSaver("save.txt", "score.txt","highscores.txt");
 		players = gSave.getHighscores();
 		updatePlayerString(5);
@@ -150,10 +152,17 @@ public class WindowGame extends BasicGame
 
 			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore(), "");
 		}
-		//otherwise, we load the save
+		//otherwise, we load the save if the grid has the good size
 		else
 		{
-			gameManager = new TileMatrixManager(grid.getRectangles(), gSave.getSavedTileList(), gSave.getScore());
+			ArrayList<Tile> list =  gSave.getSavedTileList();
+			if(list.size() == grid.getRectangles().size())
+				gameManager = new TileMatrixManager(grid.getRectangles(), list, gSave.getScore());
+			else 
+			{
+				gSave.deleteSave();
+				generateGameManager();
+			}
 		}
 	}
 	

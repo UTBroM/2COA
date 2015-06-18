@@ -119,6 +119,8 @@ public class TileMatrixManager
 	// Let's BOOOOOOOOM ! #bingbadaboum boum bim boum boum
 	public void explosion(int x, int y, int explosionRadius)
 	{
+		//réduit le score de moitié
+		reduceScore(score/2);
 		for (int i = -explosionRadius; i <= explosionRadius; i++)
 		{
 			for (int j = -explosionRadius; j <= explosionRadius; j++)
@@ -535,7 +537,18 @@ public class TileMatrixManager
 	//Undo the last change
 	public void undo()
 	{
+		//réduit le score de 100points
+		reduceScore(100);
 		if(prevTileMatrix != null)
 			nextTileMatrix = new TileMatrix(prevTileMatrix, false);
+	}
+	
+
+	//________________ MANAGE SCORE ________________
+	public void reduceScore(int v)
+	{
+		score -= v;
+		if(score < 0)
+			score = 0;
 	}
 }

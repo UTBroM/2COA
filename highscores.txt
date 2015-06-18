@@ -36,3 +36,13 @@ TlmanJpez: 652
 TlmanJpez: 356
 TlmanJpez: 534
 TlmanJpez: 430
+white: 100
+white: 90
+white: 44
+white: 52
+white: 126
+white: 22
+white: 94
+white: 22
+white: 112
+white: 78

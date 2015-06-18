@@ -44,7 +44,7 @@ public class Tile implements DrawableObject
 		refreshColor();
 	}
 	
-	//GET
+	//GETTERS
 	public int getValue()
 	{
 		return this.value;
@@ -105,7 +105,7 @@ public class Tile implements DrawableObject
 		return getCenterY()-5;
 	}
 	
-	//SET
+	//SETTERS
 	public void setX(int x)
 	{
 		this.rectangle.setX(x);
@@ -139,7 +139,6 @@ public class Tile implements DrawableObject
 	
 	
 	//OTHER
-	
 	//Double the value of the tile, increment the powerOfTwo and refresh the color
 	public void doubleValue()
 	{
