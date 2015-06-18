@@ -125,9 +125,7 @@ public class TileMatrixManager
 	public boolean generateNewTile()
 	{
 		// Initializations
-		boolean isFree;
 		Point currentGoodPosition;
-		Tile currentTile;
 		ArrayList<Point> goodFreePoint = new ArrayList<Point>();
 		
 		// Construction of a new List of point which contain only free point for
@@ -460,6 +458,10 @@ public class TileMatrixManager
 				if (t != null)
 				{
 					if (t.refreshFusion())
+						if (this.tileMatrix.get(j, i) instanceof Bomb)
+						{
+							System.out.println("ALERTE");
+						}
 						score += t.getValue();
 					//if there is a fusion, the tile double its value, and the arrivedTile will be deleted
 					//when the tileMatrix will be deleted, at the beginning of the initMovement
