@@ -482,7 +482,6 @@ public class TileMatrixManager
 				{
 					if (t.refreshFusion())
 					{
-						System.out.println("bla");
 						if(t.getArrivedTile() instanceof Bomb)
 						{
 							defusedBombs.add((Bomb)t.getArrivedTile());

@@ -75,8 +75,9 @@ public class Tile implements DrawableObject
 		return this.arrivedTile;
 	}
 	
-	public Point getArrivedPoint() {
-	return arrivedPoint;
+	public Point getArrivedPoint() 
+	{
+		return arrivedPoint;
 	}
 
 	public int getArrivedPointX()
