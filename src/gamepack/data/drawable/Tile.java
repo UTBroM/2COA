@@ -60,12 +60,12 @@ public class Tile implements DrawableObject
 		return this.rectangle.getY();
 	}
 	
-	private int getCenterX()
+	public int getCenterX()
 	{
 		return (int) this.rectangle.getCenterX();
 	}
 	
-	private int getCenterY()
+	public int getCenterY()
 	{
 		return (int) this.rectangle.getCenterY();
 	}
