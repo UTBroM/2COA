@@ -1,5 +1,6 @@
 package gamepack.manager;
 
+import gamepack.data.Player;
 import gamepack.data.drawable.Bomb;
 import gamepack.data.drawable.Tile;
 import gamepack.data.drawable.TileMatrix;
@@ -10,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class GameSaver
@@ -85,6 +87,46 @@ public class GameSaver
 		}
 		
 		return score;
+	}
+	
+	//get the highscores 
+	public ArrayList<Player> getHighscores()
+	{
+		//Generate the scanner
+		Scanner fileScanner = null;
+		try
+		{
+			File file = new File(pathHighscores);
+			if(file.length() != 0)
+				fileScanner = new Scanner(file);
+		} 
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		
+		//generate the player list
+		if(fileScanner != null)
+		{
+			ArrayList<Player> players = new ArrayList<Player>();
+			String name = "";
+			int score = -1;
+			while(fileScanner.hasNext())
+			{
+				name = fileScanner.next();
+				name = name.substring(0,name.length()-1);
+				score = fileScanner.nextInt();
+				
+				players.add(new Player(name,score));
+			}
+
+			fileScanner.close();
+			Collections.sort(players);
+			return players;
+		}
+		
+		return null;
 	}
 	
 	//return a list containing the saved tile
@@ -169,7 +211,7 @@ public class GameSaver
 		//Save the pseudo if there is one
 		if(!pseudo.equals(""))
 		{
-			writeInFile(pathHighscores, pseudo+":"+score+'\n', true);
+			writeInFile(pathHighscores, pseudo+": "+score+'\n', true);
 		}
 		
 	}

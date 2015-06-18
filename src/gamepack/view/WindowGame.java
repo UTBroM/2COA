@@ -1,5 +1,6 @@
 package gamepack.view;
 
+import gamepack.data.Player;
 import gamepack.data.drawable.Grid;
 import gamepack.data.drawable.TextArea;
 import gamepack.manager.GameSaver;
@@ -8,6 +9,7 @@ import gamepack.utility.Direction;
 import gamepack.utility.GameState;
 
 import java.awt.Font;
+import java.util.ArrayList;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
@@ -55,6 +57,9 @@ public class WindowGame extends BasicGame
 	private Animation explosionAnimation;
 
 	private TextArea pseudoEntry;
+	private ArrayList<Player> players;
+	private String playersString;
+	private Player currentPlayer;
 	
 	
 	//		METHODS
@@ -73,6 +78,11 @@ public class WindowGame extends BasicGame
 		//Object initialization
 		grid = new Grid(windowSizeX, windowSizeY, 4);
 		gSave = new GameSaver("save.txt", "score.txt","highscores.txt");
+		players = gSave.getHighscores();
+		playersString = "";
+		for(int i = 0; i < 10 && i < players.size(); i++)
+			playersString += ""+players.get(i) + '\n';
+		currentPlayer = null;
 		
 		transparentbg = new Color(193, 184, 176, 136);
 		font = new Font("Times New Roman", Font.BOLD, 32);
@@ -120,6 +130,7 @@ public class WindowGame extends BasicGame
 	public int getWindowSizeY()
 	{
 		return windowSizeY;
+		
 	}
 		
 	private void generateGameManager()
@@ -176,6 +187,10 @@ public class WindowGame extends BasicGame
 		
 		g.setColor(Color.white);
 		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), getNextCommandPosition(3));
+		
+		g.setColor(Color.white);
+		g.drawString(playersString, grid.getRightPosition(), getNextCommandPosition(3));
+		
 		
 		//reset positions of elements
 		commandPosition = 0;
