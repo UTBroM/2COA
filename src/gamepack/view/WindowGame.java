@@ -7,6 +7,7 @@ import gamepack.manager.GameSaver;
 import gamepack.manager.TileMatrixManager;
 import gamepack.utility.Direction;
 import gamepack.utility.GameState;
+import gamepack.utility.ProjectMethods;
 
 import java.awt.Font;
 import java.util.ArrayList;
@@ -39,6 +40,9 @@ public class WindowGame extends BasicGame
 	
 	
 	private float tileSpeedMultiplicator = 1;
+	
+	private char[] moveArray = {'q','s','d','z'};
+	private boolean autoMove;
 	
 	//INTERFACE
 	private int commandPosition = 20;
@@ -75,6 +79,7 @@ public class WindowGame extends BasicGame
 		state = GameState.Ongoing;
 		gameFPS = 100;
 		numberOfFrameWithMovement = 0;
+		autoMove = false;
 		
 		//Object initialization
 		grid = new Grid(windowSizeX, windowSizeY, 4);
@@ -195,6 +200,7 @@ public class WindowGame extends BasicGame
 		g.drawString("F2 : load game",grid.getRightPosition(), getNextCommandPosition(1));
 		g.drawString("F3 : New game", grid.getRightPosition(), getNextCommandPosition(1));
 		g.drawString("F4 : Slow Motion", grid.getRightPosition(),getNextCommandPosition(1));
+		g.drawString("F5 : Auto Movements", grid.getRightPosition(),getNextCommandPosition(1));
 		g.drawString("Back : Rewind", grid.getRightPosition(), getNextCommandPosition(1));
 		
 		//score
@@ -248,14 +254,18 @@ public class WindowGame extends BasicGame
 		else //if we lose/win & then leave: register score, delete save
 		{
 			currentPlayer = new Player(pseudoEntry.getText(), gameManager.getScore());
-			players.add(currentPlayer);
-			updatePlayerString(5);
-			gSave.save(gameManager.getNextTileMatrix(), currentPlayer);
-			gSave.deleteSave();
-			
+			if(currentPlayer.getName() != "")
+			{
+				players.add(currentPlayer);
+				updatePlayerString(5);
+				gSave.save(gameManager.getNextTileMatrix(), currentPlayer);
+				gSave.deleteSave();
+			}
 		}
 		return true;
 	}
+	
+	
 
 	//when a key is pressed
 	public void keyPressed(int key, char c)
@@ -282,9 +292,12 @@ public class WindowGame extends BasicGame
 				if(state == GameState.Win || state == GameState.Lose)
 				{
 					currentPlayer = new Player(pseudoEntry.getText(), gameManager.getScore());
-					players.add(currentPlayer);
-					updatePlayerString(5);
-					gSave.save(gameManager.getNextTileMatrix(), currentPlayer);
+					if(currentPlayer.getName() != "")
+					{
+						players.add(currentPlayer);
+						updatePlayerString(5);
+						gSave.save(gameManager.getNextTileMatrix(), currentPlayer);
+					}
 				}
 					
 				state = GameState.Ongoing;
@@ -299,6 +312,11 @@ public class WindowGame extends BasicGame
 			{
 				gameManager.undo();
 			}
+			else if (key == Input.KEY_F5) //Auto random movements in the game
+			{
+				autoMove = !autoMove;
+			}
+			
 			
 			//If it wasn't a command
 			else
@@ -308,13 +326,13 @@ public class WindowGame extends BasicGame
 				{
 					//if we press a direction
 					Direction directionPressed = Direction.None;
-					if (key == Input.KEY_LEFT || key == Input.KEY_Q)
+					if (key == Input.KEY_LEFT || Character.toLowerCase(c) == 'q')
 						directionPressed = Direction.Left;
-					else if (key == Input.KEY_RIGHT || key == Input.KEY_D)
+					else if (key == Input.KEY_RIGHT || Character.toLowerCase(c) == 'd')
 						directionPressed = Direction.Right;
-					else if (key == Input.KEY_DOWN || key == Input.KEY_S)
+					else if (key == Input.KEY_DOWN || Character.toLowerCase(c) == 's')
 						directionPressed = Direction.Down;
-					else if (key == Input.KEY_UP || key == Input.KEY_Z)
+					else if (key == Input.KEY_UP || Character.toLowerCase(c) == 'z')
 						directionPressed = Direction.Up;
 					
 					//If we have press a key for a movement
@@ -334,6 +352,9 @@ public class WindowGame extends BasicGame
 			}
 		}
 	}
+	
+	
+	
 	
 	//--------------- Default function of Slick2D -----------
 	//Refresh the screen
@@ -382,7 +403,6 @@ public class WindowGame extends BasicGame
 	public void update(GameContainer gc, int delta) throws SlickException
 	{
 		//if we're not waiting for an event
-		
 		if (state != GameState.Ongoing)
 		{
 			//Once tiles have finished their movement
@@ -411,7 +431,12 @@ public class WindowGame extends BasicGame
 			}
 			refreshFPS(gc.getFPS());
 		}
-		
+		//automatic movement 
+		if (state == GameState.Ongoing || (state == GameState.DoneMoving && numberOfFrameWithMovement == 0))
+		{
+			if(autoMove)
+				keyPressed(0, moveArray[ProjectMethods.randInt(0, 3)]);
+		}
 	}
 
 	//Main methods, create the window

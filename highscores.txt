@@ -14,3 +14,4 @@ tryalot: 670
 zef: 670
 Boumbibage: 1180
 GIJO: 1206
+zzfze: 276

@@ -1,6 +1,5 @@
 package gamepack.data.drawable;
 
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import org.newdawn.slick.Color;
@@ -8,6 +7,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
+import org.newdawn.slick.geom.Rectangle;
+
+import com.sun.xml.internal.bind.v2.runtime.Coordinator;
 //Rédigée par le groupe
 public class TextArea implements MouseListener, DrawableObject, KeyListener
 {
@@ -68,6 +70,9 @@ public class TextArea implements MouseListener, DrawableObject, KeyListener
 			if(textEntered.length() >= 1)
 				textEntered = textEntered.substring(0, textEntered.length()-1);
 		
+		if(arg0 == Input.KEY_ENTER)
+			enteringText = false;
+		
 	}
 
 	public void keyReleased(int arg0, char arg1)
@@ -77,9 +82,26 @@ public class TextArea implements MouseListener, DrawableObject, KeyListener
 
 	public void beDrawn(Graphics g)
 	{
-		g.setColor(background);
-		g.fillRect((int)textArea.getX(), (int)textArea.getY(), (int)textArea.getWidth(), (int)textArea.getHeight());
+		//profondeur
+		int relief = 0;
+		if(enteringText)
+		{
+			relief = -2;
+			g.setColor(new Color(50,50,50));
+		}
+		else
+		{
+			g.setColor(new Color(0,0,0));
+		}
+		g.fillRoundRect((int)textArea.getX()-relief, (int)textArea.getY()-relief, (int)textArea.getWidth()+relief, (int)textArea.getHeight()+relief, 2);
 	
+	
+		
+		//background
+		g.setColor(background);
+		g.fillRoundRect((int)textArea.getX(), (int)textArea.getY(), (int)textArea.getWidth(), (int)textArea.getHeight(), 2);
+	
+		//foreground
 		if(enteringText)
 			g.setColor(foreground);
 		else
