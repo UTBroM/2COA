@@ -1,8 +1,6 @@
 package gamepack.data.drawable;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -33,7 +31,7 @@ public class Grid implements DrawableObject
 		this.sizeX = x;
 		this.sizeY = y;
 		
-		float min = (sizeX < sizeY ? sizeX : sizeY); // To let the grid be squared
+		float min = (sizeX - 150 < sizeY ? sizeX - 150 : sizeY); // To let the grid be squared
 		
 		padX *= min / 800;
 		padY *= min / 800;
