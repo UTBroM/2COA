@@ -221,6 +221,16 @@ public class WindowGame extends BasicGame
 		g.setColor(prevColor);
 	}
 	
+	@Override
+	public boolean closeRequested()
+	{
+		// Save the game when closing
+		if(state != GameState.Lose && state != GameState.Win )
+			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
+		return true;
+	}
+	
+	
 	//when a key is pressed
 	public void keyPressed(int key, char c)
 	{
