@@ -168,7 +168,6 @@ public class Tile implements DrawableObject
 	{
 		if (this.equals(this.arrivedTile)) {
 			this.arrivedTile.doubleValue();
-			this.arrivedTile = null;
 			return true;
 		}else{
 			return false;
