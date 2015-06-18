@@ -94,6 +94,8 @@ public class WindowGame extends BasicGame
 		grid = new Grid(windowSizeX, windowSizeY, sizeGrid);
 		gSave = new GameSaver("save.txt", "score.txt","highscores.txt");
 		players = gSave.getHighscores();
+		if(players == null)
+			players = new ArrayList<Player>();
 		updatePlayerString(5);
 		currentPlayer = null;
 		
@@ -396,10 +398,14 @@ public class WindowGame extends BasicGame
 	//update the string to show the top n
 	private void updatePlayerString(int n)
 	{
-		Collections.sort(players);
 		playersString = "";
-		for(int i = 0; i < n && i < players.size(); i++)	//TOP 5
-			playersString += ""+players.get(i) + '\n';
+
+		if(players != null && players.size() != 0)
+		{
+			Collections.sort(players);
+			for(int i = 0; i < n && i < players.size(); i++)	//TOP 5
+				playersString += ""+players.get(i) + '\n';
+		}
 	}
 
 	
