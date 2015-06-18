@@ -194,7 +194,7 @@ public class TileMatrixManager
 			int yNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[1];
 			
 			// chance to get a bomb (probability = 1/chance)
-			final int chanceBomb = 1;
+			final int chanceBomb = 50;
 			if (rand.nextInt(chanceBomb) == 0)
 			{
 				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue());
