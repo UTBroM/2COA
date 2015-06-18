@@ -274,8 +274,9 @@ public class WindowGame extends BasicGame
 					directionPressed = Direction.Down;
 				else if (key == Input.KEY_UP || key == Input.KEY_Z)
 					directionPressed = Direction.Up;
-				
-				
+				else if(key == Input.KEY_BACK)
+					gameManager.undo();
+
 				//If we have press a key for a movement
 				if (directionPressed != Direction.None)
 				{
@@ -290,7 +291,6 @@ public class WindowGame extends BasicGame
 				gameManager.manageMovement(gameFPS,5);
 		}
 	}
-	
 	
 	//Main methods, create the window
 	public static void main(String[] args) throws SlickException
