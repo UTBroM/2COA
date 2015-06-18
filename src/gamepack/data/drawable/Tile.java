@@ -97,12 +97,17 @@ public class Tile implements DrawableObject
 	
 	protected int getTextX()
 	{
-		return (int) (getCenterX() - (ProjectMethods.getLength(value)*6.0)/2.0);
+		return (int) (getCenterX() - getTextWidth()/2.0);
 	}
 	
 	protected int getTextY()
 	{
 		return getCenterY()-5;
+	}
+	
+	protected int getTextWidth()
+	{
+		return (int) (ProjectMethods.getLength(value)*6.0);
 	}
 	
 	//SETTERS
@@ -220,9 +225,13 @@ public class Tile implements DrawableObject
 				rectangle.getWidth(), 
 				rectangle.getHeight(), 
 				4);
-		
-		gr.setColor(Color.white);
-		gr.drawString("" + value, getTextX(), getTextY());
+		if(value == 1024)
+			System.out.println(getTextWidth() + "  " + rectangle.getWidth());
+		if(getTextWidth() < rectangle.getWidth()/2)
+		{
+			gr.setColor(Color.white);
+			gr.drawString("" + value, getTextX(), getTextY());
+		}
 	}
 	
 	//refresh the color of the Tile

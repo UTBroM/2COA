@@ -77,9 +77,12 @@ public class Bomb extends Tile{
 				4);
 		
 		//texte
-		gr.setColor(Color.black);
-		if(critical)
-			gr.setColor(Color.red);
-		gr.drawString("" + getValue(), getTextX()+dx, getTextY()+dy);
+		if(getTextWidth() < rectangle.getWidth()/2)
+		{
+			gr.setColor(Color.black);
+			if(critical)
+				gr.setColor(Color.red);
+			gr.drawString("" + getValue(), getTextX()+dx, getTextY()+dy);
+		}
 	}
 }
