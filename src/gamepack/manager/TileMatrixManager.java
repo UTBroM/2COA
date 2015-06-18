@@ -203,9 +203,10 @@ public class TileMatrixManager
 	// Then it will set the arrived point (coordinates of the arrivedTile if there is one)
 	public void initMovement(Direction d)
 	{
-		// Initialization of the next matrice to compute on it the next state of
+		// Initialization of the next matrix to compute on it the next state of
 		// the grid
-		tileMatrix = new TileMatrix(nextTileMatrix);
+		tileMatrix = new TileMatrix(nextTileMatrix, false);
+		prevTileMatrix = new TileMatrix(nextTileMatrix, true);
 		nextTileMatrix.setDirection(d);
 		
 		// Computation on the nextMatrix
@@ -521,5 +522,11 @@ public class TileMatrixManager
 				return GameState.Lose;
 		}
 		return GameState.Ongoing;
+	}
+	
+	public void undo()
+	{
+		if(prevTileMatrix != null)
+			nextTileMatrix = new TileMatrix(prevTileMatrix, false);
 	}
 }
