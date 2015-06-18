@@ -71,7 +71,7 @@ public class WindowGame extends BasicGame
 		numberOfFrameWithMovement = 0;
 		
 		//Object initialization
-		grid = new Grid(windowSizeX, windowSizeY, 2);
+		grid = new Grid(windowSizeX, windowSizeY, 4);
 		gSave = new GameSaver("save.txt", "score.txt","highscores.txt");
 		
 		transparentbg = new Color(193, 184, 176, 136);
