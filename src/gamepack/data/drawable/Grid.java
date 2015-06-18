@@ -16,7 +16,7 @@ public class Grid implements DrawableObject
 	private ArrayList<Rectangle> rectangleList;
 	private int gridSize;
 	
-	public Grid(int x, int y)
+	public Grid(int x, int y, int numberOfTile)
 	{
 		//Compute such that there is enough place for the score at the right of the screen
 		final float sizeOnLeft = 120;
@@ -28,7 +28,7 @@ public class Grid implements DrawableObject
 		
 		}
 		// Initialization of the base attributes of the grid :
-		gridSize = 4;
+		gridSize = numberOfTile;
 		
 		float padX = 20;
 		float padY = 20;

@@ -1,6 +1,7 @@
 package gamepack.view;
 
 import gamepack.data.drawable.Grid;
+import gamepack.data.drawable.TextArea;
 import gamepack.manager.GameSaver;
 import gamepack.manager.TileMatrixManager;
 import gamepack.utility.Direction;
@@ -33,6 +34,17 @@ public class WindowGame extends BasicGame
 	private int numberOfFrameWithMovement; //in order to generate a new tile only if there is movement
 	private GameSaver gSave;
 	
+	
+	private float tileSpeedMultiplicator = 1;
+	
+	//INTERFACE
+	private int commandPosition = 20;
+	private String strWin1 = new String("Congratulation !");
+	private String strWin2 = new String("You won with a score of ");
+	private String strLose1 = new String("You lost ...");
+	private String strLose2 = new String("But try again and beat your score of ");
+	private Color prevColor;
+	
 	private  Color transparentbg;
 	private  Font font;
 	private TrueTypeFont ttf;
@@ -40,16 +52,9 @@ public class WindowGame extends BasicGame
 	private Image explosionImage2;
 	private Image explosionImage3;
 	private Image explosionImage4;
-	private Animation explosionAnimation = new Animation();
+	private Animation explosionAnimation;
 
-	private float tileSpeedMultiplicator = 1;
-	
-	//INTERFACE
-	private String strWin1 = new String("Congratulation !");
-	private String strWin2 = new String("You won with a score of ");
-	private String strLose1 = new String("You lost ...");
-	private String strLose2 = new String("But try again and beat your score of ");
-	private Color prevColor;
+	private TextArea pseudoEntry;
 	
 	
 	//		METHODS
@@ -66,8 +71,8 @@ public class WindowGame extends BasicGame
 		numberOfFrameWithMovement = 0;
 		
 		//Object initialization
-		grid = new Grid(windowSizeX, windowSizeY);
-		gSave = new GameSaver("save.txt", "score.txt");
+		grid = new Grid(windowSizeX, windowSizeY, 2);
+		gSave = new GameSaver("save.txt", "score.txt","highscores.txt");
 		
 		transparentbg = new Color(193, 184, 176, 136);
 		font = new Font("Times New Roman", Font.BOLD, 32);
@@ -75,12 +80,15 @@ public class WindowGame extends BasicGame
 		//Matrix Manager Initialization
 		generateGameManager();
 		
+		
 	}
 	
 	//Slick2D method which start when the game container start
 	public void init(GameContainer container) throws SlickException
 	{
+		
 		//Initialisation of animation when BOOOOM !
+		explosionAnimation  = new Animation();
 		explosionImage1 = new Image ("boom1.png");
 		explosionImage2 = new Image ("boom2.png");
 		explosionImage3 = new Image ("boom3.png");
@@ -94,6 +102,12 @@ public class WindowGame extends BasicGame
 		//Graphic aspect
 		ttf = new TrueTypeFont(font, true);
 		container.getGraphics().setBackground(new Color(193, 184, 176)); 
+		
+		//Input management on TextArea
+		pseudoEntry = new TextArea(20,20,150,20);
+		container.getInput().addKeyListener(pseudoEntry);
+		container.getInput().addMouseListener(pseudoEntry);
+		pseudoEntry.setPosition(grid.getRightPosition(), getNextCommandPosition(0));
 	}
 		
 	//Size methods for the container
@@ -118,8 +132,8 @@ public class WindowGame extends BasicGame
 			//The game starts with the generation of new tiles
 			gameManager.generateNewTile();
 			gameManager.generateNewTile();
-			
-			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
+
+			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore(), "");
 		}
 		//otherwise, we load the save
 		else
@@ -137,22 +151,35 @@ public class WindowGame extends BasicGame
 		gameFPS = fps;
 	}
 	
-	//Draw the score
-	public void drawRightPannel(Graphics g)
+	//To get the next position on the right pannel
+	public int getNextCommandPosition(int jump)
 	{
-		int commandsTopPositon = 20;
-		int scoreTopPositon = commandsTopPositon+15*8;
+		commandPosition += jump*15;
+		return commandPosition;
+	}
+	
+	//Draw the score
+	public void drawInterface(Graphics g)
+	{
+		//Text Entry
+		pseudoEntry.beDrawn(g);
+		
+		//Right Pannel
+
 		g.setColor(Color.white);
-		g.drawString("Options :", grid.getRightPosition(), commandsTopPositon);
-		g.drawString("F1 : Save game",grid.getRightPosition(), commandsTopPositon+15*1);
-		g.drawString("F2 : load game",grid.getRightPosition(), commandsTopPositon+15*2);
-		g.drawString("F3 : New game", grid.getRightPosition(), commandsTopPositon+15*3);
-		g.drawString("F4 : Slow Motion", grid.getRightPosition(), commandsTopPositon+15*4);
-		g.drawString("Back : Rewind", grid.getRightPosition(), commandsTopPositon+15*5);
+		g.drawString("Options :", grid.getRightPosition(), getNextCommandPosition(1));
+		g.drawString("F1 : Save game",grid.getRightPosition(), getNextCommandPosition(1));
+		g.drawString("F2 : load game",grid.getRightPosition(), getNextCommandPosition(1));
+		g.drawString("F3 : New game", grid.getRightPosition(), getNextCommandPosition(1));
+		g.drawString("F4 : Slow Motion", grid.getRightPosition(),getNextCommandPosition(1));
+		g.drawString("Back : Rewind", grid.getRightPosition(), getNextCommandPosition(1));
 		
 		g.setColor(Color.white);
-		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), scoreTopPositon);
+		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), getNextCommandPosition(3));
 		
+		//reset positions of elements
+		commandPosition = 0;
+		commandPosition = pseudoEntry.getY()+getNextCommandPosition(1);
 	}
 	
 	public void drawWin(Graphics g)
@@ -184,70 +211,86 @@ public class WindowGame extends BasicGame
 	{
 		// Save the game when closing
 		if(state != GameState.Lose && state != GameState.Win )
-			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
+			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore(), "");
+		else //if we lose/win & then leave: register score, delete save
+		{
+			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore(), pseudoEntry.getText());
+			gSave.deleteSave();
+			
+		}
 		return true;
 	}
 
 	//when a key is pressed
 	public void keyPressed(int key, char c)
 	{
-		//if we press a command
-		if (key == Input.KEY_F1) //F1 save the game
+		//if we're not entering a pseudo
+		if(!pseudoEntry.isEnteringText())
 		{
-			if(state != GameState.Win && state != GameState.Lose)
-				gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
-		}
-		else if (key == Input.KEY_F2) //F2 load the game
-		{
-			state = GameState.Ongoing;
-			gameManager = new TileMatrixManager(grid.getRectangles(), gSave.getSavedTileList(), gSave.getScore());
-		}
-		else if (key == Input.KEY_F3) //F3 make a new game
-		{
-			state = GameState.Ongoing;
-			gSave.deleteSave();
-			generateGameManager();
-		}
-		else if (key == Input.KEY_F4 && tileSpeedMultiplicator == 1) //F4 Slow Motion (for the next movement)
-		{
-			tileSpeedMultiplicator /= 10.0;
-		}
-		else if (key == Input.KEY_BACK) //Undo the previous movement
-		{
-			gameManager.undo();
-		}
-		
-		//If it wasn't a command
-		else
-		{
-			//If we are waiting for an event or if the movement has been done
-			if (state == GameState.Ongoing || state == GameState.DoneMoving)
+			//if we press a command
+			if (key == Input.KEY_F1) //F1 save the game
 			{
-				//if we press a direction
-				Direction directionPressed = Direction.None;
-				if (key == Input.KEY_LEFT || key == Input.KEY_Q)
-					directionPressed = Direction.Left;
-				else if (key == Input.KEY_RIGHT || key == Input.KEY_D)
-					directionPressed = Direction.Right;
-				else if (key == Input.KEY_DOWN || key == Input.KEY_S)
-					directionPressed = Direction.Down;
-				else if (key == Input.KEY_UP || key == Input.KEY_Z)
-					directionPressed = Direction.Up;
-				
-				//If we have press a key for a movement
-				if (directionPressed != Direction.None)
-				{
-					state = GameState.Moving;
-					numberOfFrameWithMovement = 0; //set the number of frame with movement at 0
-					explosionAnimation.restart();
-					gameManager.getExplosionPositions().clear();
-					gameManager.initMovement(directionPressed); //launch the movement for all tiles
-					
-				}
+				if(state != GameState.Win && state != GameState.Lose)
+					gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore(), pseudoEntry.getText());
 			}
-			//If we press a key while there is a movement, we accelerate the movement
-			else if(state != GameState.Win && state != GameState.Lose)
-				gameManager.manageMovement(gameFPS,20);
+			else if (key == Input.KEY_F2) //F2 load the game
+			{
+				state = GameState.Ongoing;
+				gameManager = new TileMatrixManager(grid.getRectangles(), gSave.getSavedTileList(), gSave.getScore());
+			}
+			else if (key == Input.KEY_F3) //F3 make a new game (and save the score of the precedent if lose/win)
+			{
+
+				if(state == GameState.Win || state == GameState.Lose)
+				{
+					gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore(), pseudoEntry.getText());
+				}
+					
+				state = GameState.Ongoing;
+				gSave.deleteSave();
+				generateGameManager();
+			}
+			else if (key == Input.KEY_F4 && tileSpeedMultiplicator == 1) //F4 Slow Motion (for the next movement)
+			{
+				tileSpeedMultiplicator /= 10.0;
+			}
+			else if (key == Input.KEY_BACK) //Undo the previous movement
+			{
+				gameManager.undo();
+			}
+			
+			//If it wasn't a command
+			else
+			{
+				//If we are waiting for an event or if the movement has been done
+				if (state == GameState.Ongoing || state == GameState.DoneMoving)
+				{
+					//if we press a direction
+					Direction directionPressed = Direction.None;
+					if (key == Input.KEY_LEFT || key == Input.KEY_Q)
+						directionPressed = Direction.Left;
+					else if (key == Input.KEY_RIGHT || key == Input.KEY_D)
+						directionPressed = Direction.Right;
+					else if (key == Input.KEY_DOWN || key == Input.KEY_S)
+						directionPressed = Direction.Down;
+					else if (key == Input.KEY_UP || key == Input.KEY_Z)
+						directionPressed = Direction.Up;
+					
+					//If we have press a key for a movement
+					if (directionPressed != Direction.None)
+					{
+						state = GameState.Moving;
+						numberOfFrameWithMovement = 0; //set the number of frame with movement at 0
+						explosionAnimation.restart();
+						gameManager.getExplosionPositions().clear();
+						gameManager.initMovement(directionPressed); //launch the movement for all tiles
+						
+					}
+				}
+				//If we press a key while there is a movement, we accelerate the movement
+				else if(state != GameState.Win && state != GameState.Lose)
+					gameManager.manageMovement(gameFPS,20);
+			}
 		}
 	}
 	
@@ -278,7 +321,7 @@ public class WindowGame extends BasicGame
 				gameManager.getTileMatrix().beDrawn(g);
 			
 			//Draw the score
-			this.drawRightPannel(g);
+			this.drawInterface(g);
 			
 			if (!explosionAnimation.isStopped())
 			{

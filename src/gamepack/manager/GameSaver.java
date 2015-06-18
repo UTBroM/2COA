@@ -6,6 +6,8 @@ import gamepack.data.drawable.TileMatrix;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,18 +16,20 @@ public class GameSaver
 {
 	private String pathData;
 	private String pathScore;
+	private String pathHighscores;
 	
 	//Set the path
-	public GameSaver(String pathData, String pathScore)
+	public GameSaver(String pathData, String pathScore, String pathHighscores)
 	{
 		this.pathData = pathData;
 		this.pathScore = pathScore;
+		this.pathHighscores = pathHighscores;
 		
 		//if files are not available, create the files
 		if(!areFilesAvailable())
 		{
-			writeInFile(pathData, "");
-			writeInFile(pathScore, "0");
+			writeInFile(pathData, "", false);
+			writeInFile(pathScore, "0", false);
 		}
 	}
 	
@@ -34,7 +38,7 @@ public class GameSaver
 	{
 		//init
 		File dataFile = new File(pathData);
-		File scoreFile = new File(pathData);
+		File scoreFile = new File(pathScore);
 		
 		//exist & not empty
 		if(dataFile.exists() && dataFile.length() != 0)
@@ -130,7 +134,7 @@ public class GameSaver
 	}
 	
 	//save the tile matrix in the file
-	public void save(TileMatrix tMatrix, int score)
+	public void save(TileMatrix tMatrix, int score, String pseudo)
 	{
 		//Initialization
 		String dataToSave = "";
@@ -159,27 +163,42 @@ public class GameSaver
 		}
 		
 		//save the matrix and the score
-		writeInFile(pathData, dataToSave);
-		writeInFile(pathScore, ""+score);
+		writeInFile(pathData, dataToSave, false);
+		writeInFile(pathScore, ""+score, false);
+		
+		//Save the pseudo if there is one
+		if(!pseudo.equals(""))
+		{
+			writeInFile(pathHighscores, pseudo+":"+score+'\n', true);
+		}
 		
 	}
 	
 	//Write $data in $path (not necessarily optimized as we create a new PrintWriter but better for clarity)
-	private void writeInFile(String path, String data)
+	private void writeInFile(String path, String data, boolean append)
 	{
+		System.out.println(path + "  " + data);
 		//Initialization
 		PrintWriter writer;
 		try
 		{
 			//Writer is used to write in the file
-			writer = new PrintWriter(path);
+			writer = new PrintWriter(new FileWriter(path, append));
 			
 			//Write in the file & close is
-			writer.print(data);
+			if(!append)
+				writer.print(data);
+			else
+				writer.append(data);
 			writer.close();
 		}
 		catch (FileNotFoundException e)
 		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -187,7 +206,7 @@ public class GameSaver
 	//delete the save
 	public void deleteSave()
 	{
-		writeInFile(pathScore, "");
-		writeInFile(pathData, "");
+		writeInFile(pathScore, "", false);
+		writeInFile(pathData, "", false);
 	}
 }
