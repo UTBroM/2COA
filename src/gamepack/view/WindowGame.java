@@ -318,7 +318,7 @@ public class WindowGame extends BasicGame
 			}
 			//If we press a key while there is a movement, we accelerate the movement
 			else if(state != GameState.Win && state != GameState.Lose)
-				gameManager.manageMovement(gameFPS,5);
+				gameManager.manageMovement(gameFPS,20);
 		}
 	}
 	
