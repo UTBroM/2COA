@@ -43,6 +43,7 @@ public class WindowGame extends BasicGame
 	
 	private char[] moveArray = {'q','s','d','z'};
 	private boolean autoMove;
+	private boolean strongAutoMove;
 	
 	//INTERFACE
 	private int commandPosition = 20;
@@ -80,6 +81,7 @@ public class WindowGame extends BasicGame
 		gameFPS = 100;
 		numberOfFrameWithMovement = 0;
 		autoMove = false;
+		strongAutoMove = false;
 		
 		//Object initialization
 		grid = new Grid(windowSizeX, windowSizeY, 4);
@@ -201,6 +203,7 @@ public class WindowGame extends BasicGame
 		g.drawString("F3 : New game", grid.getRightPosition(), getNextCommandPosition(1));
 		g.drawString("F4 : Slow Motion", grid.getRightPosition(),getNextCommandPosition(1));
 		g.drawString("F5 : Auto Movements", grid.getRightPosition(),getNextCommandPosition(1));
+		g.drawString("F6 : Auto Movements+", grid.getRightPosition(),getNextCommandPosition(1));
 		g.drawString("Back : Rewind", grid.getRightPosition(), getNextCommandPosition(1));
 		
 		//score
@@ -273,6 +276,7 @@ public class WindowGame extends BasicGame
 		//if we're not entering a pseudo
 		if(!pseudoEntry.isEnteringText())
 		{
+			
 			//if we press a command
 			if (key == Input.KEY_F1) //F1 save the game
 			{
@@ -288,21 +292,7 @@ public class WindowGame extends BasicGame
 			}
 			else if (key == Input.KEY_F3) //F3 make a new game (and save the score of the precedent if lose/win)
 			{
-
-				if(state == GameState.Win || state == GameState.Lose)
-				{
-					currentPlayer = new Player(pseudoEntry.getText(), gameManager.getScore());
-					if(currentPlayer.getName() != "")
-					{
-						players.add(currentPlayer);
-						updatePlayerString(5);
-						gSave.save(gameManager.getNextTileMatrix(), currentPlayer);
-					}
-				}
-					
-				state = GameState.Ongoing;
-				gSave.deleteSave();
-				generateGameManager();
+				restartGame();
 			}
 			else if (key == Input.KEY_F4 && tileSpeedMultiplicator == 1) //F4 Slow Motion (for the next movement)
 			{
@@ -315,6 +305,12 @@ public class WindowGame extends BasicGame
 			else if (key == Input.KEY_F5) //Auto random movements in the game
 			{
 				autoMove = !autoMove;
+				strongAutoMove = false;
+			}
+			else if (key == Input.KEY_F6) //Auto random movements in the game until win
+			{
+				strongAutoMove = !strongAutoMove;
+				autoMove = false;
 			}
 			
 			
@@ -354,7 +350,23 @@ public class WindowGame extends BasicGame
 	}
 	
 	
-	
+	public void restartGame()
+	{
+		if(state == GameState.Win || state == GameState.Lose)
+		{
+			currentPlayer = new Player(pseudoEntry.getText(), gameManager.getScore());
+			if(currentPlayer.getName() != "")
+			{
+				players.add(currentPlayer);
+				updatePlayerString(5);
+				gSave.save(gameManager.getNextTileMatrix(), currentPlayer);
+			}
+		}
+			
+		state = GameState.Ongoing;
+		gSave.deleteSave();
+		generateGameManager();
+	}
 	
 	//--------------- Default function of Slick2D -----------
 	//Refresh the screen
@@ -434,14 +446,23 @@ public class WindowGame extends BasicGame
 		//automatic movement 
 		if (state == GameState.Ongoing || (state == GameState.DoneMoving && numberOfFrameWithMovement == 0))
 		{
-			if(autoMove)
+			if(autoMove || strongAutoMove)
 			{
 				char c = moveArray[ProjectMethods.randInt(0, 3)];
 				keyPressed(0, c);
-				tileSpeedMultiplicator = 3;
+				if(strongAutoMove)
+					tileSpeedMultiplicator = 300;
 			}
 		}
+		//if we don't care about losing or winning
+		if (strongAutoMove) //F3 make a new game (and save the score of the precedent if lose/win)
+		{
+			if(state == GameState.Win || state == GameState.Lose)
+				restartGame();
+		}
+		
 	}
+	
 	
 	
 
