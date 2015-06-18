@@ -159,7 +159,7 @@ public class TileMatrixManager
 			int yNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[1];
 			
 			// chance to get a bomb (probability = 1/chance)
-			final int chanceBomb = 100;
+			final int chanceBomb = 5;
 			if (rand.nextInt(chanceBomb) == 0)
 			{
 				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue());
@@ -457,12 +457,14 @@ public class TileMatrixManager
 				Tile t = this.tileMatrix.get(j, i);
 				if (t != null)
 				{
-					if (t.refreshFusion())
-						if (this.tileMatrix.get(j, i) instanceof Bomb)
+					if (t.refreshFusion()){
+						if (t instanceof Bomb)
 						{
-							System.out.println("ALERTE");
+							t = new Tile((int)t.getX(), (int)t.getY(), t.getValue());
 						}
 						score += t.getValue();
+					}
+						
 					//if there is a fusion, the tile double its value, and the arrivedTile will be deleted
 					//when the tileMatrix will be deleted, at the beginning of the initMovement
 				}
