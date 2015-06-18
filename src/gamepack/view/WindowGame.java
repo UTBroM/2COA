@@ -32,9 +32,17 @@ public class WindowGame extends BasicGame
 	private int numberOfFrameWithMovement; //in order to generate a new tile only if there is movement
 	private GameSaver gSave;
 	
-	public Color transparentbg;
-	public Font font;
-	TrueTypeFont ttf;
+	private  Color transparentbg;
+	private  Font font;
+	private TrueTypeFont ttf;
+	
+	//INTERFACE
+	private String strWin1 = new String("Congratulation !");
+	private String strWin2 = new String("You won with a score of ");
+	private String strLose1 = new String("You lost ...");
+	private String strLose2 = new String("But try again and beat your score of ");
+	private Color prevColor;
+	
 	
 	//		METHODS
 	public WindowGame()
@@ -124,7 +132,7 @@ public class WindowGame extends BasicGame
 				gameManager.getTileMatrix().beDrawn(g);
 			
 			//Draw the score
-			this.drawScore(g);
+			this.drawRightPannel(g);
 		}
 	}
 	
@@ -173,40 +181,43 @@ public class WindowGame extends BasicGame
 	}
 	
 	//Draw the score
-	public void drawScore(Graphics g)
+	public void drawRightPannel(Graphics g)
 	{
+		int commandsTopPositon = 20;
+		int scoreTopPositon = commandsTopPositon+15*6;
 		g.setColor(Color.white);
-		g.drawString("score : " + this.gameManager.getScore(), container.getWidth() - 150, 10);
+		g.drawString("Options :", grid.getRightPosition(), commandsTopPositon);
+		g.drawString("F1 : Save game",grid.getRightPosition(), commandsTopPositon+15*1);
+		g.drawString("F2 : load game",grid.getRightPosition(), commandsTopPositon+15*2);
+		g.drawString("F3 : New game", grid.getRightPosition(), commandsTopPositon+15*3);
+		
+		g.setColor(Color.white);
+		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), scoreTopPositon);
+		
 	}
 
 	
 	public void drawWin(Graphics g)
 	{
-		Color prevColor;
-		String strWin1 = new String("Congratulation !");
-		String strWin2 = new String("You won with a score of " + this.gameManager.getScore());
 		grid.beDrawn(g);
 		gameManager.getTileMatrix().beDrawn(g);
 		prevColor = g.getColor();
 		g.setColor(transparentbg);
 		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
 		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin1)*1.5), strWin1, Color.black);
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin2)+ttf.getHeight(strWin1)), strWin2, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin2)+ttf.getHeight(strWin1)), strWin2 + this.gameManager.getScore(), Color.black);
 		g.setColor(prevColor);
 	}
 	
 	public void drawLose(Graphics g)
 	{
-		Color prevColor;
-		String strLose1 = new String("You lost ...");
-		String strLose2 = new String("But try again and beat your score of " + this.gameManager.getScore()+ " !");
 		grid.beDrawn(g);
 		gameManager.getNextTileMatrix().beDrawn(g);
 		prevColor = g.getColor();
 		g.setColor(transparentbg);
 		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
 		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose1)*1.5), strLose1, Color.black);
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose2)+ttf.getHeight(strLose1)), strLose2, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose2)+ttf.getHeight(strLose1)), strLose2 + this.gameManager.getScore()+ " !", Color.black);
 		g.setColor(prevColor);
 	}
 	
@@ -254,13 +265,6 @@ public class WindowGame extends BasicGame
 			gameManager.manageMovement(1);
 	}
 	
-	@Override
-    public boolean closeRequested() 
-	{
-		// Save the game when closing
-		gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
-		return true;
-    }
 	
 	//Main methods, create the window
 	public static void main(String[] args) throws SlickException
@@ -271,6 +275,7 @@ public class WindowGame extends BasicGame
 		appgc.setDisplayMode(wGame.getWindowSizeX(), wGame.getWindowSizeY(), false); //the container & the game have the same dimensions
 		appgc.setShowFPS(false); //don't show the FPS
 		appgc.setTargetFrameRate(100); //default frame rate
+
 		appgc.start(); //Launch the game
 	}
 }

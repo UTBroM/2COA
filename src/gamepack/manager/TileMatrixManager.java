@@ -159,8 +159,10 @@ public class TileMatrixManager
 			int xNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[0];
 			// Variable which contain the y position in the matrix
 			int yNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[1];
-			// System.out.println(nextTileMatrix);
-			if (rand.nextInt(20) == 0)
+			
+			// chance to get a bomb (probability = 1/chance)
+			final int chanceBomb = 100;
+			if (rand.nextInt(chanceBomb) == 0)
 			{
 				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), this.getRandomTileValue());
 				nextTileMatrix.setAt(xNewTile, yNewTile, newBomb);
