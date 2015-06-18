@@ -37,15 +37,17 @@ public class WindowGame extends BasicGame
 	private int gameFPS;
 	private int numberOfFrameWithMovement; //in order to generate a new tile only if there is movement
 	private GameSaver gSave;
-	
+
 	
 	private float tileSpeedMultiplicator = 1;
 	
+	//manage an "auto movement" mode
 	private char[] moveArray = {'q','s','d','z'};
 	private boolean autoMove;
 	private boolean strongAutoMove;
 	
 	//INTERFACE
+	//text for win and lose
 	private int commandPosition = 20;
 	private String strWin1 = new String("Congratulation !");
 	private String strWin2 = new String("You won with a score of ");
@@ -56,12 +58,14 @@ public class WindowGame extends BasicGame
 	private  Color transparentbg;
 	private  Font font;
 	private TrueTypeFont ttf;
+	
+	//images for explosion
 	private Image explosionImage1;
 	private Image explosionImage2;
 	private Image explosionImage3;
 	private Image explosionImage4;
 	private Animation explosionAnimation;
-
+	//highscore
 	private TextArea pseudoEntry;
 	private ArrayList<Player> players;
 	private String playersString;

@@ -323,6 +323,7 @@ public class TileMatrixManager
 							int yPoint = goodPositions.getPositionsOf(prevTilePoint)[1];
 							
 							Point ArrPoint = null;
+							//Forced to do some if and else because goodPositions does not rotate
 							if (line)
 							{
 								if (xPoint + 1 > size)
@@ -352,16 +353,11 @@ public class TileMatrixManager
 							
 							curTile.setArrivedPoint(ArrPoint);
 							
-							// utiliser pour simplifier plus tard
-							/*
-							 * lineOrColumn.set(x, null);
-							 * int newX =
-							 * goodPositions.getPositionsOf(ArrPoint)[0];
-							 * lineOrColumn.set(newX, curTile);
-							 */
 
 							//Change the tile position in the list
 							int arrayX = 0;
+
+							//Forced to do some if and else because goodPositions does not rotate
 							if (line)
 							{
 								if (!revert)
@@ -376,6 +372,7 @@ public class TileMatrixManager
 								else
 									arrayX = size - 1 - yPoint + 1;
 							}
+							
 							if (arrayX != x)
 							{
 								lineOrColumn.set(x, null);
