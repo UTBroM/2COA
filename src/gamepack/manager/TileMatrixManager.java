@@ -96,7 +96,6 @@ public class TileMatrixManager
 		defusedBombs.clear();
 		
 		//Clear the positions of explosion
-		explosionPositions.clear();
 		for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
 		{
 			for (int j = 0; j < nextTileMatrix.getMatrixSize(); j++)
@@ -195,7 +194,11 @@ public class TileMatrixManager
 			int yNewTile = goodPositions.getPositionsOf(goodFreePoint.get(randInt))[1];
 			
 			// chance to get a bomb (probability = 1/chance)
+<<<<<<< HEAD
 			final int chanceBomb = 70;
+=======
+			final int chanceBomb = 50;
+>>>>>>> origin/master
 			if (rand.nextInt(chanceBomb) == 0)
 			{
 				Bomb newBomb = new Bomb(goodFreePoint.get(randInt).getX(), goodFreePoint.get(randInt).getY(), ProjectMethods.getRandomTileValue());
