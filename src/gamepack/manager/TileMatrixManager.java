@@ -96,7 +96,6 @@ public class TileMatrixManager
 		defusedBombs.clear();
 		
 		//Clear the positions of explosion
-		explosionPositions.clear();
 		for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
 		{
 			for (int j = 0; j < nextTileMatrix.getMatrixSize(); j++)

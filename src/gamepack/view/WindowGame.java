@@ -240,6 +240,7 @@ public class WindowGame extends BasicGame
 					state = GameState.Moving;
 					numberOfFrameWithMovement = 0; //set the number of frame with movement at 0
 					explosionAnimation.restart();
+					gameManager.getExplosionPositions().clear();
 					gameManager.initMovement(directionPressed); //launch the movement for all tiles
 					
 				}
@@ -271,22 +272,24 @@ public class WindowGame extends BasicGame
 			if (state == GameState.Ongoing || state == GameState.DoneMoving)
 			{
 				gameManager.getNextTileMatrix().beDrawn(g);
-				if (!explosionAnimation.isStopped())
-				{
-					for (int i = 0; i < gameManager.getExplosionPositions().size(); i++) 
-					{
-						//Central Position
-						final int x = gameManager.getExplosionPositions().get(i).getX() - explosionAnimation.getWidth()/2;
-						final int y = gameManager.getExplosionPositions().get(i).getY() - explosionAnimation.getHeight()/2;
-						explosionAnimation.draw(x, y);
-					}
-				}
+				
 			}
 			else
 				gameManager.getTileMatrix().beDrawn(g);
 			
 			//Draw the score
 			this.drawRightPannel(g);
+			
+			if (!explosionAnimation.isStopped())
+			{
+				for (int i = 0; i < gameManager.getExplosionPositions().size(); i++) 
+				{
+					//Central Position
+					final int x = gameManager.getExplosionPositions().get(i).getX() - explosionAnimation.getWidth()/2;
+					final int y = gameManager.getExplosionPositions().get(i).getY() - explosionAnimation.getHeight()/2;
+					explosionAnimation.draw(x, y);
+				}
+			}
 		}
 
 	}
