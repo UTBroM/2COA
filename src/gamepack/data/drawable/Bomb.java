@@ -10,6 +10,7 @@ public class Bomb extends Tile{
 	private int remainingMovement;
 	private int explosionRadius;
 	
+	//Basic construtor
 	private Bomb(int x, int y, int value, int remainingMovement, int explosionRadius)
 	{
 		super(x, y, value);
@@ -17,11 +18,13 @@ public class Bomb extends Tile{
 		this.explosionRadius = explosionRadius;
 	}
 	
+	//Public construtor
 	public Bomb(int x, int y, int value)
 	{
 		this(x, y, value, 10, 1);
 	}
 	
+	//Constructor by copy
 	public Bomb(Bomb b)
 	{
 		super(b);
@@ -33,6 +36,13 @@ public class Bomb extends Tile{
 	{
 		return this.remainingMovement;
 	}
+	
+	public int getExplosionRadius()
+	{
+		return this.explosionRadius;
+	}
+	
+	//Is use to know the number of remaining movement before explosion
 	public boolean minusRemainingMovement()
 	{
 		this.remainingMovement--; 
@@ -41,11 +51,6 @@ public class Bomb extends Tile{
 		}else{
 			return false;
 		}
-	}
-	
-	public int getExplosionRadius()
-	{
-		return this.explosionRadius;
 	}
 	
 	//Draw the Bomb

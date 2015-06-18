@@ -75,6 +75,33 @@ public class WindowGame extends BasicGame
 		
 	}
 	
+	//Slick2D method which start when the game container start
+	public void init(GameContainer container) throws SlickException
+	{
+		//Initialisation of animation when BOOOOM !
+		explosionImage1 = new Image ("boom.gif");
+		explosionImage2 = new Image ("boom2.png");
+		explosionAnimation.addFrame(explosionImage1, 200);
+		explosionAnimation.addFrame(explosionImage2, 200);
+		explosionAnimation.setLooping(false);
+		
+		//Graphic aspect
+		ttf = new TrueTypeFont(font, true);
+		container.getGraphics().setBackground(new Color(193, 184, 176)); 
+	}
+		
+	//Size methods for the container
+	public int getWindowSizeX()
+	{
+		return windowSizeX;
+	}
+	
+	//Size methods for the container
+	public int getWindowSizeY()
+	{
+		return windowSizeY;
+	}
+		
 	private void generateGameManager()
 	{
 		//If there is no save
@@ -95,33 +122,129 @@ public class WindowGame extends BasicGame
 		}
 	}
 	
-	//Slick2D method which start when the game container start
-	public void init(GameContainer container) throws SlickException
+	//check if the FPS is correct (the default function to manage FPS is not really good)
+	public void refreshFPS(int fps)
 	{
-		//Initialisation of animation when BOOOOM !
-		explosionImage1 = new Image ("boom.gif");
-		explosionImage2 = new Image ("boom2.png");
-		explosionAnimation.addFrame(explosionImage1, 200);
-		explosionAnimation.addFrame(explosionImage2, 200);
-		explosionAnimation.setLooping(false);
+		if (fps == 0)
+			fps = 60;
 		
-		//Graphic aspect
-		ttf = new TrueTypeFont(font, true);
-		container.getGraphics().setBackground(new Color(193, 184, 176)); 
+		gameFPS = fps;
 	}
 	
-	//Size methods for the container
-	public int getWindowSizeX()
+	//Draw the score
+	public void drawRightPannel(Graphics g)
 	{
-		return windowSizeX;
+		int commandsTopPositon = 20;
+		int scoreTopPositon = commandsTopPositon+15*8;
+		g.setColor(Color.white);
+		g.drawString("Options :", grid.getRightPosition(), commandsTopPositon);
+		g.drawString("F1 : Save game",grid.getRightPosition(), commandsTopPositon+15*1);
+		g.drawString("F2 : load game",grid.getRightPosition(), commandsTopPositon+15*2);
+		g.drawString("F3 : New game", grid.getRightPosition(), commandsTopPositon+15*3);
+		g.drawString("F4 : Slow Motion", grid.getRightPosition(), commandsTopPositon+15*4);
+		g.drawString("Back : Rewind", grid.getRightPosition(), commandsTopPositon+15*5);
+		
+		g.setColor(Color.white);
+		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), scoreTopPositon);
+		
 	}
 	
-	//Size methods for the container
-	public int getWindowSizeY()
+	public void drawWin(Graphics g)
 	{
-		return windowSizeY;
+		grid.beDrawn(g);
+		gameManager.getTileMatrix().beDrawn(g);
+		prevColor = g.getColor();
+		g.setColor(transparentbg);
+		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin1)*1.5), strWin1, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin2)+ttf.getHeight(strWin1)), strWin2 + this.gameManager.getScore(), Color.black);
+		g.setColor(prevColor);
 	}
 	
+	public void drawLose(Graphics g)
+	{
+		grid.beDrawn(g);
+		gameManager.getNextTileMatrix().beDrawn(g);
+		prevColor = g.getColor();
+		g.setColor(transparentbg);
+		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose1)*1.5), strLose1, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose2)+ttf.getHeight(strLose1)), strLose2 + this.gameManager.getScore()+ " !", Color.black);
+		g.setColor(prevColor);
+	}
+	
+	@Override
+	public boolean closeRequested()
+	{
+		// Save the game when closing
+		if(state != GameState.Lose && state != GameState.Win )
+			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
+		return true;
+	}
+
+	//when a key is pressed
+	public void keyPressed(int key, char c)
+	{
+		//if we press a command
+		if (key == Input.KEY_F1) //F1 save the game
+		{
+			if(state != GameState.Win && state != GameState.Lose)
+				gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
+		}
+		else if (key == Input.KEY_F2) //F2 load the game
+		{
+			state = GameState.Ongoing;
+			gameManager = new TileMatrixManager(grid.getRectangles(), gSave.getSavedTileList(), gSave.getScore());
+		}
+		else if (key == Input.KEY_F3) //F3 make a new game
+		{
+			state = GameState.Ongoing;
+			gSave.deleteSave();
+			generateGameManager();
+		}
+		else if (key == Input.KEY_F4 && tileSpeedMultiplicator == 1) //F4 Slow Motion (for the next movement)
+		{
+			tileSpeedMultiplicator /= 10.0;
+		}
+		else if (key == Input.KEY_BACK) //Undo the previous movement
+		{
+			gameManager.undo();
+		}
+		
+		//If it wasn't a command
+		else
+		{
+			//If we are waiting for an event or if the movement has been done
+			if (state == GameState.Ongoing || state == GameState.DoneMoving)
+			{
+				//if we press a direction
+				Direction directionPressed = Direction.None;
+				if (key == Input.KEY_LEFT || key == Input.KEY_Q)
+					directionPressed = Direction.Left;
+				else if (key == Input.KEY_RIGHT || key == Input.KEY_D)
+					directionPressed = Direction.Right;
+				else if (key == Input.KEY_DOWN || key == Input.KEY_S)
+					directionPressed = Direction.Down;
+				else if (key == Input.KEY_UP || key == Input.KEY_Z)
+					directionPressed = Direction.Up;
+				
+				//If we have press a key for a movement
+				if (directionPressed != Direction.None)
+				{
+					state = GameState.Moving;
+					numberOfFrameWithMovement = 0; //set the number of frame with movement at 0
+					explosionAnimation.restart();
+					gameManager.initMovement(directionPressed); //launch the movement for all tiles
+					
+				}
+			}
+			//If we press a key while there is a movement, we accelerate the movement
+			else if(state != GameState.Win && state != GameState.Lose)
+				gameManager.manageMovement(gameFPS,5);
+		}
+	}
+	
+	//--------------- Default function of Slick2D -----------
 	//Refresh the screen
 	public void render(GameContainer container, Graphics g) throws SlickException
 	{
@@ -197,131 +320,7 @@ public class WindowGame extends BasicGame
 		}
 		
 	}
-	
-	//check if the FPS is correct (the default function to manage FPS is not really good)
-	public void refreshFPS(int fps)
-	{
-		if (fps == 0)
-			fps = 60;
-		
-		gameFPS = fps;
-	}
-	
-	//Draw the score
-	public void drawRightPannel(Graphics g)
-	{
-		int commandsTopPositon = 20;
-		int scoreTopPositon = commandsTopPositon+15*8;
-		g.setColor(Color.white);
-		g.drawString("Options :", grid.getRightPosition(), commandsTopPositon);
-		g.drawString("F1 : Save game",grid.getRightPosition(), commandsTopPositon+15*1);
-		g.drawString("F2 : load game",grid.getRightPosition(), commandsTopPositon+15*2);
-		g.drawString("F3 : New game", grid.getRightPosition(), commandsTopPositon+15*3);
-		g.drawString("F4 : Slow Motion", grid.getRightPosition(), commandsTopPositon+15*4);
-		g.drawString("Back : Rewind", grid.getRightPosition(), commandsTopPositon+15*5);
-		
-		g.setColor(Color.white);
-		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), scoreTopPositon);
-		
-	}
 
-	
-	public void drawWin(Graphics g)
-	{
-		grid.beDrawn(g);
-		gameManager.getTileMatrix().beDrawn(g);
-		prevColor = g.getColor();
-		g.setColor(transparentbg);
-		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin1)*1.5), strWin1, Color.black);
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin2)+ttf.getHeight(strWin1)), strWin2 + this.gameManager.getScore(), Color.black);
-		g.setColor(prevColor);
-	}
-	
-	public void drawLose(Graphics g)
-	{
-		grid.beDrawn(g);
-		gameManager.getNextTileMatrix().beDrawn(g);
-		prevColor = g.getColor();
-		g.setColor(transparentbg);
-		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose1)*1.5), strLose1, Color.black);
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose2)+ttf.getHeight(strLose1)), strLose2 + this.gameManager.getScore()+ " !", Color.black);
-		g.setColor(prevColor);
-	}
-	
-	@Override
-	public boolean closeRequested()
-	{
-		// Save the game when closing
-		if(state != GameState.Lose && state != GameState.Win )
-			gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
-		return true;
-	}
-	
-	
-	//when a key is pressed
-	public void keyPressed(int key, char c)
-	{
-		//if we press a command
-		if (key == Input.KEY_F1) //F1 save the game
-		{
-			if(state != GameState.Win && state != GameState.Lose)
-				gSave.save(gameManager.getNextTileMatrix(), gameManager.getScore());
-		}
-		else if (key == Input.KEY_F2) //F2 load the game
-		{
-			state = GameState.Ongoing;
-			gameManager = new TileMatrixManager(grid.getRectangles(), gSave.getSavedTileList(), gSave.getScore());
-		}
-		else if (key == Input.KEY_F3) //F3 make a new game
-		{
-			state = GameState.Ongoing;
-			gSave.deleteSave();
-			generateGameManager();
-		}
-		else if (key == Input.KEY_F4 && tileSpeedMultiplicator == 1) //F4 Slow Motion (for the next movement)
-		{
-			tileSpeedMultiplicator /= 10.0;
-		}
-		else if (key == Input.KEY_BACK) //Undo the previous movement
-		{
-			gameManager.undo();
-		}
-		
-		//If it wasn't a command
-		else
-		{
-			//If we are waiting for an event or if the movement has been done
-			if (state == GameState.Ongoing || state == GameState.DoneMoving)
-			{
-				//if we press a direction
-				Direction directionPressed = Direction.None;
-				if (key == Input.KEY_LEFT || key == Input.KEY_Q)
-					directionPressed = Direction.Left;
-				else if (key == Input.KEY_RIGHT || key == Input.KEY_D)
-					directionPressed = Direction.Right;
-				else if (key == Input.KEY_DOWN || key == Input.KEY_S)
-					directionPressed = Direction.Down;
-				else if (key == Input.KEY_UP || key == Input.KEY_Z)
-					directionPressed = Direction.Up;
-				
-				//If we have press a key for a movement
-				if (directionPressed != Direction.None)
-				{
-					state = GameState.Moving;
-					numberOfFrameWithMovement = 0; //set the number of frame with movement at 0
-					explosionAnimation.restart();
-					gameManager.initMovement(directionPressed); //launch the movement for all tiles
-					
-				}
-			}
-			//If we press a key while there is a movement, we accelerate the movement
-			else if(state != GameState.Win && state != GameState.Lose)
-				gameManager.manageMovement(gameFPS,5);
-		}
-	}
-	
 	//Main methods, create the window
 	public static void main(String[] args) throws SlickException
 	{
