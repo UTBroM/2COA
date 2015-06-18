@@ -254,7 +254,7 @@ public class WindowGame extends BasicGame
 			gSave.deleteSave();
 			generateGameManager();
 		}
-		else if (key == Input.KEY_F4 ) //F4 Slow Motion (for the next movement)
+		else if (key == Input.KEY_F4 && tileSpeedMultiplicator == 1) //F4 Slow Motion (for the next movement)
 		{
 			tileSpeedMultiplicator /= 10.0;
 		}

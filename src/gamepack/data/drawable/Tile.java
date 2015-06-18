@@ -157,7 +157,8 @@ public class Tile implements DrawableObject
 	//Test if two tiles have the same positions and value
 	public boolean equals(Tile secondTile)
 	{
-		if (secondTile != null && getX() == secondTile.getX() && getY() == secondTile.getY() && value == secondTile.getValue()) 
+		//System.out.println(getX() + " " + secondTile.getX() + "   " + getY() + " " + secondTile.getY());
+		if (secondTile != null && getX() == secondTile.getX() && getY() == secondTile.getY() && getValue()==secondTile.getValue()) 
 			return true;
 		return false;
 	}

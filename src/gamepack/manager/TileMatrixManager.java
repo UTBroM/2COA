@@ -24,7 +24,7 @@ public class TileMatrixManager
 	private final Random rand;
 	private int score;
 	
-	private ArrayList<Bomb> diffusedBombs;
+	private ArrayList<Bomb> defusedBombs;
 	
 	//METHODS
 	// Will compute the goodPositins where Tiles will be
@@ -34,7 +34,7 @@ public class TileMatrixManager
 		nextTileMatrix = tileMatrix;
 		rand = new Random();
 		this.score = 0;
-		diffusedBombs = new ArrayList<Bomb>();
+		defusedBombs = new ArrayList<Bomb>();
 		
 		// Create the point matrix with the top-left positions of the rectangles
 		// computed in the Grid
@@ -70,22 +70,24 @@ public class TileMatrixManager
 		boolean isExplosed;
 		tileMatrix = null;
 		
-		//System.out.println(diffusedBombs);
-		for(int i = 0 ; i < diffusedBombs.size();  i++)
+		for(int i = 0 ; i < defusedBombs.size();  i++)
 		{
 			for (int y = 0; y < nextTileMatrix.getMatrixSize(); y++)
 			{
 				for (int x = 0; x < nextTileMatrix.getMatrixSize(); x++)
 				{
-					if(nextTileMatrix.get(x,y) == diffusedBombs.get(i))
+					//System.out.println(nextTileMatrix.get(x,y) + " " + diffusedBombs.get(i));
+					if(nextTileMatrix.get(x,y) != null)
 					{
-						nextTileMatrix.setAt(x, y, null);
-						System.out.println("deleted at " + x + " " + y);
+						if(nextTileMatrix.get(x,y).equals(defusedBombs.get(i)))
+						{
+							nextTileMatrix.setAt(x, y, new Tile(defusedBombs.get(i)));
+						}
 					}
 				}
 			}
 		}
-		diffusedBombs.clear();
+		defusedBombs.clear();
 		
 		
 		for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
@@ -480,11 +482,10 @@ public class TileMatrixManager
 				{
 					if (t.refreshFusion())
 					{
-						
+						System.out.println("bla");
 						if(t.getArrivedTile() instanceof Bomb)
 						{
-							System.out.println("ok");
-							diffusedBombs.add((Bomb) t);
+							defusedBombs.add((Bomb)t.getArrivedTile());
 						}
 						score += t.getValue();
 					}
