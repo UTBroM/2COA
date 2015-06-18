@@ -311,7 +311,7 @@ public class WindowGame extends BasicGame
 				{
 					state = GameState.Moving;
 					numberOfFrameWithMovement = 0; //set the number of frame with movement at 0
-					explosionAnimation.setCurrentFrame(0);
+					explosionAnimation.restart();
 					gameManager.initMovement(directionPressed); //launch the movement for all tiles
 					
 				}
