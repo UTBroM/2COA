@@ -21,6 +21,7 @@ public class TileMatrixManager
 	private TileMatrix tileMatrix;
 	private TileMatrix nextTileMatrix;
 	private TileMatrix prevTileMatrix;
+	private ArrayList<Point> explosionPositions;
 	private final PointMatrix goodPositions;
 	private final Random rand;
 	private int score;
@@ -33,6 +34,7 @@ public class TileMatrixManager
 	{
 		tileMatrix = new TileMatrix((int) Math.sqrt(rectangleList.size()), (int) rectangleList.get(0).getWidth());
 		nextTileMatrix = tileMatrix;
+		explosionPositions = new ArrayList<Point>();
 		rand = new Random();
 		this.score = 0;
 		defusedBombs = new ArrayList<Bomb>();
@@ -64,6 +66,10 @@ public class TileMatrixManager
 		nextTileMatrix = tileMatrix;
 	}
 	
+	public ArrayList<Point> getExplosionPositions() 
+	{
+		return explosionPositions;
+	}
 	// refresh the number of deplacement possible for a bomb and maybe ...
 	// BOOOOOMM !
 	public void refreshBomb()
@@ -77,7 +83,6 @@ public class TileMatrixManager
 			{
 				for (int x = 0; x < nextTileMatrix.getMatrixSize(); x++)
 				{
-					//System.out.println(nextTileMatrix.get(x,y) + " " + diffusedBombs.get(i));
 					if(nextTileMatrix.get(x,y) != null)
 					{
 						if(nextTileMatrix.get(x,y).equals(defusedBombs.get(i)))
@@ -90,7 +95,7 @@ public class TileMatrixManager
 		}
 		defusedBombs.clear();
 		
-		
+		explosionPositions.clear();
 		for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
 		{
 			for (int j = 0; j < nextTileMatrix.getMatrixSize(); j++)
@@ -101,6 +106,9 @@ public class TileMatrixManager
 					isExplosed = ((Bomb) currentTile).minusRemainingMovement();
 					if (isExplosed)
 					{
+						final int centerX = currentTile.getCenterX();
+						final int centerY = currentTile.getCenterY();
+						this.explosionPositions.add(new Point(centerX, centerY));
 						this.explosion(j, i, ((Bomb) currentTile).getExplosionRadius());
 					}
 				}
