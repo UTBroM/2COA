@@ -143,8 +143,11 @@ public class WindowGame extends BasicGame
 				gameManager.getNextTileMatrix().beDrawn(g);
 				if (!animation.isStopped())
 				{
-					for (int i = 0; i < ; i++) {
-						
+					for (int i = 0; i < gameManager.getExplosionPositions().size(); i++) 
+					{
+						final int x = gameManager.getExplosionPositions().get(i).getX() - animation.getWidth()/2;
+						final int y = gameManager.getExplosionPositions().get(i).getY() - animation.getHeight()/2;
+						animation.draw(x, y);
 					}
 				}
 			}
