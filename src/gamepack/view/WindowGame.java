@@ -435,9 +435,15 @@ public class WindowGame extends BasicGame
 		if (state == GameState.Ongoing || (state == GameState.DoneMoving && numberOfFrameWithMovement == 0))
 		{
 			if(autoMove)
-				keyPressed(0, moveArray[ProjectMethods.randInt(0, 3)]);
+			{
+				char c = moveArray[ProjectMethods.randInt(0, 3)];
+				keyPressed(0, c);
+				tileSpeedMultiplicator = 3;
+			}
 		}
 	}
+	
+	
 
 	//Main methods, create the window
 	public static void main(String[] args) throws SlickException
