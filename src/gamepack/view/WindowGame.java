@@ -69,6 +69,7 @@ public class WindowGame extends BasicGame
 	
 	
 	//		METHODS
+	//--------------- Constructor and Initialisation -----------
 	public WindowGame()
 	{
 		//Parent Constructor
@@ -99,15 +100,6 @@ public class WindowGame extends BasicGame
 		
 	}
 	
-	//update the string to show the top n
-	private void updatePlayerString(int n)
-	{
-		Collections.sort(players);
-		playersString = "";
-		for(int i = 0; i < n && i < players.size(); i++)	//TOP 5
-			playersString += ""+players.get(i) + '\n';
-	}
-
 	//Slick2D method which start when the game container start
 	public void init(GameContainer container) throws SlickException
 	{
@@ -134,20 +126,13 @@ public class WindowGame extends BasicGame
 		container.getInput().addMouseListener(pseudoEntry);
 		pseudoEntry.setPosition(grid.getRightPosition(), getNextCommandPosition(0));
 	}
-		
-	//Size methods for the container
-	public int getWindowSizeX()
-	{
-		return windowSizeX;
-	}
 	
-	//Size methods for the container
-	public int getWindowSizeY()
-	{
-		return windowSizeY;
-		
-	}
-		
+	
+	
+	
+
+	//--------------- Others -----------
+	//Generate a new TileMatrixManager	(from save or not depending on the saves)
 	private void generateGameManager()
 	{
 		//If there is no save
@@ -177,77 +162,9 @@ public class WindowGame extends BasicGame
 		gameFPS = fps;
 	}
 	
-	//To get the next position on the right pannel
-	public int getNextCommandPosition(int jump)
-	{
-		commandPosition += jump*15;
-		return commandPosition;
-	}
 	
-	//Draw the score
-	public void drawInterface(Graphics g)
-	{
-		//Text Entry
-		pseudoEntry.beDrawn(g);
-		
-		//Right Pannel
-		//space
-		g.setColor(Color.white);
-		g.drawString("___________", grid.getRightPosition(), getNextCommandPosition(3));
-		
-		//commands
-		g.setColor(Color.white);
-		g.drawString("Options :", grid.getRightPosition(), getNextCommandPosition(2));
-		g.drawString("F1 : Save game",grid.getRightPosition(), getNextCommandPosition(1));
-		g.drawString("F2 : load game",grid.getRightPosition(), getNextCommandPosition(1));
-		g.drawString("F3 : New game", grid.getRightPosition(), getNextCommandPosition(1));
-		g.drawString("F4 : Slow Motion", grid.getRightPosition(),getNextCommandPosition(1));
-		g.drawString("F5 : Auto Movements", grid.getRightPosition(),getNextCommandPosition(1));
-		g.drawString("F6 : Auto Movements+", grid.getRightPosition(),getNextCommandPosition(1));
-		g.drawString("Back : Rewind", grid.getRightPosition(), getNextCommandPosition(1));
-		
-		//score
-		g.setColor(Color.white);
-		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), getNextCommandPosition(3));
-		
-		//space
-		g.setColor(Color.white);
-		g.drawString("___________", grid.getRightPosition(), getNextCommandPosition(3));
-		
-		//top 5
-		g.setColor(Color.white);
-		g.drawString(playersString, grid.getRightPosition(), getNextCommandPosition(3));
-		
-		
-		//reset positions of elements
-		commandPosition = 0;
-		commandPosition = pseudoEntry.getY()+getNextCommandPosition(1);
-	}
 	
-	public void drawWin(Graphics g)
-	{
-		grid.beDrawn(g);
-		gameManager.getTileMatrix().beDrawn(g);
-		prevColor = g.getColor();
-		g.setColor(transparentbg);
-		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin1)*1.5), strWin1, Color.black);
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin2)+ttf.getHeight(strWin1)), strWin2 + this.gameManager.getScore(), Color.black);
-		g.setColor(prevColor);
-	}
-	
-	public void drawLose(Graphics g)
-	{
-		grid.beDrawn(g);
-		gameManager.getNextTileMatrix().beDrawn(g);
-		prevColor = g.getColor();
-		g.setColor(transparentbg);
-		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose1)*1.5), strLose1, Color.black);
-		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose2)+ttf.getHeight(strLose1)), strLose2 + this.gameManager.getScore()+ " !", Color.black);
-		g.setColor(prevColor);
-	}
-	
+	//Execute if the window is closed (overriden)
 	@Override
 	public boolean closeRequested()
 	{
@@ -268,8 +185,6 @@ public class WindowGame extends BasicGame
 		return true;
 	}
 	
-	
-
 	//when a key is pressed
 	public void keyPressed(int key, char c)
 	{
@@ -349,7 +264,7 @@ public class WindowGame extends BasicGame
 		}
 	}
 	
-	
+	//restart the game after losing/winning
 	public void restartGame()
 	{
 		if(state == GameState.Win || state == GameState.Lose)
@@ -367,6 +282,116 @@ public class WindowGame extends BasicGame
 		gSave.deleteSave();
 		generateGameManager();
 	}
+
+	
+	
+	
+	
+	//--------------- GUI (draw) -----------
+	//Draw the score
+	public void drawInterface(Graphics g)
+	{
+		//Text Entry
+		pseudoEntry.beDrawn(g);
+		
+		//Right Pannel
+		//space
+		g.setColor(Color.white);
+		g.drawString("___________", grid.getRightPosition(), getNextCommandPosition(3));
+		
+		//commands
+		g.setColor(Color.white);
+		g.drawString("Options :", grid.getRightPosition(), getNextCommandPosition(2));
+		g.drawString("F1 : Save game",grid.getRightPosition(), getNextCommandPosition(1));
+		g.drawString("F2 : load game",grid.getRightPosition(), getNextCommandPosition(1));
+		g.drawString("F3 : New game", grid.getRightPosition(), getNextCommandPosition(1));
+		g.drawString("F4 : Slow Motion", grid.getRightPosition(),getNextCommandPosition(1));
+		g.drawString("F5 : Auto Movements", grid.getRightPosition(),getNextCommandPosition(1));
+		g.drawString("F6 : Auto Movements+", grid.getRightPosition(),getNextCommandPosition(1));
+		g.drawString("Back : Rewind", grid.getRightPosition(), getNextCommandPosition(1));
+		
+		//score
+		g.setColor(Color.white);
+		g.drawString("Score : " + this.gameManager.getScore(), grid.getRightPosition(), getNextCommandPosition(3));
+		
+		//space
+		g.setColor(Color.white);
+		g.drawString("___________", grid.getRightPosition(), getNextCommandPosition(3));
+		
+		//top 5
+		g.setColor(Color.white);
+		g.drawString(playersString, grid.getRightPosition(), getNextCommandPosition(3));
+		
+		
+		//reset positions of elements
+		commandPosition = 0;
+		commandPosition = pseudoEntry.getY()+getNextCommandPosition(1);
+	}
+	
+	//Draw the winning situation
+	public void drawWin(Graphics g)
+	{
+		grid.beDrawn(g);
+		gameManager.getTileMatrix().beDrawn(g);
+		prevColor = g.getColor();
+		g.setColor(transparentbg);
+		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin1)*1.5), strWin1, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strWin2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strWin2)+ttf.getHeight(strWin1)), strWin2 + this.gameManager.getScore(), Color.black);
+		g.setColor(prevColor);
+	}
+
+	//Draw the losing situation
+	public void drawLose(Graphics g)
+	{
+		grid.beDrawn(g);
+		gameManager.getNextTileMatrix().beDrawn(g);
+		prevColor = g.getColor();
+		g.setColor(transparentbg);
+		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose1))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose1)*1.5), strLose1, Color.black);
+		ttf.drawString((float)(this.windowSizeX - ttf.getWidth(strLose2))/2, (float)(this.windowSizeY/2 - ttf.getHeight(strLose2)+ttf.getHeight(strLose1)), strLose2 + this.gameManager.getScore()+ " !", Color.black);
+		g.setColor(prevColor);
+	}
+	
+	
+	
+	
+	
+	//--------------- GUI (computation) -----------
+	//To get the next position on the right pannel
+	public int getNextCommandPosition(int jump)
+	{
+		commandPosition += jump*15;
+		return commandPosition;
+	}
+	
+	//Size methods for the container
+	public int getWindowSizeX()
+	{
+		return windowSizeX;
+	}
+	
+	//Size methods for the container
+	public int getWindowSizeY()
+	{
+		return windowSizeY;
+		
+	}
+	
+
+	//update the string to show the top n
+	private void updatePlayerString(int n)
+	{
+		Collections.sort(players);
+		playersString = "";
+		for(int i = 0; i < n && i < players.size(); i++)	//TOP 5
+			playersString += ""+players.get(i) + '\n';
+	}
+
+	
+	
+	
 	
 	//--------------- Default function of Slick2D -----------
 	//Refresh the screen
@@ -465,7 +490,10 @@ public class WindowGame extends BasicGame
 	
 	
 	
-
+	
+	
+	
+	//--------------- Main -----------
 	//Main methods, create the window
 	public static void main(String[] args) throws SlickException
 	{

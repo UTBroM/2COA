@@ -209,7 +209,6 @@ public class TileMatrixManager
 			return true;
 		}
 	}
-
 	
 	// Give each tile his direction and his arrived Tile(null if no arrived tile, None if no Direction)
 	// Then it will set the arrived point (coordinates of the arrivedTile if there is one)
@@ -494,6 +493,7 @@ public class TileMatrixManager
 		}
 	}
 	
+	//Test if the game is over (and say if it's won or not)
 	public GameState isOver()
 	{
 		boolean win = false, lose = true;
@@ -537,6 +537,7 @@ public class TileMatrixManager
 		return GameState.Ongoing;
 	}
 	
+	//Undo the last change
 	public void undo()
 	{
 		if(prevTileMatrix != null)
