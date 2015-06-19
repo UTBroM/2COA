@@ -9,6 +9,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
+//fait par le groupe
 public class Tile implements DrawableObject
 {
 	private int			value;

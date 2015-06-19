@@ -15,6 +15,7 @@ import java.util.Random;
 
 import org.newdawn.slick.geom.Rectangle;
 
+//fait par le groupe
 public class TileMatrixManager
 {
 	//ATTRIBUTES
@@ -69,7 +70,7 @@ public class TileMatrixManager
 
 	
 	
-	//________________ BOMBES ________________
+	//________________ BOMBES ________________ (fait par VS)
 	public ArrayList<Point> getExplosionPositions() 
 	{
 		return explosionPositions;
@@ -161,7 +162,7 @@ public class TileMatrixManager
 	
 	
 
-	//________________ TILE GENERATION ________________
+	//________________ TILE GENERATION ________________ (fait par VS)
 	// Create new tiles at the right positions
 	public boolean generateNewTile()
 	{
@@ -218,10 +219,10 @@ public class TileMatrixManager
 	
 	
 
-	//________________ MOVEMENT AND FUSION ________________
+	//________________ MOVEMENT AND FUSION ________________ 
 	// Give each tile his direction and his arrived Tile(null if no arrived tile, None if no Direction)
 	// Then it will set the arrived point (coordinates of the arrivedTile if there is one)
-	public void initMovement(Direction d)
+	public void initMovement(Direction d) // fait par PT, optimisé par JD
 	{
 		// Save the previous state of the game
 		tileMatrix = new TileMatrix(nextTileMatrix, false);
@@ -404,7 +405,7 @@ public class TileMatrixManager
 	// Move each Tile in the right direction and set them at the good position
 	// if they passe their good position
 	// return true if there is movement, false otherwise
-	public boolean manageMovement(int FPS, float multiplicatorOfSpeed)
+	public boolean manageMovement(int FPS, float multiplicatorOfSpeed) //fait par JD
 	{
 		
 		// init
@@ -458,7 +459,7 @@ public class TileMatrixManager
 	}
 	
 	// call the function refreshFusion for each tile
-	public void manageFusion()
+	public void manageFusion() //fait par VS
 	{
 		for (int i = 0; i < tileMatrix.getMatrixSize(); i++)
 		{
@@ -487,7 +488,7 @@ public class TileMatrixManager
 	
 	//________________ END OF GAME ________________
 	//Test if the game is over (and say if it's won or not)
-	public GameState isOver()
+	public GameState isOver() //fait par FS
 	{
 		boolean win = false, lose = true;
 		for (int i = 0; i < nextTileMatrix.getMatrixSize(); i++)
@@ -535,7 +536,7 @@ public class TileMatrixManager
 	
 	//________________ UNDO CHANGES ________________
 	//Undo the last change
-	public void undo()
+	public void undo() //fait par FS
 	{
 		//réduit le score de 100points
 		reduceScore(100);
@@ -545,7 +546,7 @@ public class TileMatrixManager
 	
 
 	//________________ MANAGE SCORE ________________
-	public void reduceScore(int v)
+	public void reduceScore(int v) 
 	{
 		score -= v;
 		if(score < 0)

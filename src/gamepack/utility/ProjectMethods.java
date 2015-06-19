@@ -2,6 +2,7 @@ package gamepack.utility;
 
 import java.util.Random;
 
+//fait par JD
 public abstract class ProjectMethods
 {
 	static private Random rand = new Random();

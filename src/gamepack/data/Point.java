@@ -1,5 +1,6 @@
 package gamepack.data;
 
+//fait par le groupe
 public final class Point
 {
 	private final int	x;

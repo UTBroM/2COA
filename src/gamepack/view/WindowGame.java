@@ -25,13 +25,14 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
+//fait par le groupe
 public class WindowGame extends BasicGame
 {
 	//		ATTRIBUTES
 	private final int windowSizeX;
 	private final int windowSizeY;
 	
-	private GameState state;
+	private GameState state; //géré par FS
 	
 	private Grid grid;
 	private TileMatrixManager gameManager;
@@ -42,13 +43,13 @@ public class WindowGame extends BasicGame
 	
 	private float tileSpeedMultiplicator = 1;
 	
-	//manage an "auto movement" mode
+	//manage an "auto movement" mode (fait par JD)
 	private char[] moveArray = {'q','s','d','z'};
 	private boolean autoMove;
 	private boolean strongAutoMove;
 	
-	//INTERFACE
-	//text for win and lose
+	//INTERFACE (fait par FS, VS, et JD)
+	//text for win and lose (FS)
 	private int commandPosition = 20;
 	private String strWin1 = new String("Congratulation !");
 	private String strWin2 = new String("You won with a score of ");
@@ -60,13 +61,13 @@ public class WindowGame extends BasicGame
 	private  Font font;
 	private TrueTypeFont ttf;
 	
-	//images for explosion
+	//images for explosion (VS)
 	private Image explosionImage1;
 	private Image explosionImage2;
 	private Image explosionImage3;
 	private Image explosionImage4;
 	private Animation explosionAnimation;
-	//highscore
+	//highscore (JD)
 	private TextArea pseudoEntry;
 	private ArrayList<Player> players;
 	private String playersString;
@@ -75,7 +76,7 @@ public class WindowGame extends BasicGame
 	
 	//		METHODS
 	//--------------- Constructor and Initialisation -----------
-	public WindowGame()
+	public WindowGame() //fait par JD
 	{
 		//Parent Constructor
 		super("2C0A");
@@ -109,7 +110,7 @@ public class WindowGame extends BasicGame
 	}
 	
 	//Slick2D method which start when the game container start
-	public void init(GameContainer container) throws SlickException
+	public void init(GameContainer container) throws SlickException //fait par VS, JD et FS
 	{
 		
 		//Initialisation of animation when BOOOOM !
@@ -141,7 +142,7 @@ public class WindowGame extends BasicGame
 
 	//--------------- Others -----------
 	//Generate a new TileMatrixManager	(from save or not depending on the saves)
-	private void generateGameManager()
+	private void generateGameManager() //fait par JD
 	{
 		//If there is no save
 		if (!gSave.areFilesAvailable())
@@ -181,7 +182,7 @@ public class WindowGame extends BasicGame
 	
 	//Execute if the window is closed (overriden)
 	@Override
-	public boolean closeRequested()
+	public boolean closeRequested() //fait par JD et FS
 	{
 		// Save the game when closing
 		if(state != GameState.Lose && state != GameState.Win )
@@ -201,7 +202,7 @@ public class WindowGame extends BasicGame
 	}
 	
 	//when a key is pressed
-	public void keyPressed(int key, char c)
+	public void keyPressed(int key, char c) //fait par JD
 	{
 		//if we're not entering a pseudo
 		if(!pseudoEntry.isEnteringText())
@@ -280,7 +281,7 @@ public class WindowGame extends BasicGame
 	}
 	
 	//restart the game after losing/winning
-	public void restartGame()
+	public void restartGame() //fait par JD
 	{
 		if(state == GameState.Win || state == GameState.Lose)
 		{
@@ -304,7 +305,7 @@ public class WindowGame extends BasicGame
 	
 	//--------------- GUI (draw) -----------
 	//Draw the score
-	public void drawInterface(Graphics g)
+	public void drawInterface(Graphics g) //fait par FS et JD
 	{
 		//Text Entry
 		pseudoEntry.beDrawn(g);
@@ -344,7 +345,7 @@ public class WindowGame extends BasicGame
 	}
 	
 	//Draw the winning situation
-	public void drawWin(Graphics g)
+	public void drawWin(Graphics g) //fait par FS
 	{
 		grid.beDrawn(g);
 		gameManager.getTileMatrix().beDrawn(g);
@@ -357,7 +358,7 @@ public class WindowGame extends BasicGame
 	}
 
 	//Draw the losing situation
-	public void drawLose(Graphics g)
+	public void drawLose(Graphics g) //fait par FS
 	{
 		grid.beDrawn(g);
 		gameManager.getNextTileMatrix().beDrawn(g);
@@ -375,7 +376,7 @@ public class WindowGame extends BasicGame
 	
 	//--------------- GUI (computation) -----------
 	//To get the next position on the right pannel
-	public int getNextCommandPosition(int jump)
+	public int getNextCommandPosition(int jump) //fait par JD
 	{
 		commandPosition += jump*15;
 		return commandPosition;
@@ -396,7 +397,7 @@ public class WindowGame extends BasicGame
 	
 
 	//update the string to show the top n
-	private void updatePlayerString(int n)
+	private void updatePlayerString(int n) //fait par JD
 	{
 		playersString = "";
 
@@ -414,7 +415,7 @@ public class WindowGame extends BasicGame
 	
 	//--------------- Default function of Slick2D -----------
 	//Refresh the screen
-	public void render(GameContainer container, Graphics g) throws SlickException
+	public void render(GameContainer container, Graphics g) throws SlickException //fait par JD, FS et VS
 	{
 		//Draw the grid
 		if (state == GameState.Win)
@@ -456,7 +457,7 @@ public class WindowGame extends BasicGame
 	}
 	
 	//Do computation
-	public void update(GameContainer gc, int delta) throws SlickException
+	public void update(GameContainer gc, int delta) throws SlickException //fait par JD
 	{
 		//if we're not waiting for an event
 		if (state != GameState.Ongoing)
