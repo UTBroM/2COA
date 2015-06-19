@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.geom.Rectangle;
 
+//fait par JD
 public class PointMatrix
 {
 	private ArrayList<ArrayList<Point>> matrix;

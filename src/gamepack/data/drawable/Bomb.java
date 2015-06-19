@@ -5,7 +5,7 @@ import gamepack.utility.ProjectMethods;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-
+//fait par VS
 public class Bomb extends Tile{
 	private int remainingMovement;
 	private int explosionRadius;

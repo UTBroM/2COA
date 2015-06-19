@@ -1,5 +1,6 @@
 package gamepack.data;
 
+//fait par JD
 public class Player implements Comparable<Player>
 {
 	private String name;
