@@ -110,7 +110,7 @@ public class WindowGame extends BasicGame
 	}
 	
 	//Slick2D method which start when the game container start
-	public void init(GameContainer container) throws SlickException //fait par VS et JD
+	public void init(GameContainer container) throws SlickException //fait par VS, JD et FS
 	{
 		
 		//Initialisation of animation when BOOOOM !
