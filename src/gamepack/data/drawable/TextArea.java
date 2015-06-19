@@ -50,10 +50,11 @@ public class TextArea implements MouseListener, DrawableObject, KeyListener
 					textEntered+= arg1;
 		
 		//if back, remove a letter
-		if(arg0 == Input.KEY_BACK)
-			if(textEntered.length() >= 1)
-				textEntered = textEntered.substring(0, textEntered.length()-1);
-		
+		if(enteringText)
+			if(arg0 == Input.KEY_BACK)
+				if(textEntered.length() >= 1)
+					textEntered = textEntered.substring(0, textEntered.length()-1);
+			
 		//if enter, stop entering text
 		if(arg0 == Input.KEY_ENTER)
 			enteringText = false;
