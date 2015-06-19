@@ -78,6 +78,8 @@ public class WindowGame extends BasicGame
 	//--------------- Constructor and Initialisation -----------
 	public WindowGame() //fait par JD
 	{
+
+		
 		//Parent Constructor
 		super("2C0A");
 		
@@ -348,7 +350,7 @@ public class WindowGame extends BasicGame
 	public void drawWin(Graphics g) //fait par FS
 	{
 		grid.beDrawn(g);
-		gameManager.getTileMatrix().beDrawn(g);
+		gameManager.getNextTileMatrix().beDrawn(g);
 		prevColor = g.getColor();
 		g.setColor(transparentbg);
 		g.fillRect(0, 0, windowSizeX, windowSizeY); // Draw a rectangle to 'hide' the background

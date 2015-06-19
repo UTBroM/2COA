@@ -226,8 +226,7 @@ public class Tile implements DrawableObject
 				rectangle.getWidth(), 
 				rectangle.getHeight(), 
 				4);
-		if(value == 1024)
-			System.out.println(getTextWidth() + "  " + rectangle.getWidth());
+
 		if(getTextWidth() < rectangle.getWidth()/2)
 		{
 			gr.setColor(Color.white);
