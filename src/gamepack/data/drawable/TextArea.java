@@ -1,15 +1,11 @@
 package gamepack.data.drawable;
 
-import java.awt.event.MouseEvent;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.geom.Rectangle;
-
-import com.sun.xml.internal.bind.v2.runtime.Coordinator;
 //Rédigée par le groupe
 public class TextArea implements MouseListener, DrawableObject, KeyListener
 {
